@@ -4,6 +4,7 @@
         "backend": "apps/backend",
         "bot": "apps/bot",
         "frontend": "apps/frontend",
-        "frontend-e2e": "apps/frontend-e2e"
+        "frontend-e2e": "apps/frontend-e2e",
+        "ui": "libs/ui"
     }
 }

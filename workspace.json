@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "projects": {
+        "backend": "apps/backend",
+        "bot": "apps/bot",
+        "frontend": "apps/frontend",
+        "frontend-e2e": "apps/frontend-e2e"
+    }
+}

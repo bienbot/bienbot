@@ -1,0 +1,39 @@
+{
+    "root": "apps/bot",
+    "sourceRoot": "apps/bot/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/bot",
+                "main": "apps/bot/src/index.ts",
+                "tsConfig": "apps/bot/tsconfig.app.json",
+                "assets": ["apps/bot/*.md"]
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/js:node",
+            "options": {
+                "buildTarget": "bot:build"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/bot/**/*.ts"]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/apps/bot"],
+            "options": {
+                "jestConfig": "apps/bot/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

@@ -1,6 +1,6 @@
 {
-    "root": "apps/frontend",
-    "sourceRoot": "apps/frontend",
+    "root": "apps/user-website",
+    "sourceRoot": "apps/user-website",
     "projectType": "application",
     "targets": {
         "build": {
@@ -8,8 +8,8 @@
             "outputs": ["{options.outputPath}"],
             "defaultConfiguration": "production",
             "options": {
-                "root": "apps/frontend",
-                "outputPath": "dist/apps/frontend"
+                "root": "apps/user-website",
+                "outputPath": "dist/apps/user-website"
             },
             "configurations": {
                 "production": {}
@@ -18,12 +18,12 @@
         "serve": {
             "executor": "@nrwl/next:server",
             "options": {
-                "buildTarget": "frontend:build",
+                "buildTarget": "user-website:build",
                 "dev": true
             },
             "configurations": {
                 "production": {
-                    "buildTarget": "frontend:build:production",
+                    "buildTarget": "user-website:build:production",
                     "dev": false
                 }
             }
@@ -31,14 +31,14 @@
         "export": {
             "executor": "@nrwl/next:export",
             "options": {
-                "buildTarget": "frontend:build:production"
+                "buildTarget": "user-website:build:production"
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/apps/frontend"],
+            "outputs": ["coverage/apps/user-website"],
             "options": {
-                "jestConfig": "apps/frontend/jest.config.js",
+                "jestConfig": "apps/user-website/jest.config.js",
                 "passWithNoTests": true
             }
         },
@@ -46,7 +46,7 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["apps/user-website/**/*.{ts,tsx,js,jsx}"]
             }
         }
     },

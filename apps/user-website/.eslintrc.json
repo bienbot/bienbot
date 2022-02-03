@@ -3,9 +3,7 @@
         "plugin:@nrwl/nx/react-typescript",
         "../../.eslintrc.json",
         "next",
-        "next/core-web-vitals",
-        "plugin:react/recommended",
-        "plugin:jsx-a11y/recommended"
+        "next/core-web-vitals"
     ],
     "ignorePatterns": ["!**/*"],
     "overrides": [
@@ -14,7 +12,7 @@
             "rules": {
                 "@next/next/no-html-link-for-pages": [
                     "error",
-                    "apps/frontend/pages"
+                    "apps/user-website/pages"
                 ]
             }
         },

@@ -16,38 +16,7 @@ import {
 import React from "react";
 import Head from "next/head";
 
-const StyledPage = styled.div`
-    .page {
-    }
-`;
-
 const database = getFirestore(firebaseApp);
-
-const getMinutes = async () => {
-    const docRef = doc(database, "386659530999726090", "channelStats");
-    const docSnap = await getDoc(docRef);
-    let data = {};
-    if (docSnap.exists()) {
-        const docData = docSnap.data();
-        for (const channelId in docData) {
-            for (const user in docData[channelId]) {
-                data[user] = data[user]
-                    ? docData[channelId][user].length + data[user]
-                    : docData[channelId][user].length;
-            }
-        }
-    }
-    return data;
-};
-
-const getUserData = async (userId: string) => {
-    const docRef = doc(database, "386659530999726090", "users");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        const docData = docSnap.data();
-        return docData[userId];
-    }
-};
 
 const getData = async () => {
     const channelStatsRef = doc(database, "386659530999726090", "channelStats");
@@ -106,6 +75,7 @@ function Index() {
                     .sort((a, b) => data.minuteData[b] - data.minuteData[a])
                     .map((k) => (
                         <UserCard
+                            key={k}
                             user={data.userData[`${k}`]}
                             minutes={data.minuteData[k]}
                         />

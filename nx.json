@@ -4,7 +4,7 @@
         "defaultBase": "main"
     },
     "cli": {
-        "defaultCollection": "@nrwl/express"
+        "defaultCollection": "@nrwl/bot"
     },
     "implicitDependencies": {
         "package.json": {
@@ -43,5 +43,5 @@
             }
         }
     },
-    "defaultProject": "backend"
+    "defaultProject": "bot"
 }

@@ -1,4 +1,4 @@
-import { VoiceChannelStats } from "libs/types/src";
+import { VoiceChannelStats } from "@bienbot/types";
 import { countMinutes } from "./countMinutes";
 
 const data: Record<string, VoiceChannelStats> = {

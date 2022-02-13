@@ -3,6 +3,15 @@
     "sourceRoot": "libs/functions/src",
     "projectType": "library",
     "targets": {
+        "build": {
+            "executor": "@nrwl/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/functions",
+                "main": "libs/functions/src/index.ts",
+                "tsConfig": "libs/functions/tsconfig.lib.json"
+            }
+        },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],

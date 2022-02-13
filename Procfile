@@ -1,1 +1,1 @@
-worker node dist/apps/bot/src/index.js
+worker npm run start bot

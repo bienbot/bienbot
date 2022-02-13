@@ -15,6 +15,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@bienbot/types": ["libs/types/src/index.ts"],
             "@bienbot/ui": ["libs/ui/src/index.ts"]
         }
     },

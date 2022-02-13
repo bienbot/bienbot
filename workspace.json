@@ -5,6 +5,7 @@
         "admin-dashboard-e2e": "apps/admin-dashboard-e2e",
         "backend": "apps/backend",
         "bot": "apps/bot",
+        "functions": "libs/functions",
         "types": "libs/types",
         "ui": "libs/ui",
         "user-website": "apps/user-website",

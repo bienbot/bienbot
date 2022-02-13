@@ -1,62 +1,26 @@
-import styled from "styled-components";
 import firebaseApp from "../services/firebase";
-import {
-    getFirestore,
-    query,
-    where,
-    updateDoc,
-    doc,
-    onSnapshot,
-    collection,
-    setDoc,
-    deleteDoc,
-    getDoc,
-    getDocs,
-} from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import React from "react";
 import Head from "next/head";
+import { countMinutes, getUserData } from "@bienbot/functions";
+import { UserData } from "@bienbot/types";
 
 const database = getFirestore(firebaseApp);
 
-const getData = async () => {
-    const channelStatsRef = doc(database, "386659530999726090", "channelStats");
-    const channelStatsSnap = await getDoc(channelStatsRef);
-    let minuteData = {};
-    if (channelStatsSnap.exists()) {
-        const docData = channelStatsSnap.data();
-        for (const channelId in docData) {
-            for (const user in docData[channelId]) {
-                minuteData[user] = minuteData[user]
-                    ? docData[channelId][user].length + minuteData[user]
-                    : docData[channelId][user].length;
-            }
-        }
-    }
-    let userData = {};
-    const usersRef = doc(database, "386659530999726090", "users");
-    const usersSnap = await getDoc(usersRef);
-    if (usersSnap.exists()) {
-        const docData = usersSnap.data();
-        for (const userId in docData) {
-            userData[userId] = docData[userId];
-        }
-    }
-    return {
-        minuteData,
-        userData,
-    };
+type getDataReturnType = {
+    minuteData: Record<string, number>;
+    userData: Record<string, UserData>;
 };
 
 function Index() {
-    const [data, setData] = React.useState<any>();
-
+    const [data, setData] = React.useState<getDataReturnType | null>(null);
     React.useEffect(() => {
         getData().then((data) => {
             setData(data);
         });
     }, []);
 
-    if (!data) return <div>loading</div>;
+    if (data === null) return <div>loading</div>;
 
     return (
         <>
@@ -85,7 +49,7 @@ function Index() {
     );
 }
 
-const UserCard = ({ user, minutes }: { user: any; minutes: number }) => {
+const UserCard = ({ user, minutes }: { user: UserData; minutes: number }) => {
     return user.bot ? null : (
         <div
             style={{
@@ -101,6 +65,26 @@ const UserCard = ({ user, minutes }: { user: any; minutes: number }) => {
             <div style={{ color: user.displayColor }}>{user.displayName}</div>
         </div>
     );
+};
+
+const getData = async (): Promise<getDataReturnType> => {
+    const channelStatsSnap = await getDoc(
+        doc(database, "386659530999726090", "channelStats")
+    );
+    const usersSnap = await getDoc(
+        doc(database, "386659530999726090", "users")
+    );
+    if (!channelStatsSnap.exists || !usersSnap.exists) return;
+    const minuteData = countMinutes({ docData: channelStatsSnap.data() });
+    const userData = getUserData({
+        docData: usersSnap.data(),
+        users: [...Object.keys(minuteData)],
+    });
+
+    return {
+        minuteData,
+        userData,
+    };
 };
 
 export default Index;

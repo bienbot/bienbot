@@ -1,0 +1,1 @@
+worker node dist/apps/bot/src/index.js

@@ -1,18 +1,19 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import { config } from "dotenv";
+import createApp from "./utils/createApp";
 
-import * as express from "express";
+config();
 
-const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.get("/api", (req, res) => {
-    res.send({ message: "Welcome to backend!" });
-});
+async function main() {
+    try {
+        const app = createApp();
+        app.listen(PORT, () =>
+            console.log(`Server is listening on port ${PORT}`)
+        );
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on("error", console.error);
+main();

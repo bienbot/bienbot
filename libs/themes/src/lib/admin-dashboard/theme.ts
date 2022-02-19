@@ -1,5 +1,13 @@
 const theme = {
-    font: "Outfit",
+    font: {
+        family: "Outfit",
+        size: {
+            small: "13px",
+            medium: "16px",
+            large: "20px",
+            xlarge: "24px",
+        },
+    },
 
     colors: {
         primary: {

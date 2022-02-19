@@ -26,10 +26,10 @@ const StyledLabel = styled.label`
     height: 40px;
     position: relative;
     z-index: 100;
-    font-family: Outfit;
+    font-family: ${({ theme }) => theme.font};
     font-size: 16px;
     line-height: 24px;
-    background-color: #ebebff;
+    background-color: ${({ theme }) => theme.colors.primary[200]};
     border-radius: 8px;
     max-width: 750px;
     width: 100%;
@@ -44,17 +44,17 @@ const StyledSearchBar = styled.input`
     width: 100%;
     border: none;
     background: none;
-    font-family: Outfit, Arial;
-    font-size: 16px;
+    font-family: ${({ theme }) => theme.font.family};
+    font-size: ${({ theme }) => theme.font.size.medium};
     border-radius: 8px;
-    color: #09095d;
+    color: ${({ theme }) => theme.colors.primary[700]};
     ::-webkit-input-placeholder {
-        color: #a4a4da;
+        color: ${({ theme }) => theme.colors.primary[300]};
     }
     :focus {
         outline: none;
         ::-webkit-input-placeholder {
-            color: #67678e;
+            color: ${({ theme }) => theme.colors.primary[500]};
         }
     }
 `;
@@ -62,12 +62,12 @@ const StyledSearchBar = styled.input`
 const ShortcutIcon = styled.button`
     display: grid;
     place-items: center;
-    color: #09095d;
+    color: ${({ theme }) => theme.colors.primary[700]};
     margin-right: 11px;
     padding: 3px;
     border: none;
-    background-color: #f6f6fe;
-    color: #a4a4da;
+    background-color: ${({ theme }) => theme.colors.primary[100]};
+    color: ${({ theme }) => theme.colors.primary[300]};
     cursor: pointer;
 `;
 

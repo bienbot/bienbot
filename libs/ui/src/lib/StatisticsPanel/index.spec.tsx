@@ -13,4 +13,25 @@ describe("StatisticsPanel", () => {
         );
         expect(baseElement).toBeTruthy();
     });
+    it("should render given statistics", () => {
+        const { baseElement } = render(
+            <StatisticsPanel
+                heading="Server Statistics"
+                statistics={[{ label: "Online users", text: "60" }]}
+                href="/statistics"
+            />
+        );
+        expect(baseElement).toContainHTML("Online users");
+        expect(baseElement).toContainHTML("60");
+    });
+    it("should render given heading", () => {
+        const { baseElement } = render(
+            <StatisticsPanel
+                heading="Server Statistics"
+                statistics={[{ label: "Online users", text: "60" }]}
+                href="/statistics"
+            />
+        );
+        expect(baseElement).toContainHTML("Server Statistics");
+    });
 });

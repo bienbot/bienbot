@@ -20,8 +20,8 @@ export function LoginButton(props: LoginButtonProps) {
 }
 
 const StyledLoginButton = styled.button`
-    width: 273px;
     height: 60px;
+    padding: 0 32px;
     background: #2c2c81;
     border: none;
     border-radius: 8px;

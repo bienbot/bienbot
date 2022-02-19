@@ -21,21 +21,21 @@ const StyledInfoCard = styled.div`
     min-width: 150px;
     height: 68px;
     padding: 16px;
-    background: #f1f1fd;
+    background: ${({ theme }) => theme.colors.primary[100]};
     border-radius: 8px;
-    font-family: Outfit;
+    font-family: ${({ theme }) => theme.font.family};
 `;
 
 const StyledLabel = styled.span`
-    font-size: 13px;
+    font-size: ${({ theme }) => theme.font.size.small};
     font-weight: 500;
-    color: #67678e;
+    color: ${({ theme }) => theme.colors.primary[500]};
 `;
 
 const StyledText = styled.span`
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.font.size.medium};
     font-weight: 700;
-    color: #09095d;
+    color: ${({ theme }) => theme.colors.primary[700]};
 `;
 
 export default InfoCard;

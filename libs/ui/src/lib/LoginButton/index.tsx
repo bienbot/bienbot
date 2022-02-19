@@ -22,24 +22,27 @@ export function LoginButton(props: LoginButtonProps) {
 const StyledLoginButton = styled.button`
     height: 60px;
     padding: 0 32px;
-    background: #2c2c81;
+    background: ${({ theme }) => theme.colors.primary[600]};
     border: none;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px 0px #2c2c8140;
-    transition: all 0.15s ease-in-out;
+    box-shadow: 0px 4px 8px 0px
+        ${({ theme }) => theme.colors.primary.shadow.light};
+
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     cursor: pointer;
 
     :hover {
         transform: translateY(-2px);
-        box-shadow: 0px 4px 8px 0px #2c2c8180;
+        box-shadow: 0px 4px 8px 0px
+            ${({ theme }) => theme.colors.primary.shadow.strong};
     }
 `;
 
 const StyledText = styled.span`
-    font-size: 24px;
+    font-size: ${({ theme }) => theme.font.size.xlarge};
     font-weight: 700;
-    font-family: Outfit;
-    color: #fff;
+    font-family: ${({ theme }) => theme.font.family};
+    color: ${({ theme }) => theme.colors.background};
 `;
 
 export default LoginButton;

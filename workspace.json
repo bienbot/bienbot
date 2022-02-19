@@ -6,6 +6,7 @@
         "backend": "apps/backend",
         "bot": "apps/bot",
         "functions": "libs/functions",
+        "themes": "libs/themes",
         "types": "libs/types",
         "ui": "libs/ui",
         "user-website": "apps/user-website",

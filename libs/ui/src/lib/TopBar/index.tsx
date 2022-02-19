@@ -7,29 +7,6 @@ export interface TopBarProps {
     serverName: string;
 }
 
-const StyledTopBar = styled.div`
-    margin: 0;
-    padding: 11px;
-    min-height: 80px;
-    border-bottom: 1px solid #ebebff;
-    display: grid;
-    background-color: #ffffff;
-    @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-    }
-    grid-template-columns: max-content 1fr auto;
-    gap: 16px;
-`;
-
-const StyledTopBarHeader = styled.h1`
-    font-size: 25px;
-    line-height: 40px;
-    margin: auto 0;
-    color: #09095d;
-    font-weight: bold;
-    font-family: "Outfit";
-`;
-
 export function TopBar(props: TopBarProps) {
     const [searchValue, setSearchValue] = React.useState("");
     const { width } = useWindowSize();
@@ -55,5 +32,28 @@ export function TopBar(props: TopBarProps) {
         </StyledTopBar>
     );
 }
+
+const StyledTopBar = styled.div`
+    margin: 0;
+    padding: 11px;
+    min-height: 80px;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.primary[200]};
+    display: grid;
+    background-color: ${({ theme }) => theme.colors.background};
+    @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+    }
+    grid-template-columns: max-content 1fr auto;
+    gap: 16px;
+`;
+
+const StyledTopBarHeader = styled.h1`
+    font-size: ${({ theme }) => theme.font.size.xlarge};
+    line-height: 40px;
+    margin: auto 0;
+    color: ${({ theme }) => theme.colors.primary[700]};
+    font-weight: bold;
+    font-family: ${({ theme }) => theme.font.family};
+`;
 
 export default TopBar;

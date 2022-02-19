@@ -25,7 +25,7 @@ export function StatisticsPanel(props: StatisticsPanelProps, href: string) {
 }
 
 const StyledStatisticsPanel = styled.div`
-    font-family: Outfit;
+    font-family: ${({ theme }) => theme.font.family};
     display: grid;
     grid-template-columns: 1fr 1fr;
     max-width: 672px;
@@ -34,15 +34,15 @@ const StyledStatisticsPanel = styled.div`
 
 const StyledHeading = styled.h2`
     font-weight: 800;
-    font-size: 20px;
-    color: #09095d;
+    font-size: ${({ theme }) => theme.font.size.large};
+    color: ${({ theme }) => theme.colors.primary[700]};
 `;
 
 const StyledSeeMore = styled.h2`
     font-weight: 700;
-    font-size: 20px;
+    font-size: ${({ theme }) => theme.font.size.large};
     text-decoration: none;
-    color: #7879f1;
+    color: ${({ theme }) => theme.colors.primary[400]};
     text-align: right;
     cursor: pointer;
 `;

@@ -11,8 +11,8 @@ const theme = {
             "600": "#2C2C81",
             "700": "#09095D",
             shadow: {
-                light: "#402C2C81",
-                strong: "#802C2C81",
+                light: "#2C2C8140",
+                strong: "#2C2C8180",
             },
         },
         background: "#ffffff",

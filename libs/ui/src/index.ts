@@ -1,3 +1,4 @@
+export * from "./lib/EventCard/index";
 export * from "./lib/MessagesPanel/index";
 export * from "./lib/MessageCard/index";
 export * from "./lib/StatisticsPanel/index";

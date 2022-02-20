@@ -1,29 +1,27 @@
 import Link from "next/link";
 import styled from "styled-components";
-import MessageCard, { MessageCardProps } from "../MessageCard";
 
 /* eslint-disable-next-line */
-export interface MessagesPanelProps {
-    messages: MessageCardProps[];
+
+export interface CardsPanelProps {
+    children: React.ReactNode;
     heading: string;
-    href: string;
+    href?: string;
 }
 
-export function MessagesPanel(props: MessagesPanelProps) {
+export function CardsPanel(props: CardsPanelProps) {
     return (
-        <StyledMessagesPanel>
+        <div>
             <StyledHeadingContainer>
                 <StyledHeading>{props.heading}</StyledHeading>
-                <Link href={props.href}>
-                    <StyledSeeMore>See more</StyledSeeMore>
-                </Link>
+                {props.href ? (
+                    <Link href={props.href}>
+                        <StyledSeeMore>See more</StyledSeeMore>
+                    </Link>
+                ) : null}
             </StyledHeadingContainer>
-            <StyledMessagesPanel>
-                {props.messages.map((message) => (
-                    <MessageCard key={message.time} {...message} />
-                ))}
-            </StyledMessagesPanel>
-        </StyledMessagesPanel>
+            <StyledMessagesPanel>{props.children}</StyledMessagesPanel>
+        </div>
     );
 }
 
@@ -54,4 +52,4 @@ const StyledMessagesPanel = styled.div`
     gap: 8px;
 `;
 
-export default MessagesPanel;
+export default CardsPanel;

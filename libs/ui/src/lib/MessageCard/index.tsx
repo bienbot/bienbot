@@ -9,6 +9,7 @@ export interface MessageCardProps {
         id: string;
     };
     messageContent: string;
+    messageId: string;
     channel: {
         name: string;
         id: string;

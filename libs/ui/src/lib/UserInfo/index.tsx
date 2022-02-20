@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import Image from "next/image";
 
+type Direction = "row" | "column";
+
 export interface UserInfoProps {
-    src: string;
-    discordId: string;
-    userName: string;
-    direction: "row" | "column";
+    imageSrc: string;
+    discordTag: string;
+    displayName: string;
+    direction: Direction;
 }
 
 export function UserInfo(props: UserInfoProps) {
@@ -13,18 +15,18 @@ export function UserInfo(props: UserInfoProps) {
         <StyledUserInfo>
             <StyledImageContainer>
                 <Image
-                    src={props.src}
+                    src={props.imageSrc}
                     unoptimized
                     width="32px"
                     height="32px"
                     layout="fixed"
-                    alt={props.discordId}
+                    alt={props.discordTag}
                     priority
                 />
             </StyledImageContainer>
             <StyledUserInfoContainer direction={props.direction}>
-                <StyledUserName>{props.userName}</StyledUserName>
-                <StyledDiscordId>{props.discordId}</StyledDiscordId>
+                <StyledDiscordTag>{props.discordTag}</StyledDiscordTag>
+                <StyledUserName>{props.displayName}</StyledUserName>
             </StyledUserInfoContainer>
         </StyledUserInfo>
     );
@@ -41,29 +43,39 @@ const StyledImageContainer = styled.div`
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    flex-shrink: 0;
     overflow: hidden;
 `;
 
 const StyledUserInfoContainer = styled.div<{
-    direction: "row" | "column";
+    direction: Direction;
 }>`
     display: flex;
-    flex-direction: ${(props) => props.direction};
+    flex-wrap: wrap;
+    flex-direction: ${(props) =>
+        props.direction === "row" ? "row-reverse" : "column"};
     width: fit-content;
     margin-left: 8px;
     font-size: ${({ theme }) => theme.font.small};
     font-family: ${({ theme }) => theme.font.family};
+    min-width: 0;
 `;
 
 const StyledUserName = styled.span`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.primary[400]};
     margin-right: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
-const StyledDiscordId = styled.span`
+const StyledDiscordTag = styled.span`
     font-weight: 500;
     color: ${({ theme }) => theme.colors.primary[300]};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export default UserInfo;

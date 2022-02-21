@@ -1,3 +1,4 @@
+export * from "./lib/UserLeaderboard/index";
 export * from "./lib/UserLeaderboardCard/index";
 export * from "./lib/EventCard/index";
 export * from "./lib/CardsPanel/index";

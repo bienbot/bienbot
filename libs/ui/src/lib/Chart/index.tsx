@@ -5,17 +5,23 @@ import { registerables } from "chart.js";
 import ChartJS from "chart.js/auto";
 import { format } from "date-fns";
 import theme from "libs/themes/src/lib/admin-dashboard/theme";
+import { useWindowSize } from "usehooks-ts";
 
 ChartJS.register(...registerables);
 
 export interface ChartProps {
     href?: string;
+    heading: string;
+    chartData: IChartData;
+}
+
+export interface IChartData {
     minuteValues: number[];
     messageValues: number[];
     dayValues: Date[];
     labels: {
-        firstLabel: string;
-        secondLabel: string;
+        minuteLabel: string;
+        messageLabel: string;
     };
 }
 
@@ -23,21 +29,16 @@ export function Chart(props: ChartProps) {
     return (
         <StyledChartContainer>
             <StyledLabelContainer>
-                <StyledHeading>Last 30 days</StyledHeading>
+                <StyledHeading>{props.heading}</StyledHeading>
                 {props.href ? (
-                    <Link href={props.href}>
+                    <Link href={props.href} passHref>
                         <StyledSeeMore>See more</StyledSeeMore>
                     </Link>
                 ) : null}
             </StyledLabelContainer>
             <StyledChartBackground>
                 <StyledChart>
-                    <ChartData
-                        minuteValues={props.minuteValues}
-                        messageValues={props.messageValues}
-                        dayValues={props.dayValues}
-                        labels={props.labels}
-                    />
+                    <ChartData {...props.chartData} />
                 </StyledChart>
             </StyledChartBackground>
         </StyledChartContainer>
@@ -76,30 +77,36 @@ const StyledLabelContainer = styled.div`
 const StyledHeading = styled.h2`
     margin-right: auto;
     color: ${({ theme }) => theme.colors.primary[700]};
-    font-weight: 800;
+    font-size: ${({ theme }) => theme.font.size.large};
+    font-weight: ${({ theme }) => theme.font.weight.extraBold};
 `;
 
-const StyledSeeMore = styled.h2`
+const StyledSeeMore = styled.a`
     color: ${({ theme }) => theme.colors.primary[400]};
-    font-weight: 700;
+    font-size: ${({ theme }) => theme.font.size.large};
+    font-weight: ${({ theme }) => theme.font.weight.bold};
+    text-decoration: none;
     cursor: pointer;
 `;
 
 //Chart
-export const ChartData = (props: ChartProps) => {
+export const ChartData = (props: IChartData) => {
+    const { width } = useWindowSize();
+    const isSmall = useWindowSize().width < 768;
+
     return (
         <Line
             data={{
                 labels: props.dayValues.map((days) => format(days, "dd-MM")),
                 datasets: [
                     {
-                        label: props.labels.firstLabel,
+                        label: props.labels.minuteLabel,
                         data: props.minuteValues,
                         borderColor: theme.colors.primary[400],
                         backgroundColor: theme.colors.primary[400],
                     },
                     {
-                        label: props.labels.secondLabel,
+                        label: props.labels.messageLabel,
                         data: props.messageValues,
                         borderColor: theme.colors.primary[700],
                         backgroundColor: theme.colors.primary[700],
@@ -108,31 +115,53 @@ export const ChartData = (props: ChartProps) => {
             }}
             options={{
                 plugins: {
+                    tooltip: {
+                        yAlign: "bottom",
+                        xAlign: "center",
+                        enabled: true,
+                        displayColors: false,
+                        bodyColor: theme.colors.primary[200],
+                        backgroundColor: theme.colors.primary[800],
+                        titleColor: theme.colors.primary[400],
+                        titleAlign: "center",
+                        titleFont: {
+                            size: parseInt(theme.font.size.medium),
+                        },
+                        bodyFont: {
+                            family: theme.font.family,
+                            size: parseInt(theme.font.size.small),
+                        },
+                    },
                     legend: {
                         labels: {
-                            padding: 32,
-                            boxWidth: 20,
-                            boxHeight: 20,
+                            padding: isSmall ? 16 : 32,
+                            boxWidth: isSmall ? 10 : 14,
+                            boxHeight: isSmall ? 10 : 14,
                             font: {
                                 family: theme.font.family,
-                                size: parseInt(theme.font.size.medium),
-                                weight: "600",
+                                size: parseInt(
+                                    isSmall
+                                        ? theme.font.size.small
+                                        : theme.font.size.medium
+                                ),
+                                weight: theme.font.weight.semiBold.toString(),
                             },
                         },
                     },
                 },
                 elements: {
                     point: {
-                        radius: 0,
-                        hoverRadius: 0,
+                        radius: isSmall ? 2 : 4,
+                        hoverRadius: isSmall ? 3 : 5,
                     },
                     line: {
                         borderCapStyle: "round",
                         borderJoinStyle: "round",
-                        borderWidth: 5,
+                        borderWidth: isSmall ? 3 : 5,
+                        tension: 0.2,
                     },
                 },
-                aspectRatio: 3,
+                aspectRatio: isSmall ? width / 364 : 1.75,
                 responsive: true,
                 color: theme.colors.primary[700],
                 scales: {
@@ -145,9 +174,13 @@ export const ChartData = (props: ChartProps) => {
                             color: theme.colors.primary[300],
                             font: {
                                 family: theme.font.family,
-                                size: parseInt(theme.font.size.small),
+                                size: parseInt(
+                                    isSmall
+                                        ? theme.font.size.xsmall
+                                        : theme.font.size.small
+                                ),
                             },
-                            padding: 16,
+                            padding: isSmall ? 8 : 16,
                             maxTicksLimit: 5,
                         },
                     },
@@ -160,10 +193,14 @@ export const ChartData = (props: ChartProps) => {
                             color: theme.colors.primary[300],
                             font: {
                                 family: theme.font.family,
-                                size: parseInt(theme.font.size.small),
+                                size: parseInt(
+                                    isSmall
+                                        ? theme.font.size.xsmall
+                                        : theme.font.size.small
+                                ),
                             },
-                            padding: 16,
-                            stepSize: 1000,
+                            padding: isSmall ? 8 : 16,
+                            maxTicksLimit: 4,
                         },
                     },
                 },

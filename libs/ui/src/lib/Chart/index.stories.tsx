@@ -1,51 +1,73 @@
+import { getDays } from "@bienbot/functions";
 import { Story, Meta } from "@storybook/react";
-import { Chart, ChartProps } from "./index";
+import { Chart } from "./index";
 
 export default {
     component: Chart,
     title: "Chart",
+    argTypes: {
+        numberOfDays: {
+            control: { type: "range", min: 2, max: 30, step: 1 },
+        },
+        chartData: {
+            table: { disable: true },
+        },
+        heading: {
+            control: { type: "text", required: false },
+        },
+        href: {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 } as Meta;
 
-export const Template: Story<ChartProps> = (args) => <Chart {...args} />;
-
-interface DateObject {
-    start: Date;
-    end?: Date;
+interface StoryArgs {
+    numberOfDays: number;
+    minuteLabel: string;
+    messageLabel: string;
+    heading: string;
+    href: boolean;
 }
 
-export function getDays(x: number): Date[];
-export function getDays(x: DateObject): Date[];
-export function getDays(x: number | DateObject): Date[] {
-    if (typeof x === "number") {
-        return Array.from(
-            { length: x },
-            (_, i) => new Date(new Date().setDate(new Date().getDate() + i))
-        );
-    } else {
-        const days = [];
-        let current = x.start;
-        const endTime = x.end ? x.end.getTime() : new Date().getTime();
-        while (current.getTime() <= endTime) {
-            days.push(current);
-            current = new Date(current.getTime() + 24 * 60 * 60 * 1000);
-        }
-        return days;
-    }
-}
-
-Template.args = {
-    href: "",
+const chartTemplateData = {
     minuteValues: Array.from(
         { length: 30 },
-        () => Math.floor(Math.random() * 3000) + 1
+        () => Math.floor(Math.random() * 1000) + 1000
     ),
     messageValues: Array.from(
         { length: 30 },
-        () => Math.floor(Math.random() * 3000) + 1
+        () => Math.floor(Math.random() * 1000) + 100
     ),
-    dayValues: getDays(5),
-    labels: {
-        firstLabel: "Minutes in VC",
-        secondLabel: "Messages sent",
-    },
+};
+
+export const Template: Story<StoryArgs> = (args) => {
+    const { numberOfDays, minuteLabel, messageLabel, href, ...props } = args;
+
+    const chartData = {
+        minuteValues: chartTemplateData.minuteValues.slice(0, numberOfDays),
+        messageValues: chartTemplateData.messageValues.slice(0, numberOfDays),
+        dayValues: getDays(numberOfDays),
+        labels: {
+            minuteLabel,
+            messageLabel,
+        },
+    };
+
+    return (
+        <Chart
+            href={href ? "https://example.com" : ""}
+            {...props}
+            chartData={chartData}
+        ></Chart>
+    );
+};
+
+Template.args = {
+    numberOfDays: 10,
+    minuteLabel: "Minutes",
+    messageLabel: "Messages",
+    heading: "Last 30 days",
+    href: true,
 };

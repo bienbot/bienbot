@@ -1,13 +1,61 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { Line } from "react-chartjs-2";
-import { registerables } from "chart.js";
 import ChartJS from "chart.js/auto";
 import { format } from "date-fns";
 import theme from "libs/themes/src/lib/admin-dashboard/theme";
 import { useWindowSize } from "usehooks-ts";
+import {
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip,
+} from "chart.js";
 
-ChartJS.register(...registerables);
+ChartJS.register(
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip
+);
 
 export interface ChartProps {
     href?: string;
@@ -114,6 +162,19 @@ export const ChartData = (props: IChartData) => {
                 ],
             }}
             options={{
+                animations: {
+                    y: {
+                        easing: "easeInCubic",
+                        delay: 500,
+                    },
+                    radius: {
+                        easing: "easeInCubic",
+                        delay: 500,
+                    },
+                },
+                interaction: {
+                    intersect: false,
+                },
                 plugins: {
                     tooltip: {
                         yAlign: "bottom",

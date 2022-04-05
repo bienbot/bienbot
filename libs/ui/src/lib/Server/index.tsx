@@ -50,7 +50,7 @@ const StyledImageContainer = styled.div`
     overflow: hidden;
     transition: border-radius 0.2s ease-in-out;
 
-    :hover {
+    ${StyledServer}:hover & {
         border-radius: 8px;
     }
 `;

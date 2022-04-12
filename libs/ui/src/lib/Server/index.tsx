@@ -23,9 +23,7 @@ export function Server(props: ServerProps) {
                         layout="fixed"
                     />
                 </StyledImageContainer>
-                <StyledServerContainer>
-                    <StyledServerName>{props.serverName}</StyledServerName>
-                </StyledServerContainer>
+                <StyledServerName>{props.serverName}</StyledServerName>
             </StyledServer>
         </Link>
     );
@@ -35,7 +33,6 @@ const StyledServer = styled.a`
     display: flex;
     align-items: center;
     justify-content: start;
-    max-width: 600px;
     padding: 8px;
     background-color: ${({ theme }) => theme.colors.primary[100]};
     border-radius: 8px;
@@ -55,18 +52,15 @@ const StyledImageContainer = styled.div`
     }
 `;
 
-const StyledServerContainer = styled.div`
-    width: fit-content;
-    margin-left: 16px;
-`;
-
 const StyledServerName = styled.span`
+    margin-left: 16px;
     color: ${({ theme }) => theme.colors.primary[700]};
     font-size: ${({ theme }) => theme.font.size.large};
     font-family: ${({ theme }) => theme.font.family};
     font-weight: ${({ theme }) => theme.font.weight.medium};
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 `;
 
 export default Server;

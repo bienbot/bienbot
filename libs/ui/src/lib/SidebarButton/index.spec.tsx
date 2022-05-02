@@ -6,13 +6,13 @@ import { GoMail } from "react-icons/go";
 describe("SidebarButton", () => {
     it("should render successfully", () => {
         const { baseElement } = renderWithTheme(
-            <SidebarButton text="Text" icon={<GoMail />} href="" />
+            <SidebarButton isActive text="Text" icon={<GoMail />} href="" />
         );
         expect(baseElement).toBeTruthy();
     });
     it("should render text", () => {
         const { getByText } = renderWithTheme(
-            <SidebarButton text="Text" icon={<GoMail />} href="" />
+            <SidebarButton isActive text="Text" icon={<GoMail />} href="" />
         );
         expect(getByText("Text")).toBeTruthy();
     });

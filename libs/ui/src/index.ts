@@ -8,3 +8,4 @@ export * from "./lib/SearchBar";
 export * from "./lib/LoginButton";
 export * from "./lib/InfoCard";
 export * from "./lib/UserInfo";
+export * from "./lib/SidebarButton";

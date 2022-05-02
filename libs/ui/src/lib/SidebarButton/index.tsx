@@ -5,12 +5,13 @@ export interface SidebarButtonProps {
     text: string;
     icon: JSX.Element;
     href: string;
+    isActive: boolean;
 }
 
 export function SidebarButton(props: SidebarButtonProps) {
     return (
         <Link href={props.href} passHref>
-            <StyledSidebarButton>
+            <StyledSidebarButton isActive={props.isActive}>
                 <StyledIcon>{props.icon}</StyledIcon>
                 <StyledText>{props.text}</StyledText>
             </StyledSidebarButton>
@@ -18,21 +19,23 @@ export function SidebarButton(props: SidebarButtonProps) {
     );
 }
 
-const StyledSidebarButton = styled.a`
+const StyledSidebarButton = styled.a<{ isActive: boolean }>`
     display: grid;
     place-items: center;
     height: 70px;
     width: 70px;
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: ${({ theme, isActive }) =>
+        isActive ? theme.colors.primary[200] : theme.colors.background};
     border: none;
     border-radius: 16px;
     transition: background-color 0.1s ease-out;
     text-decoration: none;
-    cursor: pointer;
+    cursor: ${({ isActive }) => (isActive ? "default" : "pointer")};
 
     :hover,
     :focus-visible {
-        background-color: ${({ theme }) => theme.colors.primary[100]};
+        background-color: ${({ theme, isActive }) =>
+            isActive ? theme.colors.primary[200] : theme.colors.primary[100]};
     }
 
     :active {

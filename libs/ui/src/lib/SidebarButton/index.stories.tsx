@@ -15,4 +15,5 @@ Template.args = {
     text: "Text",
     icon: <GoMail />,
     href: "",
+    isActive: true,
 };

@@ -8,6 +8,7 @@ export interface UserInfoProps {
     discordTag: string;
     displayName: string;
     direction: Direction;
+    username?: string;
 }
 
 export function UserInfo(props: UserInfoProps) {
@@ -25,7 +26,9 @@ export function UserInfo(props: UserInfoProps) {
                 />
             </StyledImageContainer>
             <StyledUserInfoContainer direction={props.direction}>
-                <StyledDiscordTag>{props.discordTag}</StyledDiscordTag>
+                <StyledDiscordTag>
+                    {props.username}#{props.discordTag}
+                </StyledDiscordTag>
                 <StyledUserName>{props.displayName}</StyledUserName>
             </StyledUserInfoContainer>
         </StyledUserInfo>

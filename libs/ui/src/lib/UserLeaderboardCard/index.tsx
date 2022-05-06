@@ -10,7 +10,7 @@ export interface UserLeaderboardCardProps {
     count: number;
     href: string;
     text: string;
-    discordNickname: string;
+    username: string;
 }
 
 export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
@@ -24,7 +24,7 @@ export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
                         imageSrc={props.imageSrc}
                         displayName={props.displayName}
                         discordTag={props.discordTag}
-                        discordNickname={props.discordNickname}
+                        username={props.username}
                     />
                 </StyledUserLink>
             </Link>

@@ -9,7 +9,8 @@ export function getDays(x: number | DateObject): Date[] {
     if (typeof x === "number") {
         return Array.from(
             { length: x },
-            (_, i) => new Date(new Date().setDate(new Date().getDate() + i))
+            (_, i) =>
+                new Date(new Date().setDate(new Date().getDate() - x + i + 1))
         );
     } else {
         const days: Date[] = [];

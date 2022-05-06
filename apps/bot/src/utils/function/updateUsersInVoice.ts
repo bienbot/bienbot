@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
 
 const updateUsersInVoiceChannels = async (client: DiscordClient) => {
-    const Guilds = client.guilds.cache.map((guild) => guild);
+    const fetchedGuilds = await client.guilds.fetch();
+    const Guilds = fetchedGuilds.map((guild) => guild);
     if (!Guilds) return;
 
     const admin = require("firebase-admin");
@@ -16,7 +17,7 @@ const updateUsersInVoiceChannels = async (client: DiscordClient) => {
             .doc("channelStats")
             .get();
         const channelStatsData = channelStats.data();
-        const guildChannels = guild.channels.cache;
+        const guildChannels = guild.client.channels.cache;
         if (!guildChannels) return;
         guildChannels.forEach((channel) => {
             if (channel.type !== "GUILD_VOICE") return;

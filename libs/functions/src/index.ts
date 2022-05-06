@@ -7,3 +7,4 @@ export * from "./lib/calculateTotalVoiceTime";
 export * from "./lib/getMessageCountForEveryDay";
 export * from "./lib/getMostActiveTextUsers";
 export * from "./lib/calculateTotalMessagesSent";
+export * from "./lib/getServerStatistics";

@@ -2,6 +2,7 @@ import BaseEvent from "../../utils/structures/BaseEvent";
 import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
 import addMessage from "../../utils/function/addMessage";
+import logEvent from "../../utils/function/logEvent";
 
 class MessageEvent extends BaseEvent {
     constructor() {
@@ -35,6 +36,15 @@ class MessageEvent extends BaseEvent {
             await message.reply("jajco 1:0");
         }
         addMessage(message);
+        logEvent({
+            eventDescription: "Sent message",
+            eventTarget: message.content,
+            eventMember: message.author,
+            eventTargetId: message.id,
+            eventTime: new Date(),
+            guildId: message.guildId,
+            eventType: "messageCreate",
+        });
     }
 }
 

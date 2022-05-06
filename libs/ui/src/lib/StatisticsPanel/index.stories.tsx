@@ -26,7 +26,7 @@ Template.args = {
             text: "1895",
         },
         {
-            label: "Minutes spent in VC",
+            label: "Hours spent in VC",
             text: "40345",
         },
     ],

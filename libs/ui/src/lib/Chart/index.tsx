@@ -64,11 +64,11 @@ export interface ChartProps {
 }
 
 export interface IChartData {
-    minuteValues: number[];
+    hourValues: number[];
     messageValues: number[];
     dayValues: Date[];
     labels: {
-        minuteLabel: string;
+        hourLabel: string;
         messageLabel: string;
     };
 }
@@ -148,8 +148,8 @@ export const ChartData = (props: IChartData) => {
                 labels: props.dayValues.map((days) => format(days, "dd-MM")),
                 datasets: [
                     {
-                        label: props.labels.minuteLabel,
-                        data: props.minuteValues,
+                        label: props.labels.hourLabel,
+                        data: props.hourValues,
                         borderColor: theme.colors.primary[400],
                         backgroundColor: theme.colors.primary[400],
                     },

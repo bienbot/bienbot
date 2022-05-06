@@ -4,6 +4,7 @@ import { registerCommands, registerEvents } from "./utils/registry";
 import updateUsersInVoice from "./utils/function/updateUsersInVoice";
 import getUsersData from "./utils/function/getUsersData";
 import adminConfig from "../adminConfig";
+import updateGuildData from "./utils/function/updateGuildData";
 require("dotenv").config();
 
 const allIntents = [
@@ -43,5 +44,12 @@ admin.initializeApp({
     await registerEvents(client, "../events");
     await client.login(process.env["TOKEN"]);
     await getUsersData(client);
-    setInterval(() => updateUsersInVoice(client), 1000 * 60);
+    /* 
+    Update users in voice channels every hour; This is not ideal, beacuse we loose "accuracy"
+    but current database (firestore) gets really slow when we have a lot of entries.
+    In the future we might switch to a Redis database, and update the users every minute.
+    */
+    setInterval(() => updateUsersInVoice(client), 1000 * 60 * 60);
+    /* */
+    setInterval(() => updateGuildData(client), 1000 * 60);
 })();

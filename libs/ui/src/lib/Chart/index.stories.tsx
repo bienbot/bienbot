@@ -25,14 +25,14 @@ export default {
 
 interface StoryArgs {
     numberOfDays: number;
-    minuteLabel: string;
+    hourLabel: string;
     messageLabel: string;
     heading: string;
     href: boolean;
 }
 
 const chartTemplateData = {
-    minuteValues: Array.from(
+    hourValues: Array.from(
         { length: 30 },
         () => Math.floor(Math.random() * 1000) + 1000
     ),
@@ -43,14 +43,14 @@ const chartTemplateData = {
 };
 
 export const Template: Story<StoryArgs> = (args) => {
-    const { numberOfDays, minuteLabel, messageLabel, href, ...props } = args;
+    const { numberOfDays, hourLabel, messageLabel, href, ...props } = args;
 
     const chartData = {
-        minuteValues: chartTemplateData.minuteValues.slice(0, numberOfDays),
+        hourValues: chartTemplateData.hourValues.slice(0, numberOfDays),
         messageValues: chartTemplateData.messageValues.slice(0, numberOfDays),
         dayValues: getDays(numberOfDays),
         labels: {
-            minuteLabel,
+            hourLabel,
             messageLabel,
         },
     };
@@ -66,7 +66,7 @@ export const Template: Story<StoryArgs> = (args) => {
 
 Template.args = {
     numberOfDays: 10,
-    minuteLabel: "Minutes",
+    hourLabel: "Hours",
     messageLabel: "Messages",
     heading: "Last 30 days",
     href: true,

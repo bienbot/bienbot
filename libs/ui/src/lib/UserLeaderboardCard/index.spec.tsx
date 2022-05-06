@@ -8,7 +8,7 @@ const props = {
     displayName: "DisplayName",
     discordTag: "DiscordTag#1234",
     position: 1111,
-    minutes: 8069,
+    hours: 8069,
     href: "",
 };
 
@@ -37,7 +37,7 @@ describe("UserLeaderboardCard", () => {
         );
         expect(baseElement).toContainHTML("1111");
     });
-    it("should render minutes", () => {
+    it("should render hours", () => {
         const { baseElement } = renderWithTheme(
             <UserLeaderboardCard {...props} />
         );

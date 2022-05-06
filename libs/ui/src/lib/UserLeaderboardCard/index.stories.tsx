@@ -16,6 +16,6 @@ Template.args = {
     displayName: "Text",
     discordTag: "Text#2137",
     position: 1,
-    minutes: 8069,
+    hours: 8069,
     href: "",
 };

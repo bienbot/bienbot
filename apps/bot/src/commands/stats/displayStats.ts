@@ -1,10 +1,10 @@
 import { GuildMember, Interaction, Message, MessageEmbed } from "discord.js";
 import DiscordClient from "../../client/client";
 import countMessages from "../../utils/function/countMessages";
-import countVoiceChannelMinutes from "../../utils/function/countVoiceChannelMinutes";
+import countVoiceChannelHours from "../../utils/function/countVoiceChannelHours";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
-class displayVoiceMinuteStats extends BaseCommand {
+class displayVoiceHourStats extends BaseCommand {
     constructor() {
         super("stats", "Display stats about the user", "stats", [], []);
     }
@@ -32,7 +32,7 @@ class displayVoiceMinuteStats extends BaseCommand {
             return;
         }
 
-        const count = await countVoiceChannelMinutes(
+        const count = await countVoiceChannelHours(
             userId,
             message.guildId ?? ""
         );
@@ -40,8 +40,8 @@ class displayVoiceMinuteStats extends BaseCommand {
         embed.setColor("BLUE");
         embed.setTitle(`Stats: ${Member.nickname}`);
         embed.addField(
-            "Minutes in VC",
-            `${await countVoiceChannelMinutes(userId, message.guildId ?? "")}`
+            "Hours in VC",
+            `${await countVoiceChannelHours(userId, message.guildId ?? "")}`
         );
         embed.addField(
             "Messages sent",
@@ -70,4 +70,4 @@ class displayVoiceMinuteStats extends BaseCommand {
     }
 }
 
-export default displayVoiceMinuteStats;
+export default displayVoiceHourStats;

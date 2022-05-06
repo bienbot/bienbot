@@ -1,27 +1,27 @@
 import { VoiceChannelStats } from "@bienbot/types";
 
-type countMinutesArguments = {
+type countHoursArguments = {
     docData: Record<string, VoiceChannelStats>;
     channels?: string[];
     users?: string[];
 };
 
-type countMinutesReturnType = Record<string, number>;
+type countHoursReturnType = Record<string, number>;
 
-export const countMinutes = ({
+export const countHours = ({
     docData,
     channels,
     users,
-}: countMinutesArguments): countMinutesReturnType => {
-    const minuteData = {};
+}: countHoursArguments): countHoursReturnType => {
+    const hourData = {};
     for (const channelId in docData) {
         if (channels && !channels.includes(channelId)) continue;
         for (const user in docData[channelId]) {
             if (users && !users.includes(user)) continue;
-            minuteData[user] = minuteData[user]
-                ? docData[channelId][user].length + minuteData[user]
+            hourData[user] = hourData[user]
+                ? docData[channelId][user].length + hourData[user]
                 : docData[channelId][user].length;
         }
     }
-    return minuteData;
+    return hourData;
 };

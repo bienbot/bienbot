@@ -7,8 +7,10 @@ export interface UserLeaderboardCardProps {
     displayName: string;
     discordTag: string;
     position: number;
-    minutes: number;
+    count: number;
     href: string;
+    text: string;
+    discordNickname: string;
 }
 
 export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
@@ -22,12 +24,13 @@ export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
                         imageSrc={props.imageSrc}
                         displayName={props.displayName}
                         discordTag={props.discordTag}
+                        discordNickname={props.discordNickname}
                     />
                 </StyledUserLink>
             </Link>
             <StyledRightContainer>
-                <StyledMinutes>{props.minutes} </StyledMinutes>
-                minutes
+                <StyledHours>{props.minutes} </StyledHours>
+                {props.text}
             </StyledRightContainer>
         </StyledUserLeaderboardCard>
     );
@@ -37,7 +40,7 @@ const StyledUserLink = styled.a`
     text-decoration: none;
 `;
 
-const StyledMinutes = styled.span`
+const StyledHours = styled.span`
     font-weight: 800;
     color: ${({ theme }) => theme.colors.primary[400]};
 `;

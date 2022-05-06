@@ -32,6 +32,16 @@ export type VoiceChannelStats = Record<string, Timestamp[]>;
 
 export type ChannelVoiceData = Record<string, VoiceChannelStats>;
 
+export type EventData = {
+    imageSrc: string;
+    displayName: string;
+    discordTag: string;
+    description: string;
+    target: string;
+    targetHref?: string;
+    time: Timestamp;
+};
+
 export interface GuildData {
     data: {
         allUsers: string[];
@@ -41,4 +51,7 @@ export interface GuildData {
     messages: Record<string, MessageData[]>;
     users: Record<string, UserData>;
     channelStats: ChannelVoiceData;
+    events: {
+        messageDelete: EventData[];
+    };
 }

@@ -6,14 +6,20 @@ import UserLeaderboardCard, {
 export interface UserLeaderboardProps {
     heading: string;
     users: UserLeaderboardCardProps[];
+    text: "hours" | "messages";
 }
 
 export function UserLeaderboard(props: UserLeaderboardProps) {
     return (
         <StyledUserLeaderboard>
             <StyledHeading>{props.heading}</StyledHeading>
-            {props.users.map((user) => (
-                <UserLeaderboardCard key={user.href} {...user} />
+            {props.users.map((user, index) => (
+                <UserLeaderboardCard
+                    key={user.href}
+                    {...user}
+                    position={index + 1}
+                    text={props.text}
+                />
             ))}
         </StyledUserLeaderboard>
     );

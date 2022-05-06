@@ -12,3 +12,5 @@ export * from "./lib/SidebarButton";
 export * from "./lib/Sidebar";
 export * from "./lib/Server";
 export * from "./lib/ServerList";
+export * from "./lib/TopBar";
+export * from "./lib/Chart";

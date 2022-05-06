@@ -8,3 +8,4 @@ export * from "./lib/getMessageCountForEveryDay";
 export * from "./lib/getMostActiveTextUsers";
 export * from "./lib/calculateTotalMessagesSent";
 export * from "./lib/getServerStatistics";
+export * from "./lib/getMostActiveVoiceUsers";

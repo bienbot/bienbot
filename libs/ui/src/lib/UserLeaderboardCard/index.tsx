@@ -14,6 +14,7 @@ export interface UserLeaderboardCardProps {
 }
 
 export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
+    console.log(props.href);
     return (
         <StyledUserLeaderboardCard>
             <StyledPosition>#{props.position}</StyledPosition>
@@ -29,7 +30,7 @@ export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
                 </StyledUserLink>
             </Link>
             <StyledRightContainer>
-                <StyledHours>{props.minutes} </StyledHours>
+                <StyledHours>{props.count} </StyledHours>
                 {props.text}
             </StyledRightContainer>
         </StyledUserLeaderboardCard>

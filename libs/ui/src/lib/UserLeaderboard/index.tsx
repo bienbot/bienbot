@@ -7,6 +7,7 @@ export interface UserLeaderboardProps {
     heading: string;
     users: UserLeaderboardCardProps[];
     text: "hours" | "messages";
+    guildId: string;
 }
 
 export function UserLeaderboard(props: UserLeaderboardProps) {
@@ -17,6 +18,7 @@ export function UserLeaderboard(props: UserLeaderboardProps) {
                 <UserLeaderboardCard
                     key={user.href}
                     {...user}
+                    href={`/guilds/${props.guildId}${user.href}`}
                     position={index + 1}
                     text={props.text}
                 />

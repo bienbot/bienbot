@@ -28,7 +28,7 @@ export type Timestamp = {
     nanoseconds: number;
 };
 
-export type VoiceChannelStats = Record<string, Timestamp>;
+export type VoiceChannelStats = Record<string, Timestamp[]>;
 
 export type ChannelVoiceData = Record<string, VoiceChannelStats>;
 

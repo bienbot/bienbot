@@ -23,6 +23,22 @@ export interface MessageData {
     timestamp: Date;
 }
 
-export interface VoiceChannelStats {
-    [key: string]: Date[];
+export type Timestamp = {
+    seconds: number;
+    nanoseconds: number;
+};
+
+export type VoiceChannelStats = Record<string, Timestamp>;
+
+export type ChannelVoiceData = Record<string, VoiceChannelStats>;
+
+export interface GuildData {
+    data: {
+        allUsers: string[];
+        onlineUsers: string[];
+        name: string;
+    };
+    messages: Record<string, MessageData[]>;
+    users: Record<string, UserData>;
+    channelStats: ChannelVoiceData;
 }

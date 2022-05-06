@@ -1,20 +1,20 @@
-import { countMinutes } from "@bienbot/functions";
+import { countHours } from "@bienbot/functions";
 
 const admin = require("firebase-admin");
 const database = admin.firestore();
 
-const countVoiceChannelMinutes = async (userId: string, guildId: string) => {
+const countVoiceChannelHours = async (userId: string, guildId: string) => {
     const channels = await database
         .collection(guildId)
         .doc("channelStats")
         .get();
     const channelsData = channels.data();
     if (!channelsData) return 0;
-    const userMinutes = countMinutes({
+    const userHours = countHours({
         docData: channelsData,
         users: [userId],
     })[userId];
-    return userMinutes;
+    return userHours;
 };
 
-export default countVoiceChannelMinutes;
+export default countVoiceChannelHours;

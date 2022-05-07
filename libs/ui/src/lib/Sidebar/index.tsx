@@ -24,15 +24,18 @@ export function Sidebar(props: SidebarProps) {
 }
 
 const StyledSidebar = styled.nav`
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
     gap: 24px;
-    max-width: 80px;
+    width: 80px;
     height: 100%;
     padding: 4px 0;
     background-color: ${({ theme }) => theme.colors.background};
+    border-right: 1px solid ${({ theme }) => theme.colors.primary[200]};
+    height: 100vh;
 `;
 
 const StyledButtonsContainer = styled.div`

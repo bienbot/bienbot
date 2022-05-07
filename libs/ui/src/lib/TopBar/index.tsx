@@ -26,25 +26,23 @@ export function TopBar(props: TopBarProps) {
                 onChange={setSearchValue}
                 callback={() => console.log("Clicked button")}
             />
-            <StyledTopBarHeader aria-hidden style={{ visibility: "hidden" }}>
-                {name}
-            </StyledTopBarHeader>
         </StyledTopBar>
     );
 }
 
 const StyledTopBar = styled.div`
+    position: fixed;
+    width: calc(100vw - 80px);
+    z-index: 1;
     margin: 0;
     padding: 11px;
-    min-height: 80px;
+    padding-left: 32px;
+    height: 80px;
     border-bottom: 1px solid ${({ theme }) => theme.colors.primary[200]};
-    display: grid;
     background-color: ${({ theme }) => theme.colors.background};
-    @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-    }
-    grid-template-columns: max-content 1fr auto;
-    gap: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 const StyledTopBarHeader = styled.h1`

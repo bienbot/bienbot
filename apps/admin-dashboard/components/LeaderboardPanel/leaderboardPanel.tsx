@@ -12,6 +12,7 @@ const LeaderboardPanel = ({ guildData }: { guildData: GuildData }) => {
         <StyledWrapper>
             <UserLeaderboard
                 text="hours"
+                guildId={guildData.data.id}
                 heading="Voice channels"
                 users={getMostActiveVoiceUsers(
                     guildData.channelStats,
@@ -20,6 +21,7 @@ const LeaderboardPanel = ({ guildData }: { guildData: GuildData }) => {
                 )}
             />
             <UserLeaderboard
+                guildId={guildData.data.id}
                 text="messages"
                 heading="Text channels"
                 users={getMostActiveTextUsers(

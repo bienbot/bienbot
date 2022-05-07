@@ -47,6 +47,7 @@ export interface GuildData {
         allUsers: string[];
         onlineUsers: string[];
         name: string;
+        id: string;
     };
     messages: Record<string, MessageData[]>;
     users: Record<string, UserData>;

@@ -4,6 +4,8 @@ import DiscordClient from "../../client/client";
 interface ServerData {
     onlineUsers: string[];
     allUsers: string[];
+    id: string;
+    name: string;
 }
 
 const updateGuildData = async (client: DiscordClient) => {
@@ -19,6 +21,8 @@ const updateGuildData = async (client: DiscordClient) => {
             const serverData: ServerData = {
                 onlineUsers: [],
                 allUsers: [],
+                id: guild.id,
+                name: guild.name,
             };
 
             guildMembers.forEach(async (member) => {

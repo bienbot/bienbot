@@ -7,6 +7,7 @@ export interface MessageCardProps {
         discordTag: string;
         displayName: string;
         id: string;
+        imageSrc: string;
     };
     messageContent: string;
     messageId: string;
@@ -25,7 +26,7 @@ export function MessageCard({
 }: MessageCardProps) {
     return (
         <StyledMessageCard>
-            <StyledImage src="https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp"></StyledImage>
+            <StyledImage src={user.imageSrc}></StyledImage>
             <StyledInfoContainer>
                 <Link href={user.id}>
                     <StyledUserInfo>

@@ -14,7 +14,8 @@ Template.args = {
     user: {
         displayName: "mulirus",
         discordTag: "milosz#6729",
-        id: "",
+        id: "1",
+        imageSrc: "www.github.com/lkarasinski.png",
     },
     messageContent: ` Lorem ipsum dolor sit amet consectetur, adipisicing elit.
     Voluptatem aperiam ut maxime recusandae voluptates praesentium

@@ -4,9 +4,18 @@ import MessageCard from "./index";
 
 const messageInfo = {
     messageContent: "Test message",
-    user: { displayName: "UserDisplayName", discordTag: "User#1234", id: "" },
-    channel: { name: "general", id: "" },
+    user: {
+        displayName: "UserDisplayName",
+        discordTag: "User#1234",
+        id: "",
+        imageSrc: "",
+    },
+    messageId: "",
     time: "23:36",
+    channel: {
+        name: "ChannelName",
+        id: "",
+    },
 };
 
 describe("MessageCard", () => {

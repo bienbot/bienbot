@@ -1,2 +1,3 @@
 .env
 adminConfig.ts
+config.ts

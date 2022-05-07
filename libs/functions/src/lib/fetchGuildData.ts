@@ -1,10 +1,9 @@
 import { GuildData } from "@bienbot/types";
 import { getDocs, collection, getFirestore } from "firebase/firestore";
+import { FirebaseApp } from "firebase/app";
 
-import firebaseApp from "apps/admin-dashboard/services/firebase";
-const database = getFirestore(firebaseApp);
-
-const fetchGuildData = async (guildId: string) => {
+const fetchGuildData = async (guildId: string, firebaseApp: FirebaseApp) => {
+    const database = getFirestore(firebaseApp);
     const dataSnap = await getDocs(collection(database, guildId));
     const result = {};
     dataSnap.forEach((doc) => {

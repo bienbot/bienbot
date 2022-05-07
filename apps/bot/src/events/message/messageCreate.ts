@@ -35,7 +35,7 @@ class MessageEvent extends BaseEvent {
             // await message.channel.send("jajco 1:0");
             await message.reply("jajco 1:0");
         }
-        addMessage(message);
+        addMessage(message, client);
         logEvent({
             eventDescription: "Sent message",
             eventTarget: message.content,
@@ -44,6 +44,7 @@ class MessageEvent extends BaseEvent {
             eventTime: new Date(),
             guildId: message.guildId,
             eventType: "messageCreate",
+            client,
         });
     }
 }

@@ -17,6 +17,7 @@ class MessageEvent extends BaseEvent {
             eventTime: new Date(),
             guildId: message.guildId,
             eventType: "messageDelete",
+            client,
         });
     }
 }

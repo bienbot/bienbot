@@ -11,3 +11,4 @@ export * from "./lib/getServerStatistics";
 export * from "./lib/getMostActiveVoiceUsers";
 export * from "./lib/getUserMessages";
 export * from "./lib/getGuildMessages";
+export * from "./lib/formEventData";

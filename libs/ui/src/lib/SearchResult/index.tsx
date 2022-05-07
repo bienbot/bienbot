@@ -25,11 +25,16 @@ const StyledSearchResult = styled.a`
     justify-content: start;
     max-width: 468px;
     padding: 10px;
-    background-color: ${({ theme }) => theme.colors.primary[200]};
+    background-color: transparent;
     border-radius: 8px;
     font-family: ${({ theme }) => theme.font.family};
     text-decoration: none;
+    transition: background-color 0.1s linear;
     cursor: pointer;
+
+    :hover {
+        background-color: ${({ theme }) => theme.colors.primary[200]};
+    }
 `;
 
 const StyledIconWrapper = styled.div`

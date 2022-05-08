@@ -53,6 +53,7 @@ export type EventData = {
     target: string;
     targetHref?: string;
     time: Timestamp;
+    type: string;
 };
 
 export interface GuildData {

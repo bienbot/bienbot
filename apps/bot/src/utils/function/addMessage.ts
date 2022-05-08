@@ -17,6 +17,10 @@ const addMessage = async (message: Message, client: DiscordClient) => {
     const member = await guild?.members.fetch(message.author);
 
     if (member) {
+        const parsedAttachments = JSON.parse(
+            JSON.stringify([...message.attachments.values()])
+        );
+
         const messageObject = {
             author: {
                 username: message.author.username,
@@ -25,7 +29,10 @@ const addMessage = async (message: Message, client: DiscordClient) => {
                 id: message.author.id,
                 avatar: message.author.avatarURL(),
             },
-            content: { text: message.content },
+            content: {
+                text: message.content,
+                attachments: parsedAttachments ?? [],
+            },
             timestamp: message.createdAt,
         };
         channelMessages.push(messageObject);

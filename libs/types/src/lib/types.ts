@@ -15,11 +15,24 @@ export interface UserData {
     username: string;
 }
 
+export type Attachment = {
+    attachment: string;
+    contentType: string;
+    description: string | null;
+    name: string;
+    proxyURL: string;
+    url: string;
+    text: string;
+};
+
 export interface MessageData {
     author: {
         id: string;
     };
-    content: string;
+    content: {
+        text: string;
+        attachments: Attachment[];
+    };
     timestamp: Date;
 }
 

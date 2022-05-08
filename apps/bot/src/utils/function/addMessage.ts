@@ -38,6 +38,7 @@ const addMessage = async (message: Message, client: DiscordClient) => {
                 id: message.channel.id,
             },
             timestamp: message.createdAt,
+            id: message.id,
         };
         channelMessages.push(messageObject);
         await database

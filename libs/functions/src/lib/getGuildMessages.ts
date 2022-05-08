@@ -1,6 +1,6 @@
-import { GuildData } from "@bienbot/types";
+import { GuildData, MessageData } from "@bienbot/types";
 
-const getGuildMessages = (guildData: GuildData) => {
+const getGuildMessages = (guildData: GuildData): MessageData[] => {
     let guildMessages = [];
 
     Object.keys(guildData.messages).forEach((channel) => {
@@ -10,7 +10,11 @@ const getGuildMessages = (guildData: GuildData) => {
 
     guildMessages = guildMessages.flat();
     guildMessages.sort((a, b) => {
-        return b.timestamp.seconds - a.timestamp.seconds;
+        return (
+            b.timestamp.seconds +
+            b.timestamp.nanoseconds / 1000000000 -
+            (a.timestamp.seconds + a.timestamp.nanoseconds / 1000000000)
+        );
     });
     return guildMessages;
 };

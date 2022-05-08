@@ -2,9 +2,8 @@ import {
     getHourCountForEveryDay,
     getMessageCountForEveryDay,
     getDays,
-    convertToDate,
-    getGuildMessages,
-    formEventData,
+    shapeEventData,
+    shapeMessagesData,
 } from "@bienbot/functions";
 import { GuildData } from "@bienbot/types";
 import {
@@ -24,7 +23,6 @@ type Props = {
 };
 
 const GuildDashboard = ({ guildData, statistics }: Props) => {
-    formEventData(guildData);
     return (
         <StyledWrapper>
             <div style={{ minWidth: 0 }}>
@@ -63,34 +61,23 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                 }}
             >
                 <CardsPanel heading="Recent events" href="">
-                    {formEventData(guildData)
+                    {shapeEventData(guildData)
                         .slice(0, 5)
                         .map((eventData) => (
                             <EventCard {...eventData} />
                         ))}
                 </CardsPanel>
                 <CardsPanel heading="Recent messages" href="">
-                    {getGuildMessages(guildData)
+                    {shapeMessagesData(guildData)
                         .slice(0, 5)
-                        .map((message) => (
-                            <MessageCard
-                                channel={{ name: "channel name", id: "0" }}
-                                time={`${convertToDate(
-                                    message.timestamp
-                                ).getHours()}:${convertToDate(
-                                    message.timestamp
-                                ).getMinutes()}`}
-                                messageContent={message.content.text}
-                                messageId={message.id}
-                                user={{
-                                    imageSrc: message.author.avatar,
-                                    displayName: message.author.displayName,
-                                    discordTag: `${message.author.username}#${message.author.discriminator}`,
-                                    id: message.author.id,
-                                }}
-                                key={message.id}
-                            />
-                        ))}
+                        .map((messageData) => {
+                            return (
+                                <MessageCard
+                                    {...messageData}
+                                    key={messageData.messageId}
+                                />
+                            );
+                        })}
                 </CardsPanel>
             </div>
         </StyledWrapper>

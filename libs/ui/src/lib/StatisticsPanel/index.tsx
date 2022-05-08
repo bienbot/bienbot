@@ -28,7 +28,6 @@ const StyledStatisticsPanel = styled.div`
     font-family: ${({ theme }) => theme.font.family};
     display: grid;
     grid-template-columns: 1fr 1fr;
-    max-width: 672px;
     grid-template-rows: auto auto;
 `;
 
@@ -51,7 +50,7 @@ const StyledCardContainer = styled.div`
     margin-top: 16px;
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
     grid-column: 1 / -1;
 `;
 

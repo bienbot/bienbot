@@ -18,7 +18,6 @@ const StyledInfoCard = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 150px;
     height: 68px;
     padding: 16px;
     background: ${({ theme }) => theme.colors.primary[100]};

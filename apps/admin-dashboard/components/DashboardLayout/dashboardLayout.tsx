@@ -60,7 +60,7 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                         },
                     ]}
                 />
-                <div style={{ marginLeft: 80 }}>
+                <div style={{ marginLeft: 80, width: "100%" }}>
                     <TopBar serverName={guildData.data.name} />
                     <div
                         style={{
@@ -68,6 +68,7 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                             paddingRight: 32,
                             paddingTop: 80,
                             fontFamily: "Outfit",
+                            width: "100%",
                         }}
                     >
                         {children}

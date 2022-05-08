@@ -27,7 +27,7 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
     formEventData(guildData);
     return (
         <StyledWrapper>
-            <div>
+            <div style={{ minWidth: 0 }}>
                 <StatisticsPanel
                     heading="Server statistics"
                     href="/"
@@ -53,6 +53,7 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                         dayValues: getDays(14),
                     }}
                 />
+
                 <LeaderboardPanel guildData={guildData} />
             </div>
             <div

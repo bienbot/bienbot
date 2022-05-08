@@ -14,7 +14,7 @@ interface LogEvent {
     eventDescription: string;
     eventMember?: User;
     eventType: EventType;
-    client: DiscordClient
+    client: DiscordClient;
 }
 
 const logEvent = async ({
@@ -25,18 +25,17 @@ const logEvent = async ({
     guildId,
     eventMember,
     eventType,
-    client
+    client,
 }: LogEvent) => {
     const events = await database.collection(guildId).doc("events").get();
     const eventsData = events.exists ? events.data() : {};
 
     const guild = client.guilds.cache.get(guildId ?? "");
-    if(eventMember){
+    if (eventMember) {
         const member = await guild?.members.fetch(eventMember);
 
-        if (!member) return
+        if (!member) return;
     }
-
 
     const eventData = {
         imageSrc: eventMember?.avatarURL(),
@@ -46,6 +45,7 @@ const logEvent = async ({
         target: eventTarget,
         targetHref: eventTargetId,
         time: eventTime,
+        type: eventType,
     };
 
     const eventArray = eventsData[eventType]

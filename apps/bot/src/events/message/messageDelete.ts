@@ -9,10 +9,14 @@ class MessageEvent extends BaseEvent {
     }
 
     async run(client: DiscordClient, message: Message) {
-        logEvent({
-            eventDescription: "Deleted message",
-            eventTarget: message.content,
-            eventMember: message.author,
+        const logs = await message?.guild?.fetchAuditLogs({ type: 72 });
+        const entry = logs?.entries?.first();
+        if (!entry?.executor) return;
+
+        await logEvent({
+            eventDescription: "Deleted",
+            eventTarget: "message",
+            eventMember: entry.executor,
             eventTargetId: message.id,
             eventTime: new Date(),
             guildId: message.guildId,

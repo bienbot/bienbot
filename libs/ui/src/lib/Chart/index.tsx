@@ -186,6 +186,7 @@ export const ChartData = (props: IChartData) => {
                         titleColor: theme.colors.primary[400],
                         titleAlign: "center",
                         titleFont: {
+                            family: theme.font.family,
                             size: parseInt(theme.font.size.medium),
                         },
                         bodyFont: {

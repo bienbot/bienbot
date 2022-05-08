@@ -28,10 +28,18 @@ export type Attachment = {
 export interface MessageData {
     author: {
         id: string;
+        discriminator: string;
+        displayName: string;
+        username: string;
+        avatar: string;
     };
     content: {
         text: string;
         attachments: Attachment[];
+    };
+    channel: {
+        id: string;
+        name: string;
     };
     timestamp: Date;
     id: string;

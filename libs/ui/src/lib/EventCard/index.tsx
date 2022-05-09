@@ -1,27 +1,32 @@
+import { convertToDate } from "@bienbot/functions";
 import { EventData } from "@bienbot/types";
+import format from "date-fns/format";
 import styled from "styled-components";
+import OptionalLinkWrapper from "../OptionalLinkWrapper";
 import UserInfo from "../UserInfo";
 
 export function EventCard(props: EventData) {
+    const date = format(convertToDate(props.event.timestamp), "hh:mm");
+
     return (
         <StyledEventCard>
-            <StyledUserInfo
-                direction="row"
-                imageSrc={props.user.imageSrc}
-                displayName={props.user.displayName}
-                discordTag={props.user.discordTag}
-            />
+            <OptionalLinkWrapper href={props.user.href}>
+                <StyledUserInfo
+                    direction="row"
+                    imageSrc={props.user.imageSrc}
+                    displayName={props.user.displayName}
+                    discordTag={props.user.discordTag}
+                />
+            </OptionalLinkWrapper>
             <StyledEventInfo>
                 {props.event.description}{" "}
-                {props.event.targetHref ? (
-                    <StyledEventTarget href={props.event.targetHref}>
-                        <StyledHighlight>{props.event.target} </StyledHighlight>
-                    </StyledEventTarget>
-                ) : (
-                    <StyledHighlight>{props.event.target} </StyledHighlight>
-                )}
+                <OptionalLinkWrapper href={props.event.targetHref}>
+                    <StyledHighlight as={props.event.targetHref ? "a" : "span"}>
+                        {props.event.target}{" "}
+                    </StyledHighlight>
+                </OptionalLinkWrapper>
                 at
-                <StyledHighlight> {props.event.timestamp}</StyledHighlight>
+                <StyledHighlight> {date}</StyledHighlight>
             </StyledEventInfo>
         </StyledEventCard>
     );
@@ -54,6 +59,7 @@ const StyledEventInfo = styled.div`
 const StyledHighlight = styled.span`
     color: ${({ theme }) => theme.colors.primary[400]};
     font-weight: 700;
+    text-decoration: none;
 `;
 
 const StyledEventTarget = styled.a`

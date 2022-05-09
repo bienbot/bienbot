@@ -1,5 +1,5 @@
-import Link from "next/link";
 import styled from "styled-components";
+import OptionalLinkWrapper from "../OptionalLinkWrapper";
 
 export interface MessageCardProps {
     user: {
@@ -31,17 +31,19 @@ export function MessageCard({
         <StyledMessageCard>
             <StyledImage src={user.imageSrc}></StyledImage>
             <StyledInfoContainer>
-                <Link href={user.href}>
-                    <StyledUserInfo>
+                <OptionalLinkWrapper href={user.href}>
+                    <StyledUserInfo as={channel.href ? "a" : "div"}>
                         <StyledHighlight>{user.displayName}</StyledHighlight>
                         <StyledDiscordTag>{user.discordTag}</StyledDiscordTag>
                     </StyledUserInfo>
-                </Link>
+                </OptionalLinkWrapper>
                 <StyledMessageInfo>
                     <span>in</span>
-                    <Link href={channel.href}>
-                        <StyledChannelName>#{channel.name}</StyledChannelName>
-                    </Link>
+                    <OptionalLinkWrapper href={channel.href}>
+                        <StyledChannelName as={channel.href ? "a" : "div"}>
+                            #{channel.name}
+                        </StyledChannelName>
+                    </OptionalLinkWrapper>
                     <span>at</span>
                     <StyledHighlight>{time}</StyledHighlight>
                 </StyledMessageInfo>

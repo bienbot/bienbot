@@ -1,44 +1,34 @@
-import { GuildData } from "@bienbot/types";
-import convertToDate from "./convertToDate";
+import { EventData, GuildData } from "@bienbot/types";
 import { getGuildEvents } from "./getGuildEvents";
 
-export const shapeEventData = (guildData: GuildData) => {
-    const eventData = getGuildEvents(guildData);
+export const shapeEventData = (guildData: GuildData): EventData[] => {
+    const eventsData = getGuildEvents(guildData);
 
-    const formedEventData = eventData
+    const formedEventData = eventsData
         .sort(
             (a, b) =>
-                b.time.seconds +
-                b.time.nanoseconds / 1000000000 -
-                (a.time.seconds + a.time.nanoseconds / 1000000000)
+                b.event.timestamp.seconds +
+                b.event.timestamp.nanoseconds / 1000000000 -
+                (a.event.timestamp.seconds +
+                    a.event.timestamp.nanoseconds / 1000000000)
         )
         .map((event) => {
-            const date = convertToDate(event.time);
-            let eventHref: string;
-
-            switch (event.type) {
-                case "messageDelete":
-                case "messageCreate":
-                case "messageUpdate":
-                    eventHref = `${guildData.data.id}/messages/${event.targetHref}`;
-                    break;
-                default:
-                    eventHref = event.targetHref;
-            }
-
             return {
-                imageSrc: event.imageSrc,
-                displayName: event.displayName,
-                discordTag: event.discordTag,
-                eventDescription: event.description,
-                eventTarget: event.target,
-                eventTargetHref: eventHref,
-                eventTime: `${date.getHours()}:${
-                    date.getMinutes() < 10
-                        ? `0${date.getMinutes()}`
-                        : date.getMinutes()
-                }`,
-                eventType: event.type,
+                user: {
+                    imageSrc: event.user.imageSrc,
+                    displayName: event.user.displayName,
+                    discordTag: event.user.discordTag,
+                    id: event.user.id,
+                    href: "",
+                },
+                event: {
+                    type: event.event.type,
+                    target: event.event.target,
+                    targetId: event.event.targetId,
+                    targetHref: "",
+                    description: event.event.description,
+                    timestamp: event.event.timestamp,
+                },
             };
         });
 

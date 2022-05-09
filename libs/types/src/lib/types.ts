@@ -58,14 +58,21 @@ export type VoiceChannelStats = Record<string, Timestamp[]>;
 export type ChannelVoiceData = Record<string, VoiceChannelStats>;
 
 export type EventData = {
-    imageSrc: string;
-    displayName: string;
-    discordTag: string;
-    description: string;
-    target: string;
-    targetHref?: string;
-    time: Timestamp;
-    type: string;
+    user: {
+        imageSrc: string;
+        displayName: string;
+        discordTag: string;
+        id: string;
+        href?: string;
+    };
+    event: {
+        type: string;
+        target: string;
+        targetId: string;
+        description: string;
+        timestamp: Timestamp;
+        targetHref?: string;
+    };
 };
 
 export interface GuildData {

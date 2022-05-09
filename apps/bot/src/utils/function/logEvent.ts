@@ -1,3 +1,4 @@
+import { EventData } from "@bienbot/types";
 import { User } from "discord.js";
 import DiscordClient from "../../client/client";
 
@@ -35,29 +36,34 @@ const logEvent = async ({
         const member = await guild?.members.fetch(eventMember);
 
         if (!member) return;
+
+        const eventData = {
+            user: {
+                imageSrc: member.displayAvatarURL(),
+                displayName: member.displayName,
+                discordTag: member.user.tag,
+                id: member.id,
+            },
+            event: {
+                type: eventType,
+                target: eventTarget,
+                targetId: eventTargetId,
+                description: eventDescription,
+                timestamp: eventTime,
+            },
+        };
+
+        const eventArray = eventsData[eventType]
+            ? [...eventsData[eventType], eventData]
+            : [eventData];
+
+        const newEventsData = {
+            ...eventsData,
+            [eventType]: eventArray,
+        };
+
+        await database.collection(guildId).doc("events").set(newEventsData);
     }
-
-    const eventData = {
-        imageSrc: eventMember?.avatarURL(),
-        displayName: eventMember?.username,
-        discordTag: eventMember?.discriminator,
-        description: eventDescription,
-        target: eventTarget,
-        targetHref: eventTargetId,
-        time: eventTime,
-        type: eventType,
-    };
-
-    const eventArray = eventsData[eventType]
-        ? [...eventsData[eventType], eventData]
-        : [eventData];
-
-    const newEventsData = {
-        ...eventsData,
-        [eventType]: eventArray,
-    };
-
-    await database.collection(guildId).doc("events").set(newEventsData);
 };
 
 export default logEvent;

@@ -1,37 +1,27 @@
+import { EventData } from "@bienbot/types";
 import styled from "styled-components";
 import UserInfo from "../UserInfo";
 
-/* eslint-disable-next-line */
-export interface EventCardProps {
-    imageSrc: string;
-    displayName: string;
-    discordTag: string;
-    eventDescription: string;
-    eventTarget: string;
-    eventTargetHref?: string;
-    eventTime: string;
-}
-
-export function EventCard(props: EventCardProps) {
+export function EventCard(props: EventData) {
     return (
         <StyledEventCard>
             <StyledUserInfo
                 direction="row"
-                imageSrc={props.imageSrc}
-                displayName={props.displayName}
-                discordTag={props.discordTag}
+                imageSrc={props.user.imageSrc}
+                displayName={props.user.displayName}
+                discordTag={props.user.discordTag}
             />
             <StyledEventInfo>
-                {props.eventDescription}{" "}
-                {props.eventTargetHref ? (
-                    <StyledEventTarget href={props.eventTargetHref}>
-                        <StyledHighlight>{props.eventTarget} </StyledHighlight>
+                {props.event.description}{" "}
+                {props.event.targetHref ? (
+                    <StyledEventTarget href={props.event.targetHref}>
+                        <StyledHighlight>{props.event.target} </StyledHighlight>
                     </StyledEventTarget>
                 ) : (
-                    <StyledHighlight>{props.eventTarget} </StyledHighlight>
+                    <StyledHighlight>{props.event.target} </StyledHighlight>
                 )}
                 at
-                <StyledHighlight> {props.eventTime}</StyledHighlight>
+                <StyledHighlight> {props.event.timestamp}</StyledHighlight>
             </StyledEventInfo>
         </StyledEventCard>
     );

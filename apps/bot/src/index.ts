@@ -2,7 +2,7 @@ import DiscordClient from "./client/client";
 import { Intents } from "discord.js";
 import { registerCommands, registerEvents } from "./utils/registry";
 import updateUsersInVoice from "./utils/function/updateUsersInVoice";
-import getUsersData from "./utils/function/getUsersData";
+import updateUsersData from "./utils/function/updateUsersData";
 import adminConfig from "../adminConfig";
 import updateGuildData from "./utils/function/updateGuildData";
 require("dotenv").config();
@@ -43,7 +43,7 @@ admin.initializeApp({
     await registerCommands(client, "../commands");
     await registerEvents(client, "../events");
     await client.login(process.env["TOKEN"]);
-    await getUsersData(client);
+    updateUsersData(client);
     /* 
     Update users in voice channels every hour; This is not ideal, beacuse we loose "accuracy"
     but current database (firestore) gets really slow when we have a lot of entries.

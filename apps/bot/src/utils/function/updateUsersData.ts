@@ -12,9 +12,11 @@ interface MemberData {
     bot: boolean;
     displayColor: `#${string}`;
     createdAt: number;
+    presence: "online" | "idle" | "dnd" | "offline" | "invisible";
+    boostingSince: Date | null;
 }
 
-const getUsersData = async (client: DiscordClient) => {
+const updateUsersData = async (client: DiscordClient) => {
     const Guilds = client.guilds.cache;
     if (!Guilds) return;
 
@@ -43,6 +45,8 @@ const getUsersData = async (client: DiscordClient) => {
                     bot: member.user.bot,
                     displayColor: member.displayHexColor,
                     createdAt: member.user.createdTimestamp,
+                    presence: member.presence?.status ?? "offline",
+                    boostingSince: member.premiumSince,
                 };
                 membersData[member.id] = memberData;
             });
@@ -54,4 +58,4 @@ const getUsersData = async (client: DiscordClient) => {
     });
 };
 
-export default getUsersData;
+export default updateUsersData;

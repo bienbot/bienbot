@@ -1,9 +1,10 @@
-import { GuildData } from "@bienbot/types";
+import { GuildData, MessageData } from "@bienbot/types";
 import convertToDate from "./convertToDate";
 import { getGuildMessages } from "./getGuildMessages";
 
-export const shapeMessagesData = (guildData: GuildData) => {
-    const messagesData = getGuildMessages(guildData);
+export const shapeMessagesData = (guildData: GuildData | MessageData[]) => {
+    const messagesData =
+        guildData instanceof Array ? guildData : getGuildMessages(guildData);
 
     return messagesData.map((message) => {
         return {

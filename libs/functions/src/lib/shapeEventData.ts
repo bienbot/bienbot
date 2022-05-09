@@ -1,8 +1,11 @@
 import { EventData, GuildData } from "@bienbot/types";
 import { getGuildEvents } from "./getGuildEvents";
 
-export const shapeEventData = (guildData: GuildData): EventData[] => {
-    const eventsData = getGuildEvents(guildData);
+export const shapeEventData = (
+    guildData: GuildData | EventData[]
+): EventData[] => {
+    const eventsData =
+        guildData instanceof Array ? guildData : getGuildEvents(guildData);
 
     const formedEventData = eventsData
         .sort(

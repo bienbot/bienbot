@@ -64,7 +64,7 @@ const StyledDiscordTag = styled.span`
 const StyledChannelName = styled.a`
     color: ${({ theme }) => theme.colors.primary[400]};
     font-weight: 700;
-    cursor: pointer;
+    text-decoration: none;
 `;
 
 const StyledInfoContainer = styled.div`
@@ -82,7 +82,6 @@ const StyledUserInfo = styled.a`
     gap: 4px;
     align-items: center;
     text-decoration: none;
-    cursor: pointer;
 `;
 
 const StyledMessageInfo = styled.div`

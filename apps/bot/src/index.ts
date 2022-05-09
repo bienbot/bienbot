@@ -43,13 +43,16 @@ admin.initializeApp({
     await registerCommands(client, "../commands");
     await registerEvents(client, "../events");
     await client.login(process.env["TOKEN"]);
-    updateUsersData(client);
     /* 
     Update users in voice channels every hour; This is not ideal, beacuse we loose "accuracy"
     but current database (firestore) gets really slow when we have a lot of entries.
     In the future we might switch to a Redis database, and update the users every minute.
     */
     setInterval(() => updateUsersInVoice(client), 1000 * 60 * 60);
-    /* */
-    setInterval(() => updateGuildData(client), 1000 * 60);
+
+    /* Update server data every minute */
+    setInterval(async () => {
+        await updateGuildData(client);
+        await updateUsersData(client);
+    }, 1000 * 60);
 })();

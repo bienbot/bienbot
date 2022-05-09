@@ -15,3 +15,4 @@ export * from "./lib/getGuildMessages";
 export * from "./lib/getGuildEvents";
 export * from "./lib/shapeMessagesData";
 export * from "./lib/shapeEventData";
+export * from "./lib/getUserEvents";

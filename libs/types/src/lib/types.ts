@@ -45,6 +45,7 @@ export interface MessageData {
     };
     timestamp: Date;
     id: string;
+    history?: { content: string; attachments: Attachment[] }[];
 }
 
 export type Timestamp = {

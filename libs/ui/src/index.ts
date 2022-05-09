@@ -15,3 +15,4 @@ export * from "./lib/ServerList";
 export * from "./lib/TopBar";
 export * from "./lib/Chart";
 export * from "./lib/SearchModal";
+export * from "./lib/OptionalLinkWrapper";

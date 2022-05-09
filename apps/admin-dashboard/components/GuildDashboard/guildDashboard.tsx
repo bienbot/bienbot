@@ -71,10 +71,13 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                     {shapeMessagesData(guildData)
                         .slice(0, 5)
                         .map((messageData) => {
+                            messageData.user.href = `/guilds/${guildData.data.id}/user/${messageData.user.id}`;
+                            messageData.channel.href = `/guilds/${guildData.data.id}/channels/${messageData.channel.id}`;
+
                             return (
                                 <MessageCard
                                     {...messageData}
-                                    key={messageData.messageId}
+                                    key={messageData.message.id}
                                 />
                             );
                         })}

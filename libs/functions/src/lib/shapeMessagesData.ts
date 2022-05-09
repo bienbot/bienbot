@@ -10,17 +10,22 @@ export const shapeMessagesData = (guildData: GuildData) => {
             channel: {
                 name: message.channel?.name,
                 id: message.channel?.id ?? "",
+                href: "",
             },
             time: `${convertToDate(message.timestamp).getHours()}:${
                 convertToDate(message.timestamp).getMinutes() < 10 ? "0" : ""
             }${convertToDate(message.timestamp).getMinutes()}`,
-            messageContent: message.content.text,
-            messageId: message?.id ?? "",
+            message: {
+                content: message.content.text,
+                id: message?.id ?? "",
+                href: "",
+            },
             user: {
                 imageSrc: message.author.avatar,
                 displayName: message.author.displayName,
                 discordTag: `${message.author.username}#${message.author.discriminator}`,
                 id: message.author.id,
+                href: "",
             },
         };
     });

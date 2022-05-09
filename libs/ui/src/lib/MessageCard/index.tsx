@@ -1,19 +1,22 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-/* eslint-disable-next-line */
 export interface MessageCardProps {
     user: {
         discordTag: string;
         displayName: string;
         id: string;
         imageSrc: string;
+        href?: string;
     };
-    messageContent: string;
-    messageId: string;
+    message: {
+        content: string;
+        id: string;
+    };
     channel: {
         name: string;
         id: string;
+        href?: string;
     };
     time: string;
 }
@@ -22,13 +25,13 @@ export function MessageCard({
     user,
     channel,
     time,
-    messageContent,
+    message,
 }: MessageCardProps) {
     return (
         <StyledMessageCard>
             <StyledImage src={user.imageSrc}></StyledImage>
             <StyledInfoContainer>
-                <Link href={user.id}>
+                <Link href={user.href}>
                     <StyledUserInfo>
                         <StyledHighlight>{user.displayName}</StyledHighlight>
                         <StyledDiscordTag>{user.discordTag}</StyledDiscordTag>
@@ -36,14 +39,14 @@ export function MessageCard({
                 </Link>
                 <StyledMessageInfo>
                     <span>in</span>
-                    <Link href={channel.id}>
+                    <Link href={channel.href}>
                         <StyledChannelName>#{channel.name}</StyledChannelName>
                     </Link>
                     <span>at</span>
                     <StyledHighlight>{time}</StyledHighlight>
                 </StyledMessageInfo>
             </StyledInfoContainer>
-            <StyledMessage>{messageContent}</StyledMessage>
+            <StyledMessage>{message.content}</StyledMessage>
         </StyledMessageCard>
     );
 }

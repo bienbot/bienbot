@@ -1,7 +1,7 @@
 import { GuildData } from "@bienbot/types";
 
 const getUserMessages = (guildData: GuildData, userId: string) => {
-    const userMessages = [];
+    let userMessages = [];
 
     Object.keys(guildData.messages).forEach((channel) => {
         const channelMessages = guildData.messages[channel];
@@ -10,8 +10,15 @@ const getUserMessages = (guildData: GuildData, userId: string) => {
         );
     });
 
-    console.log(userMessages.flat());
-    return userMessages.flat();
+    userMessages = userMessages.flat();
+    userMessages.sort((a, b) => {
+        return (
+            b.timestamp.seconds +
+            b.timestamp.nanoseconds / 1000000000 -
+            (a.timestamp.seconds + a.timestamp.nanoseconds / 1000000000)
+        );
+    });
+    return userMessages;
 };
 
 export { getUserMessages };

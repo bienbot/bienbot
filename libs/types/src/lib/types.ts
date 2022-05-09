@@ -13,6 +13,8 @@ export interface UserData {
     joinedAt: Date;
     roles: string[];
     username: string;
+    presence: "online" | "idle" | "dnd" | "offline" | "invisible";
+    boostingSince: Timestamp;
 }
 
 export type Attachment = {

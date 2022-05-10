@@ -80,6 +80,7 @@ const StyledMessage = styled.div`
     color: ${({ theme }) => theme.colors.primary[500]};
     margin-left: 8px;
     margin-top: 4px;
+    overflow-wrap: anywhere;
 `;
 
 const StyledImage = styled.img`

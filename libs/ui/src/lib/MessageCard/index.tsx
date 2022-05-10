@@ -72,7 +72,7 @@ const ImageContainer = styled.div<{ orientation: "vertical" | "horizontal" }>`
     grid-column: 2/3;
     ${({ orientation }) => {
         if (orientation === "vertical") {
-            return `max-width: 300px;`;
+            return `max-width: 150px;`;
         } else {
             return `max-height: 300px;`;
         }

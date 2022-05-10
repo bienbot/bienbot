@@ -6,7 +6,7 @@ export type UserStatusProps = {
     user: UserData;
 };
 
-const UserStatus = (props: UserStatusProps) => {
+export const UserStatus = (props: UserStatusProps) => {
     return (
         <UserStatusContainer>
             <AvatarContainer>

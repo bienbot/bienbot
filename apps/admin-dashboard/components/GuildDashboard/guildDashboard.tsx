@@ -3,7 +3,7 @@ import {
     getMessageCountForEveryDay,
     getDays,
     shapeEventData,
-    shapeMessagesData,
+    getGuildMessages,
 } from "@bienbot/functions";
 import { GuildData } from "@bienbot/types";
 import {
@@ -78,16 +78,16 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                         })}
                 </CardsPanel>
                 <CardsPanel heading="Recent messages" href="">
-                    {shapeMessagesData(guildData)
+                    {getGuildMessages(guildData)
                         .slice(0, 5)
                         .map((messageData) => {
-                            messageData.user.href = `/guilds/${guildData.data.id}/users/${messageData.user.id}`;
+                            messageData.author.href = `/guilds/${guildData.data.id}/users/${messageData.author.id}`;
                             messageData.channel.href = `/guilds/${guildData.data.id}/channels/${messageData.channel.id}`;
 
                             return (
                                 <MessageCard
                                     {...messageData}
-                                    key={messageData.message.id}
+                                    key={messageData.id}
                                 />
                             );
                         })}

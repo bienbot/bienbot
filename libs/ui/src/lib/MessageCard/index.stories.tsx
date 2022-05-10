@@ -1,27 +1,31 @@
+import { MessageData } from "@bienbot/types";
 import { Story, Meta } from "@storybook/react";
-import { MessageCard, MessageCardProps } from "./index";
+import { MessageCard } from "./index";
 
 export default {
     component: MessageCard,
     title: "MessageCard",
 } as Meta;
 
-export const Template: Story<MessageCardProps> = (args) => (
-    <MessageCard {...args} />
-);
+export const Template: Story<MessageData> = (args) => <MessageCard {...args} />;
 
 Template.args = {
-    user: {
-        displayName: "mulirus",
-        discordTag: "milosz#6729",
-        id: "1",
-        imageSrc: "www.github.com/lkarasinski.png",
+    author: {
+        avatar: "https://www.github.com/lkarasinski.png",
+        displayName: "Display Name",
+        discriminator: "1234",
+        id: "12345678",
+        username: "Username",
     },
-    messageContent: ` Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-    Voluptatem aperiam ut maxime recusandae voluptates praesentium
-    reprehenderit earum rem fugit molestias ipsum voluptatibus
-    facere, animi incidunt dolorum dignissimos quasi aliquid!
-    Tempora?`,
+    content: {
+        text: ` Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+        Voluptatem aperiam ut maxime recusandae voluptates praesentium
+        reprehenderit earum rem fugit molestias ipsum voluptatibus
+        facere, animi incidunt dolorum dignissimos quasi aliquid!
+        Tempora?`,
+        attachments: [],
+    },
+    id: "1",
+    timestamp: { seconds: 0, nanoseconds: 0 },
     channel: { id: "", name: "general" },
-    time: "23:36",
 };

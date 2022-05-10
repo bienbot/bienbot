@@ -1,54 +1,39 @@
 import styled from "styled-components";
+import { format } from "date-fns";
+import { MessageData } from "@bienbot/types";
+import { convertToDate } from "@bienbot/functions";
 import OptionalLinkWrapper from "../OptionalLinkWrapper";
 
-export interface MessageCardProps {
-    user: {
-        discordTag: string;
-        displayName: string;
-        id: string;
-        imageSrc: string;
-        href?: string;
-    };
-    message: {
-        content: string;
-        id: string;
-    };
-    channel: {
-        name: string;
-        id: string;
-        href?: string;
-    };
-    time: string;
-}
-
-export function MessageCard({
-    user,
-    channel,
-    time,
-    message,
-}: MessageCardProps) {
+export function MessageCard(props: MessageData) {
+    const time = format(convertToDate(props.timestamp), "HH:mm");
     return (
         <StyledMessageCard>
-            <StyledImage src={user.imageSrc}></StyledImage>
+            <StyledImage src={props.author.avatar}></StyledImage>
             <StyledInfoContainer>
-                <OptionalLinkWrapper href={user.href}>
-                    <StyledUserInfo as={channel.href ? "a" : "div"}>
-                        <StyledHighlight>{user.displayName}</StyledHighlight>
-                        <StyledDiscordTag>{user.discordTag}</StyledDiscordTag>
+                <OptionalLinkWrapper href={props.author.href}>
+                    <StyledUserInfo as={props.author.href ? "a" : "div"}>
+                        <StyledHighlight>
+                            {props.author.displayName}
+                        </StyledHighlight>
+                        <StyledDiscordTag>
+                            {props.author.username}#{props.author.discriminator}
+                        </StyledDiscordTag>
                     </StyledUserInfo>
                 </OptionalLinkWrapper>
                 <StyledMessageInfo>
                     <span>in</span>
-                    <OptionalLinkWrapper href={channel.href}>
-                        <StyledChannelName as={channel.href ? "a" : "div"}>
-                            #{channel.name}
+                    <OptionalLinkWrapper href={props.channel.href}>
+                        <StyledChannelName
+                            as={props.channel.href ? "a" : "div"}
+                        >
+                            #{props.channel.name}
                         </StyledChannelName>
                     </OptionalLinkWrapper>
                     <span>at</span>
                     <StyledHighlight>{time}</StyledHighlight>
                 </StyledMessageInfo>
             </StyledInfoContainer>
-            <StyledMessage>{message.content}</StyledMessage>
+            <StyledMessage>{props.content.text}</StyledMessage>
         </StyledMessageCard>
     );
 }

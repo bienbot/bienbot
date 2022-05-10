@@ -3,7 +3,6 @@ import {
     getMessageCountForEveryDay,
     getDays,
     shapeEventData,
-    shapeMessagesData,
     getUserMessages,
     convertToDate,
     calculateTotalVoiceTime,
@@ -11,7 +10,6 @@ import {
 } from "@bienbot/functions";
 import { GuildData } from "@bienbot/types";
 import {
-    UserInfo,
     CardsPanel,
     EventCard,
     MessageCard,
@@ -103,16 +101,14 @@ const UserDashboard = ({ guildData }: Props) => {
                         ))}
                 </CardsPanel>
                 <CardsPanel heading="Recent messages" href="">
-                    {shapeMessagesData(messages)
-                        .slice(0, 5)
-                        .map((messageData) => {
-                            return (
-                                <MessageCard
-                                    {...messageData}
-                                    key={messageData.message.id}
-                                />
-                            );
-                        })}
+                    {messages.slice(0, 5).map((messageData) => {
+                        return (
+                            <MessageCard
+                                {...messageData}
+                                key={messageData.id}
+                            />
+                        );
+                    })}
                 </CardsPanel>
             </div>
         </StyledWrapper>

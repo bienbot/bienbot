@@ -3,19 +3,20 @@ import { renderWithTheme } from "../../utils/renderWithTheme";
 import MessageCard from "./index";
 
 const messageInfo = {
-    messageContent: "Test message",
-    user: {
-        displayName: "UserDisplayName",
-        discordTag: "User#1234",
-        id: "",
-        imageSrc: "",
+    author: {
+        avatar: "https://www.github.com/lkarasinski.png",
+        displayName: "Display Name",
+        discriminator: "1234",
+        id: "12345678",
+        username: "Username",
     },
-    messageId: "",
-    time: "23:36",
-    channel: {
-        name: "ChannelName",
-        id: "",
+    content: {
+        text: `Test message`,
+        attachments: [],
     },
+    id: "1",
+    timestamp: { seconds: 0, nanoseconds: 0 },
+    channel: { id: "", name: "general" },
 };
 
 describe("MessageCard", () => {
@@ -29,7 +30,7 @@ describe("MessageCard", () => {
         const { baseElement } = renderWithTheme(
             <MessageCard {...messageInfo} />
         );
-        expect(baseElement).toContainHTML("23:36");
+        expect(baseElement).toContainHTML("01:00");
     });
     it("should render message content", () => {
         const { baseElement } = renderWithTheme(
@@ -47,12 +48,12 @@ describe("MessageCard", () => {
         const { baseElement } = renderWithTheme(
             <MessageCard {...messageInfo} />
         );
-        expect(baseElement).toContainHTML("UserDisplayName");
+        expect(baseElement).toContainHTML("Display Name");
     });
     it("should render user discord tag", () => {
         const { baseElement } = renderWithTheme(
             <MessageCard {...messageInfo} />
         );
-        expect(baseElement).toContainHTML("User#1234");
+        expect(baseElement).toContainHTML("Username#1234");
     });
 });

@@ -34,16 +34,19 @@ export interface MessageData {
         displayName: string;
         username: string;
         avatar: string;
+        href?: string;
     };
     content: {
         text: string;
         attachments: Attachment[];
+        href?: string;
     };
     channel: {
         id: string;
         name: string;
+        href?: string;
     };
-    timestamp: Date;
+    timestamp: Timestamp;
     id: string;
     history?: { content: string; attachments: Attachment[] }[];
 }

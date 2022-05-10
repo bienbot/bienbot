@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { MessageData } from "@bienbot/types";
 import { convertToDate } from "@bienbot/functions";
 import OptionalLinkWrapper from "../OptionalLinkWrapper";
+import Image from "next/image";
 
 export function MessageCard(props: MessageData) {
     const time = format(convertToDate(props.timestamp), "HH:mm");
@@ -34,9 +35,56 @@ export function MessageCard(props: MessageData) {
                 </StyledMessageInfo>
             </StyledInfoContainer>
             <StyledMessage>{props.content.text}</StyledMessage>
+            {props.content.attachments.length === 1 &&
+                props.content.attachments.map((attachment) => {
+                    if (attachment.contentType.startsWith("image")) {
+                        const aspectRatio =
+                            (attachment.width ?? 1) / (attachment?.height ?? 1);
+
+                        return (
+                            <ImageContainer
+                                orientation={
+                                    aspectRatio > 1 ? "horizontal" : "vertical"
+                                }
+                            >
+                                <Image
+                                    layout="responsive"
+                                    width={aspectRatio * 200}
+                                    height={200}
+                                    src={attachment.url}
+                                    key={
+                                        attachment.url +
+                                        props.timestamp.nanoseconds
+                                    }
+                                ></Image>
+                            </ImageContainer>
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
+            {/* TODO: Add logic for displaying more than one photo */}
         </StyledMessageCard>
     );
 }
+
+const ImageContainer = styled.div<{ orientation: "vertical" | "horizontal" }>`
+    grid-column: 2/3;
+    ${({ orientation }) => {
+        if (orientation === "vertical") {
+            return `max-width: 300px;`;
+        } else {
+            return `max-height: 300px;`;
+        }
+    }}
+    margin-left: 8px;
+    margin-top: 8px;
+    position: relative;
+
+    img {
+        border-radius: 4px;
+    }
+`;
 
 const StyledHighlight = styled.span`
     color: ${({ theme }) => theme.colors.primary[400]};

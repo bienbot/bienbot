@@ -25,6 +25,8 @@ export type Attachment = {
     proxyURL: string;
     url: string;
     text: string;
+    width?: number;
+    height?: number;
 };
 
 export interface MessageData {

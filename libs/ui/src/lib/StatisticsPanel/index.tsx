@@ -17,7 +17,7 @@ export function StatisticsPanel(props: StatisticsPanelProps, href: string) {
             </Link>
             <StyledCardContainer>
                 {props.statistics.map((statistic) => (
-                    <InfoCard {...statistic} />
+                    <InfoCard {...statistic} key={statistic.label} />
                 ))}
             </StyledCardContainer>
         </StyledStatisticsPanel>

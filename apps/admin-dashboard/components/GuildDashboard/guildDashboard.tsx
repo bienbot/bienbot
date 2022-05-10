@@ -66,7 +66,15 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                         .map((eventData) => {
                             eventData.user.href = `/guilds/${guildData.data.id}/users/${eventData.user.id}`;
                             eventData.event.targetHref = `/guilds/${guildData.data.id}/users/${eventData.event.targetId}`;
-                            return <EventCard {...eventData} />;
+                            return (
+                                <EventCard
+                                    {...eventData}
+                                    key={
+                                        eventData.event.targetId +
+                                        eventData.user.id
+                                    }
+                                />
+                            );
                         })}
                 </CardsPanel>
                 <CardsPanel heading="Recent messages" href="">

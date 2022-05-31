@@ -19,7 +19,14 @@ import {
 } from "@bienbot/ui";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { StyledWrapper } from "./userDashboard.style";
+import {
+    StyledWrapper,
+    StyledUserDataWrapper,
+    StyledHeading,
+    StyledUserWrapper,
+    StyledEventsWrapper,
+    StyledCardsWrapper,
+} from "./userDashboard.style";
 import { format } from "date-fns";
 
 type Props = {
@@ -32,39 +39,43 @@ const UserDashboard = ({ guildData }: Props) => {
     const userData = guildData.users[userId];
     const messages = getUserMessages(guildData, userId);
     const events = getUserEvents(guildData, userId);
-    const userHoursCount = format(
+    const boostingSince = format(
         convertToDate(userData.boostingSince),
-        "dd/mm/yyyy"
+        "dd/MM/yyyy"
     );
 
     return (
         <StyledWrapper>
-            <div style={{ minWidth: 0 }}>
-                <h1>User data</h1>
-                <UserStatus user={userData} />
-                <StatisticsPanel
-                    heading=""
-                    href=""
-                    statistics={[
-                        {
-                            label: "Messages",
-                            text: messages.length.toString(),
-                        },
-                        {
-                            label: "Hours spent in VC",
-                            text: calculateTotalVoiceTime(
-                                guildData.channelStats,
-                                userId
-                            ).toString(),
-                        },
-                        {
-                            label: "Boosting since",
-                            text: userData.boostingSince
-                                ? userHoursCount.toString()
-                                : "Not boosting",
-                        },
-                    ]}
-                />
+            <StyledUserWrapper>
+                <StyledUserDataWrapper>
+                    <StyledHeading>User data</StyledHeading>
+                    <UserStatus user={userData} />
+                    <StyledCardsWrapper>
+                        <StatisticsPanel
+                            heading=""
+                            href=""
+                            statistics={[
+                                {
+                                    label: "Messages sent",
+                                    text: messages.length.toString(),
+                                },
+                                {
+                                    label: "Hours spent in VC",
+                                    text: calculateTotalVoiceTime(
+                                        guildData.channelStats,
+                                        userId
+                                    ).toString(),
+                                },
+                                {
+                                    label: "Boosting since",
+                                    text: userData.boostingSince
+                                        ? boostingSince.toString()
+                                        : "Not boosting",
+                                },
+                            ]}
+                        />
+                    </StyledCardsWrapper>
+                </StyledUserDataWrapper>
                 <Chart
                     heading="Last 14 days"
                     href="/"
@@ -86,21 +97,16 @@ const UserDashboard = ({ guildData }: Props) => {
                         dayValues: getDays(14),
                     }}
                 />
-            </div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-            >
-                <CardsPanel heading="Recent events" href="">
+            </StyledUserWrapper>
+            <StyledEventsWrapper>
+                <CardsPanel heading="Recent events" href="asd">
                     {shapeEventData(events)
                         .slice(0, 5)
                         .map((eventData, i) => (
                             <EventCard {...eventData} key={i} />
                         ))}
                 </CardsPanel>
-                <CardsPanel heading="Recent messages" href="">
+                <CardsPanel heading="Recent messages" href="asd">
                     {messages.slice(0, 5).map((messageData) => {
                         return (
                             <MessageCard
@@ -110,7 +116,7 @@ const UserDashboard = ({ guildData }: Props) => {
                         );
                     })}
                 </CardsPanel>
-            </div>
+            </StyledEventsWrapper>
         </StyledWrapper>
     );
 };

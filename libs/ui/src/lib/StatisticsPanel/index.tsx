@@ -8,13 +8,15 @@ export interface StatisticsPanelProps {
     href: string;
 }
 
-export function StatisticsPanel(props: StatisticsPanelProps, href: string) {
+export function StatisticsPanel(props: StatisticsPanelProps) {
     return (
         <StyledStatisticsPanel>
             <StyledHeading>{props.heading}</StyledHeading>
-            <Link href={href}>
-                <StyledSeeMore>See more</StyledSeeMore>
-            </Link>
+            {props.href ? (
+                <Link href={props.href} passHref>
+                    <StyledSeeMore>See more</StyledSeeMore>
+                </Link>
+            ) : null}
             <StyledCardContainer>
                 {props.statistics.map((statistic) => (
                     <InfoCard {...statistic} key={statistic.label} />

@@ -1,14 +1,52 @@
 # Bienbot
 
-## Useful stuff:
-
-### [Join Figma team](https://www.figma.com/team_invite/redeem/Pss0l3271YJxT0hpRcU9J5)
-
-### [Nx documentation](https://nx.dev/getting-started/intro)
+### Discord bot with admin dashboard
 
 ---
 
-> If you don't know what given command is doing, you can check it here https://www.shell.how/
+## Screenshots
+
+![Dashboard Screenshot](https://s3.eu-west-3.amazonaws.com/www.data.lkarasinski.pl/bienbot/bienbot_dashboard.png)
+
+![User Panel Screenshot](https://s3.eu-west-3.amazonaws.com/www.data.lkarasinski.pl/bienbot/user_panel.png)
+
+---
+
+## Tech Stack
+
+**Frontend**
+
+-   React
+-   Typescript
+-   Next.JS
+-   Styled Components
+-   Framer Motion
+
+**Backend**
+
+-   Express
+-   Express session
+-   Passport
+
+**Bot**
+
+-   Discord.JS
+-   discord-player
+-   ffmpeg
+-   sodium
+
+---
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`TOKEN`
+
+`YT_COOKIES`
+
+To run bot you will need to create `adminConfig.ts` file in
+`apps/bot` directory and provide firestore admin config object
 
 ---
 
@@ -27,30 +65,40 @@
 
 ---
 
-## Working with bienbot apps:
+## Run Locally
 
--   To start working with bienbot's app you need to enter command `nx serve <app_name>`. Example: `nx serve bot`.
+Run bienbot app
 
--   To build app you need to enter command `nx build <app_name>`. Example: `nx build bot`. Note: currently only bot is buildable.
+```bash
+  nx serve [app_name]
+```
 
--   To test app you need to enter command `nx test <app_name>`. Example: `nx test bot`.
+Run bienbot library
 
-## Working with bienbot libraries:
-
--   To start working with bienbot's ui library you need to enter command `nx run <library_name>:storybook`. Example: `nx run ui:storybook`.
-
--   To test bienbot's library you need to enter command `nx run <library_name>:test`. Example: `nx run functions:test`.
+```bash
+  nx run [library_name]:[action]
+```
 
 ---
 
-## Committing your changes
+## Roadmap
 
-1. Create new branch and switch to it (`git checkout -b <branch_name>`). Example branch name: `feature/add-info-card`. [Git branching naming convention](https://codingsight.com/git-branching-naming-convention-best-practices/).
+-   [x] Discord SSO Authentication
+-   [x] Discord bot
+-   [x] Discord music player
+-   [x] UI Library
+-   [x] Dashboard
+-   [x] User Panel
+-   [ ] Messages Panel
+-   [ ] Events Panel
+-   [ ] Channels Panel
+-   [ ] Leaderboads Panel
+-   [ ] Members Panel
+-   [ ] Fuzzy search box
 
-2. Commit your changes (`git commit -m "<commit_message>"`). Example commit message: `Add info card`. [Git commits convention](https://www.conventionalcommits.org/en/v1.0.0/).
+---
 
-3. Push your branch to remote repository (`git push origin <branch_name>`).
+## Authors
 
-4. Create pull request on GitHub. (Go to [GitHub repository page](https://github.com/lkarasinski/bienbot) and click on "Compare" button).
-
-5. Wait for approval. 😇
+-   [@lkarasinski](https://www.github.com/lkarasinski)
+-   [@mattponiat](https://www.github.com/mattponiat)

@@ -11,12 +11,14 @@ export function EventCard(props: EventData) {
     return (
         <StyledEventCard>
             <OptionalLinkWrapper href={props.user.href}>
-                <StyledUserInfo
-                    direction="row"
-                    imageSrc={props.user.imageSrc}
-                    displayName={props.user.displayName}
-                    discordTag={props.user.discordTag}
-                />
+                <StyledUserContainer as={props.user.href ? "a" : "div"}>
+                    <StyledUserInfo
+                        direction="row"
+                        imageSrc={props.user.imageSrc}
+                        displayName={props.user.displayName}
+                        discordTag={props.user.discordTag}
+                    />
+                </StyledUserContainer>
             </OptionalLinkWrapper>
             <StyledEventInfo>
                 {props.event.description}{" "}
@@ -38,13 +40,15 @@ const StyledEventCard = styled.div`
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-
     border-radius: 8px;
     padding: 14px;
-
     background-color: ${({ theme }) => theme.colors.primary[100]};
     color: ${({ theme }) => theme.colors.primary[500]};
     font-family: ${({ theme }) => theme.font.family};
+`;
+
+const StyledUserContainer = styled.a`
+    text-decoration: unset;
 `;
 
 const StyledUserInfo = styled(UserInfo)`

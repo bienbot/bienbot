@@ -37,10 +37,9 @@ export function MessageCard(props: MessageData) {
             <StyledMessage>{props.content.text}</StyledMessage>
             {props.content.attachments.length === 1 &&
                 props.content.attachments.map((attachment) => {
+                    const aspectRatio =
+                        (attachment.width ?? 1) / (attachment.height ?? 1);
                     if (attachment.contentType.startsWith("image")) {
-                        const aspectRatio =
-                            (attachment.width ?? 1) / (attachment?.height ?? 1);
-
                         return (
                             <ImageContainer
                                 orientation={
@@ -59,6 +58,23 @@ export function MessageCard(props: MessageData) {
                                 ></Image>
                             </ImageContainer>
                         );
+                    }
+
+                    if (attachment.contentType.startsWith("video")) {
+                        return (
+                            <VideoContainer
+                                orientation={
+                                    aspectRatio > 1 ? "horizontal" : "vertical"
+                                }
+                            >
+                                <video controls>
+                                    <source
+                                        src={attachment.url}
+                                        type={attachment.contentType}
+                                    />
+                                </video>
+                            </VideoContainer>
+                        );
                     } else {
                         return null;
                     }
@@ -74,7 +90,7 @@ const ImageContainer = styled.div<{ orientation: "vertical" | "horizontal" }>`
         if (orientation === "vertical") {
             return `max-width: 150px;`;
         } else {
-            return `max-height: 300px;`;
+            return `max-height: fit-content; max-width: 500px;`;
         }
     }}
     margin-left: 8px;
@@ -83,6 +99,24 @@ const ImageContainer = styled.div<{ orientation: "vertical" | "horizontal" }>`
 
     img {
         border-radius: 4px;
+    }
+`;
+
+const VideoContainer = styled.div<{ orientation: "vertical" | "horizontal" }>`
+    grid-column: 2/3;
+    margin-left: 8px;
+    margin-top: 8px;
+    position: relative;
+
+    video {
+        border-radius: 4px;
+        ${({ orientation }) => {
+            if (orientation === "vertical") {
+                return `width: 200px;`;
+            } else {
+                return `width: 500px;`;
+            }
+        }}
     }
 `;
 

@@ -1,10 +1,12 @@
 import React from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import SearchBar from "../SearchBar";
 import { useWindowSize } from "usehooks-ts";
 
 export interface TopBarProps {
     serverName: string;
+    serverId: string;
 }
 
 export function TopBar(props: TopBarProps) {
@@ -18,9 +20,11 @@ export function TopBar(props: TopBarProps) {
             : props.serverName;
     return (
         <StyledTopBar>
-            <StyledTopBarHeader>
-                {width >= 768 ? name : props.serverName}
-            </StyledTopBarHeader>
+            <Link href={`/guilds/${props.serverId}`} passHref>
+                <StyledTopBarHeader>
+                    {width >= 768 ? name : props.serverName}
+                </StyledTopBarHeader>
+            </Link>
             <SearchBar
                 value={searchValue}
                 onChange={setSearchValue}
@@ -45,13 +49,14 @@ const StyledTopBar = styled.div`
     justify-content: space-between;
 `;
 
-const StyledTopBarHeader = styled.h1`
+const StyledTopBarHeader = styled.a`
     font-size: ${({ theme }) => theme.font.size.xlarge};
     line-height: 40px;
     margin: auto 0;
     color: ${({ theme }) => theme.colors.primary[700]};
     font-weight: bold;
     font-family: ${({ theme }) => theme.font.family};
+    text-decoration: none;
 `;
 
 export default TopBar;

@@ -2,6 +2,7 @@ import { GuildMember, Interaction, Message, MessageEmbed } from "discord.js";
 import BaseCommand from "../../../utils/structures/BaseCommand";
 import DiscordClient from "../../../client/client";
 import { QueryType } from "discord-player";
+import { ApplicationCommandOptionType } from "discord-api-types";
 
 class PlayCommand extends BaseCommand {
     constructor() {
@@ -13,7 +14,7 @@ class PlayCommand extends BaseCommand {
             [
                 {
                     name: "query",
-                    type: "string",
+                    type: ApplicationCommandOptionType["String"],
                     description: "The query to search for",
                     required: true,
                 },

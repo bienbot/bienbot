@@ -1,12 +1,66 @@
-import { GuildMember, Interaction, Message, MessageEmbed } from "discord.js";
+import { ApplicationCommandOptionType } from "discord-api-types";
+import {
+    Guild,
+    GuildMember,
+    Interaction,
+    Message,
+    MessageEmbed,
+} from "discord.js";
 import DiscordClient from "../../client/client";
 import countMessages from "../../utils/function/countMessages";
 import countVoiceChannelHours from "../../utils/function/countVoiceChannelHours";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
+const createEmbed = async ({
+    member,
+    author,
+    guildId,
+}: {
+    member: GuildMember;
+    author: GuildMember;
+    guildId: string;
+}) => {
+    const embed = new MessageEmbed();
+    embed.setColor("BLUE");
+    embed.setTitle(`${member.nickname || member.user.username}`);
+    embed.addField(
+        "Hours in VC",
+        `${(await countVoiceChannelHours(member.id, guildId)) ?? "0"}`
+    );
+    embed.addField(
+        "Messages sent",
+        `${(await countMessages(member.id, guildId)) ?? "0"}`
+    );
+    embed.addField(
+        "Account created",
+        `${new Intl.DateTimeFormat("en-GB").format(
+            new Date(member.user.createdAt)
+        )}`
+    );
+    embed.setThumbnail(member.displayAvatarURL());
+    embed.setFooter({
+        text: "Requested by " + author?.nickname,
+        iconURL: author.displayAvatarURL(),
+    });
+    return embed;
+};
+
 class displayVoiceHourStats extends BaseCommand {
     constructor() {
-        super("stats", "Display stats about the user", "stats", [], []);
+        super(
+            "stats",
+            "Display stats about the user",
+            "stats",
+            [],
+            [
+                {
+                    name: "user",
+                    type: ApplicationCommandOptionType["User"],
+                    description: "The user to search for",
+                    required: false,
+                },
+            ]
+        );
     }
 
     async run(client: DiscordClient, message: Message, args: Array<string>) {
@@ -41,7 +95,7 @@ class displayVoiceHourStats extends BaseCommand {
         embed.setTitle(`Stats: ${Member.nickname}`);
         embed.addField(
             "Hours in VC",
-            `${await countVoiceChannelHours(userId, message.guildId ?? "")}`
+            `${await countVoiceChannelHours(userId, message.guildId ?? "0")}`
         );
         embed.addField(
             "Messages sent",
@@ -66,6 +120,27 @@ class displayVoiceHourStats extends BaseCommand {
     async execute(interaction: Interaction) {
         if (!interaction.isCommand()) return;
         if (interaction.member instanceof GuildMember) {
+            const client = interaction.client as DiscordClient;
+            const author = interaction.member;
+            const member = interaction.options.getUser("user") ?? author;
+
+            if (!interaction.guildId) return;
+            const Guild = client.guilds.cache.get(interaction.guildId);
+
+            if (!member?.id) return;
+
+            const Member = Guild?.members.cache.get(member.id);
+            const Author = Guild?.members.cache.get(author.id);
+
+            if (!Member) return;
+            if (!Author) return;
+
+            const embed = await createEmbed({
+                member: Member,
+                author: Author,
+                guildId: interaction.guildId,
+            });
+            interaction.reply({ embeds: [embed] });
         }
     }
 }

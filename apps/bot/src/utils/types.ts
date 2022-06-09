@@ -1,6 +1,8 @@
+import { ApplicationCommandOptionType } from "discord-api-types";
+
 export interface Option {
     name: string;
     description: string;
-    type: "string" | "number";
+    type: ApplicationCommandOptionType;
     required: boolean;
 }

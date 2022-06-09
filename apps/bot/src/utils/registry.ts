@@ -8,6 +8,7 @@ import BaseCommand from "./structures/BaseCommand";
 import BaseEvent from "./structures/BaseEvent";
 import config from "../config";
 import { Option } from "./types";
+import { ApplicationCommandOptionType } from "discord-api-types";
 
 const slashCommands: SlashCommandBuilder[] = [];
 
@@ -32,8 +33,16 @@ export async function registerCommands(client: DiscordClient, dir = "") {
                     .setDescription(cmd.description);
                 cmd.options.forEach((option: Option) => {
                     switch (option.type) {
-                        case "string":
+                        case ApplicationCommandOptionType["String"]:
                             slash.addStringOption((o) =>
+                                o
+                                    .setName(option.name)
+                                    .setDescription(option.description)
+                                    .setRequired(option.required)
+                            );
+                            break;
+                        case ApplicationCommandOptionType["User"]:
+                            slash.addUserOption((o) =>
                                 o
                                     .setName(option.name)
                                     .setDescription(option.description)
@@ -54,11 +63,16 @@ export async function registerCommands(client: DiscordClient, dir = "") {
 
     try {
         // await rest.put(
-        //     Routes.applicationGuildCommands(config.clientId, config.guildId),
+        //     Routes.applicationGuildCommands(
+        //         "834802559285460999",
+        //         "386659530999726090"
+        //     ),
         //     {
         //         body: slashCommands,
         //     }
         // );
+        // console.log("Registered commands");
+        // console.log(slashCommands);
     } catch (err) {
         console.error(err);
     }

@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Interaction, Message } from "discord.js";
 import DiscordClient from "../../client/client";
 import { Option } from "../types";
 
@@ -30,7 +30,7 @@ abstract class BaseCommand {
         message: Message,
         args: Array<string> | null
     ): Promise<void>;
-    abstract execute?(interaction: any): Promise<void>;
+    abstract execute?(interaction: Interaction): Promise<void>;
 }
 
 export default BaseCommand;

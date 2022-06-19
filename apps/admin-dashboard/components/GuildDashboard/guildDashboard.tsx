@@ -15,7 +15,12 @@ import {
 } from "@bienbot/ui";
 import * as React from "react";
 import { LeaderboardPanel } from "../LeaderboardPanel";
-import { StyledWrapper } from "./guildDashboard.style";
+import {
+    StyledUsersDataWrapper,
+    StyledUsersWrapper,
+    StyledWrapper,
+    StyledEventsWrapper,
+} from "./guildDashboard.style";
 
 type Props = {
     guildData: GuildData;
@@ -25,13 +30,14 @@ type Props = {
 const GuildDashboard = ({ guildData, statistics }: Props) => {
     return (
         <StyledWrapper>
-            <div style={{ minWidth: 0 }}>
-                <StatisticsPanel
-                    heading="Server statistics"
-                    href="/"
-                    statistics={statistics}
-                />
-
+            <StyledUsersWrapper>
+                <StyledUsersDataWrapper>
+                    <StatisticsPanel
+                        heading="Server statistics"
+                        href="/"
+                        statistics={statistics}
+                    />
+                </StyledUsersDataWrapper>
                 <Chart
                     heading="Last 14 days"
                     href="/"
@@ -51,15 +57,9 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                         dayValues: getDays(14),
                     }}
                 />
-
                 <LeaderboardPanel guildData={guildData} />
-            </div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-            >
+            </StyledUsersWrapper>
+            <StyledEventsWrapper>
                 <CardsPanel heading="Recent events" href="">
                     {shapeEventData(guildData)
                         .slice(0, 5)
@@ -92,7 +92,7 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                             );
                         })}
                 </CardsPanel>
-            </div>
+            </StyledEventsWrapper>
         </StyledWrapper>
     );
 };

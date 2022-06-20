@@ -1,3 +1,4 @@
+import { MessageData } from "@bienbot/types";
 import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
 
@@ -15,35 +16,46 @@ export const updateMessage = async (
     const guildId = oldMessage?.guild?.id;
     if (!guildId) return;
 
-    const messages = await database.collection(guildId).doc("messages").get();
-    let messagesData = messages.data();
-    if (!messagesData) return;
+    // Find the message in the database
+    const messageChannelsRefs = await database
+        .collection(guildId)
+        .doc("messages")
+        .listCollections();
 
-    for (const channel in messagesData) {
-        const channelMessages = messagesData[channel];
-        if (!channelMessages) continue;
-        for (const message of channelMessages) {
-            if (message.id === oldMessage.id) {
-                message.content = {
-                    text: newMessage.content,
-                    attachments: parseAttachments(newMessage),
-                };
-                const history = {
-                    content: {
-                        text: oldMessage.content,
-                        attachments: parseAttachments(oldMessage),
-                    },
-                };
+    let message: MessageData | undefined;
 
-                message.history = [...(message.history ?? []), history];
-
-                channelMessages[oldMessage.id] = message;
-
-                await database
-                    .collection(guildId)
-                    .doc("messages")
-                    .set({ ...messagesData, [channel]: channelMessages });
+    for await (const channelRef of messageChannelsRefs) {
+        const channel = await channelRef.get();
+        channel.docs.forEach((doc: any) => {
+            const messageData = doc.data();
+            if (messageData.id === oldMessage.id) {
+                message = messageData;
             }
-        }
+        });
     }
+    if (!message) {
+        console.log("Edited message not found in database");
+        return;
+    }
+
+    // Change message content and history
+    message.content = {
+        text: newMessage.content,
+        attachments: parseAttachments(newMessage),
+    };
+    message.history = [
+        ...(message.history ?? []),
+        {
+            content: oldMessage.content,
+            attachments: parseAttachments(oldMessage),
+        },
+    ];
+
+    // Update the message in the database
+    await database
+        .collection(guildId)
+        .doc("messages")
+        .collection(newMessage.channelId)
+        .doc(message.id)
+        .set(message);
 };

@@ -1,4 +1,4 @@
-import { Message, TextChannel } from "discord.js";
+import { DMChannel, Message, TextChannel } from "discord.js";
 import DiscordClient from "../../client/client";
 
 const admin = require("firebase-admin");
@@ -41,10 +41,17 @@ const addMessage = async (message: Message, client: DiscordClient) => {
             id: message.id,
         };
         channelMessages.push(messageObject);
-        await database
-            .collection(message.guildId)
-            .doc("messages")
-            .set({ ...messagesData, [message.channelId]: channelMessages });
+        try {
+            await database
+                .collection(message.guildId)
+                .doc("messages")
+                .collection(message.channelId)
+                .doc(message.id)
+                .set(messageObject);
+        } catch (err) {
+            console.error(err);
+            throw new Error("Error adding message");
+        }
     }
 };
 

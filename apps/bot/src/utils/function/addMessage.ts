@@ -5,14 +5,6 @@ const admin = require("firebase-admin");
 const database = admin.firestore();
 
 const addMessage = async (message: Message, client: DiscordClient) => {
-    const messages = await database
-        .collection(message.guildId)
-        .doc("messages")
-        .get();
-    let messagesData = messages.data() ?? {};
-    messagesData[message.channelId] = messagesData[message.channelId] ?? [];
-    const channelMessages = messagesData[message.channelId];
-
     const guild = client.guilds.cache.get(message?.guild?.id ?? "");
     const member = await guild?.members.fetch(message.author);
 
@@ -40,7 +32,6 @@ const addMessage = async (message: Message, client: DiscordClient) => {
             timestamp: message.createdAt,
             id: message.id,
         };
-        channelMessages.push(messageObject);
         try {
             await database
                 .collection(message.guildId)

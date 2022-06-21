@@ -11,7 +11,6 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
     const router = useRouter();
-    console.log(router.pathname);
 
     return (
         <>

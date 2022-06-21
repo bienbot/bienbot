@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-    fetchGuildData,
-    getGuildMessages,
-    getServerStatistics,
-} from "@bienbot/functions";
+import { fetchGuildData, getServerStatistics } from "@bienbot/functions";
 import { GuildData } from "@bienbot/types";
 import { GuildDashboard } from "apps/admin-dashboard/components/GuildDashboard";
 import firebaseApp from "apps/admin-dashboard/services/firebase";
@@ -17,7 +13,6 @@ const GuildDashboardPage = ({ guildData }: Props) => {
     const statistics = React.useMemo(() => {
         return getServerStatistics(guildData);
     }, []);
-    getGuildMessages(guildData);
 
     return (
         <>

@@ -14,7 +14,6 @@ export interface UserLeaderboardCardProps {
 }
 
 export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
-    console.log(props.href);
     return (
         <StyledUserLeaderboardCard>
             <StyledPosition>#{props.position}</StyledPosition>

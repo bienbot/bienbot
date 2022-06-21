@@ -39,6 +39,17 @@ const addMessage = async (message: Message, client: DiscordClient) => {
                 .collection(message.channelId)
                 .doc(message.id)
                 .set(messageObject);
+
+            const collections = (
+                await database
+                    .collection(message.guildId)
+                    .doc("messages")
+                    .listCollections()
+            ).map((collection: any) => collection.id);
+
+            await database.collection(message.guildId).doc("messages").set({
+                textChannels: collections,
+            });
         } catch (err) {
             console.error(err);
             throw new Error("Error adding message");

@@ -10,14 +10,13 @@ const fetchGuildData = async (guildId: string, firebaseApp: FirebaseApp) => {
         result[doc.id] = doc.data();
     });
 
-    const guildData: GuildData = JSON.parse(JSON.stringify(result));
+    const guildData = JSON.parse(JSON.stringify(result));
 
     // Get messages from subcollections
-
     let messagesData: Record<string, MessageData[]> = {};
-    const messagesChannelsList = Object.keys(guildData.messages);
+    const textChannelsList = guildData.messages.textChannels;
 
-    for await (const channelId of messagesChannelsList) {
+    for await (const channelId of textChannelsList) {
         const channelRef = await getDocs(
             collection(database, guildId, "messages", channelId)
         );
@@ -33,10 +32,9 @@ const fetchGuildData = async (guildId: string, firebaseApp: FirebaseApp) => {
     }
 
     // Merge messagesData into guildData
-
     guildData.messages = JSON.parse(JSON.stringify(messagesData));
 
-    return guildData;
+    return guildData as GuildData;
 };
 
 export { fetchGuildData };

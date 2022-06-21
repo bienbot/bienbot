@@ -14,6 +14,7 @@
         "@discordjs/rest": "^0.3.0",
         "@discordjs/voice": "^0.8.0",
         "@nrwl/next": "13.7.2",
+        "@reduxjs/toolkit": "^1.8.2",
         "@testing-library/jest-dom": "^5.16.2",
         "chart.js": "^3.7.1",
         "core-js": "^3.6.5",

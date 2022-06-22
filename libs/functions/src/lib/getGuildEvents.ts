@@ -1,10 +1,8 @@
 import { EventData, GuildData } from "@bienbot/types";
 
 export const getGuildEvents = (guildData: GuildData): EventData[] => {
-    const eventData: EventData[] = [];
-    Object.values(guildData.events).forEach((events) => {
-        eventData.push(...events);
-    });
+    const eventData: EventData[] = Object.values(guildData.data.events);
+
     return eventData.sort(
         (a, b) =>
             b.event.timestamp.seconds +

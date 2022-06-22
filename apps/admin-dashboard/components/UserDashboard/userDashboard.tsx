@@ -62,7 +62,7 @@ const UserDashboard = ({ guildData }: Props) => {
                                 {
                                     label: "Hours spent in VC",
                                     text: calculateTotalVoiceTime(
-                                        guildData.channelStats,
+                                        guildData.data.voicePresence,
                                         userId
                                     ).toString(),
                                 },
@@ -81,12 +81,12 @@ const UserDashboard = ({ guildData }: Props) => {
                     href="/"
                     chartData={{
                         hourValues: getHourCountForEveryDay(
-                            guildData.channelStats,
+                            guildData.data.voicePresence,
                             14,
                             userId
                         ),
                         messageValues: getMessageCountForEveryDay(
-                            guildData.messages,
+                            guildData.data.messages,
                             14,
                             userId
                         ),

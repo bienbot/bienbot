@@ -1,21 +1,18 @@
-import { EventData, GuildData } from "@bienbot/types";
+import { GuildData } from "@bienbot/types";
 
 const getUserEvents = (guildData: GuildData, userId: string) => {
-    let userEvents: EventData[] = [];
+    const userEvents = Object.values(guildData.data.events).filter(
+        (event) => event.user.id === userId
+    );
 
-    Object.values(guildData.events).forEach((eventsArray) => {
-        userEvents.push(
-            ...eventsArray.filter((event) => event.user.id === userId)
-        );
-    });
-
-    userEvents.sort(
-        (a, b) =>
+    userEvents.sort((a, b) => {
+        return (
             b.event.timestamp.seconds +
             b.event.timestamp.nanoseconds / 1000000000 -
             (a.event.timestamp.seconds +
                 a.event.timestamp.nanoseconds / 1000000000)
-    );
+        );
+    });
     return userEvents;
 };
 

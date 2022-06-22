@@ -1,24 +1,26 @@
-import { ChannelVoiceData, UserData } from "@bienbot/types";
+import { VoicePresenceData, UserData } from "@bienbot/types";
 
 const getMostActiveVoiceUsers = (
-    channelStats: ChannelVoiceData,
+    channelStats: VoicePresenceData,
     users: Record<string, UserData>,
     limit: number
 ) => {
     // Count every hour spent by each user
     const userHoursCount = new Map<string, number>();
-    Object.keys(channelStats).forEach((channelId) => {
-        Object.keys(channelStats[channelId]).forEach((userId) => {
-            const hoursArray = channelStats[channelId][userId];
-            hoursArray.forEach(() => {
-                if (userHoursCount.has(userId)) {
-                    userHoursCount.set(userId, userHoursCount.get(userId) + 1);
-                } else {
-                    userHoursCount.set(userId, 1);
-                }
-            });
-        });
-    });
+
+    for (const [_presenceId, presence] of Object.entries(channelStats)) {
+        const user = users[presence.userId];
+        if (user) {
+            if (userHoursCount.has(presence.userId)) {
+                userHoursCount.set(
+                    presence.userId,
+                    userHoursCount.get(presence.userId) + 1
+                );
+            } else {
+                userHoursCount.set(presence.userId, 1);
+            }
+        }
+    }
 
     const result = [];
 

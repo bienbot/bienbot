@@ -22,13 +22,13 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                         {
                             text: "Dashboard",
                             icon: <StyledIcon>D</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}`,
+                            href: `/guilds/${guildData.serverInfo.id}`,
                             isActive: router.pathname === "/guilds/[guildId]",
                         },
                         {
                             text: "Messages",
                             icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}/messages`,
+                            href: `/guilds/${guildData.serverInfo.id}/messages`,
                             isActive: router.pathname.includes(
                                 "/guilds/[guildId]/messages"
                             ),
@@ -36,33 +36,33 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                         {
                             text: "Events",
                             icon: <StyledIcon>E</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}/events`,
+                            href: `/guilds/${guildData.serverInfo.id}/events`,
                             isActive: false,
                         },
                         {
                             text: "Channels",
                             icon: <StyledIcon>C</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}/channels`,
+                            href: `/guilds/${guildData.serverInfo.id}/channels`,
                             isActive: false,
                         },
                         {
                             text: "Leaderboards",
                             icon: <StyledIcon>L</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}/leaderboards`,
+                            href: `/guilds/${guildData.serverInfo.id}/leaderboards`,
                             isActive: false,
                         },
                         {
                             text: "Members",
                             icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.data.id}/members`,
+                            href: `/guilds/${guildData.serverInfo.id}/members`,
                             isActive: false,
                         },
                     ]}
                 />
                 <div style={{ marginLeft: 80, width: "100%" }}>
                     <TopBar
-                        serverId={guildData.data.id}
-                        serverName={guildData.data.name}
+                        serverId={guildData.serverInfo.id}
+                        serverName={guildData.serverInfo.name}
                     />
                     <div
                         style={{

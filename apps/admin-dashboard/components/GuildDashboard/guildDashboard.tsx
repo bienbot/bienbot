@@ -4,6 +4,7 @@ import {
     getDays,
     shapeEventData,
     getGuildMessages,
+    getServerStatistics,
 } from "@bienbot/functions";
 import { GuildData } from "@bienbot/types";
 import {
@@ -24,10 +25,11 @@ import {
 
 type Props = {
     guildData: GuildData;
-    statistics: any;
 };
 
-const GuildDashboard = ({ guildData, statistics }: Props) => {
+const GuildDashboard = ({ guildData }: Props) => {
+    const statistics = getServerStatistics(guildData);
+
     return (
         <StyledWrapper>
             <StyledUsersWrapper>
@@ -43,11 +45,11 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                     href="/"
                     chartData={{
                         hourValues: getHourCountForEveryDay(
-                            guildData.channelStats,
+                            guildData.data.voicePresence,
                             14
                         ),
                         messageValues: getMessageCountForEveryDay(
-                            guildData.messages,
+                            guildData.data.messages,
                             14
                         ),
                         labels: {
@@ -64,8 +66,8 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                     {shapeEventData(guildData)
                         .slice(0, 5)
                         .map((eventData) => {
-                            eventData.user.href = `/guilds/${guildData.data.id}/users/${eventData.user.id}`;
-                            eventData.event.targetHref = `/guilds/${guildData.data.id}/users/${eventData.event.targetId}`;
+                            eventData.user.href = `/guilds/${guildData.serverInfo.id}/users/${eventData.user.id}`;
+                            eventData.event.targetHref = `/guilds/${guildData.serverInfo.id}/users/${eventData.event.targetId}`;
                             return (
                                 <EventCard
                                     {...eventData}
@@ -81,8 +83,8 @@ const GuildDashboard = ({ guildData, statistics }: Props) => {
                     {getGuildMessages(guildData)
                         .slice(0, 5)
                         .map((messageData) => {
-                            messageData.author.href = `/guilds/${guildData.data.id}/users/${messageData.author.id}`;
-                            messageData.channel.href = `/guilds/${guildData.data.id}/channels/${messageData.channel.id}`;
+                            messageData.author.href = `/guilds/${guildData.serverInfo.id}/users/${messageData.author.id}`;
+                            messageData.channel.href = `/guilds/${guildData.serverInfo.id}/channels/${messageData.channel.id}`;
 
                             return (
                                 <MessageCard

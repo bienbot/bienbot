@@ -3,7 +3,9 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import * as React from "react";
+import { Provider } from "react-redux";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { guildDataStore } from "../features/guildData/guildDataStore";
 
 const GlobalStyles = createGlobalStyle`
 *{
@@ -25,15 +27,17 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
 
     return (
         <>
-            <GlobalStyles />
-            <Head>
-                <title>Welcome to admin-dashboard!</title>
-            </Head>
-            <ThemeProvider theme={dashboardTheme}>
-                <main className="app">
-                    {getLayout(<Component {...pageProps} />)}
-                </main>
-            </ThemeProvider>
+            <Provider store={guildDataStore}>
+                <GlobalStyles />
+                <Head>
+                    <title>Welcome to admin-dashboard!</title>
+                </Head>
+                <ThemeProvider theme={dashboardTheme}>
+                    <main className="app">
+                        {getLayout(<Component {...pageProps} />)}
+                    </main>
+                </ThemeProvider>
+            </Provider>
         </>
     );
 }

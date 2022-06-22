@@ -1,15 +1,17 @@
 import * as React from "react";
-import { fetchGuildData, getServerStatistics } from "@bienbot/functions";
-import { GuildData } from "@bienbot/types";
 import { GuildDashboard } from "apps/admin-dashboard/components/GuildDashboard";
-import firebaseApp from "apps/admin-dashboard/services/firebase";
 import DashboardLayout from "apps/admin-dashboard/components/DashboardLayout/dashboardLayout";
+import { useSelector } from "react-redux";
+import { selectGuild } from "apps/admin-dashboard/features/guildData/guildDataSlice";
+import useFirebaseListener from "apps/admin-dashboard/features/guildData/useFirebaseListener";
+import { useRouter } from "next/router";
 
-type Props = {
-    guildData: GuildData;
-};
+const GuildDashboardPage = () => {
+    const guildData = useSelector(selectGuild);
+    const router = useRouter();
+    const guildId = router.query.guildId as string;
+    useFirebaseListener({ id: guildId });
 
-const GuildDashboardPage = ({ guildData }: Props) => {
     return (
         <>
             <GuildDashboard guildData={guildData} />
@@ -17,20 +19,10 @@ const GuildDashboardPage = ({ guildData }: Props) => {
     );
 };
 
-export async function getServerSideProps({ params }) {
-    const guildData = await fetchGuildData(params.guildId, firebaseApp);
-
-    // Pass data to the page via props
-    return { props: { guildData } };
-}
-
 GuildDashboardPage.getLayout = function getLayout(page: React.ReactElement) {
-    const { props } = page;
     return (
         <>
-            <DashboardLayout guildData={props.guildData}>
-                {page}
-            </DashboardLayout>
+            <DashboardLayout>{page}</DashboardLayout>
         </>
     );
 };

@@ -1,16 +1,18 @@
 import { GuildData } from "@bienbot/types";
 import { Sidebar, TopBar } from "@bienbot/ui";
+import { selectGuild } from "apps/admin-dashboard/features/guildData/guildDataSlice";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 type DashboardLayoutProps = {
     children: React.ReactNode;
-    guildData: GuildData;
 };
 
-const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const router = useRouter();
+    const guildData = useSelector(selectGuild);
 
     return (
         <>

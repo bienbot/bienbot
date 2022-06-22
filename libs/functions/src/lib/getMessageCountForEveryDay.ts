@@ -6,28 +6,22 @@ import { getDays } from "./getDays";
  * Get the number of messages sent in all channels for every day.
  */
 const getMessageCountForEveryDay = (
-    messagesData: Record<string, MessageData[]>,
+    messagesData: Record<string, MessageData>,
     numberOfDays: number,
     userId?: string
 ) => {
     const messagesCount = new Array(numberOfDays).fill(0);
     const daysArray = getDays(numberOfDays).map((date) => date.toDateString());
 
-    Object.keys(messagesData).forEach((channelId) => {
-        const messagesArray = messagesData[channelId];
-        messagesArray.forEach((message) => {
-            if (userId && userId != message.author.id) {
-                return;
-            }
-            const messageDate = convertToDate(message.timestamp);
-            if (daysArray.includes(messageDate.toDateString())) {
-                const index = daysArray.indexOf(messageDate.toDateString());
-                messagesCount[index] = messagesCount[index]
-                    ? messagesCount[index] + 1
-                    : 1;
-            }
-        });
-    });
+    for (const [key, value] of Object.entries(messagesData)) {
+        if (userId && userId !== key) continue;
+        const day = convertToDate(value.timestamp).toDateString();
+        const index = daysArray.indexOf(day);
+        if (index !== -1) {
+            messagesCount[index]++;
+        }
+    }
+
     return messagesCount;
 };
 

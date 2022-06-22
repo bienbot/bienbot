@@ -13,26 +13,38 @@ const fetchGuildData = async (guildId: string, firebaseApp: FirebaseApp) => {
     const guildData = JSON.parse(JSON.stringify(result));
 
     // Get messages from subcollections
-    let messagesData: Record<string, MessageData[]> = {};
-    const textChannelsList = guildData.messages.textChannels;
+    let messagesData = {};
+    const messagesRef = await getDocs(
+        collection(database, guildId, "data", "messages")
+    );
+    messagesRef.forEach((doc) => {
+        messagesData[doc.id] = doc.data();
+    });
 
-    for await (const channelId of textChannelsList) {
-        const channelRef = await getDocs(
-            collection(database, guildId, "messages", channelId)
-        );
+    // Get voicePresence from subcollection
+    let voicePresenceData: Record<string, any> = {};
+    const voicePresenceRef = await getDocs(
+        collection(database, guildId, "data", "voicePresence")
+    );
+    voicePresenceRef.forEach((doc) => {
+        const data = doc.data();
+        voicePresenceData[doc.id] = data;
+    });
 
-        channelRef.forEach((message) => {
-            const messageData: MessageData = message.data() as MessageData;
-            if (!messagesData[channelId]) {
-                messagesData[channelId] = [messageData];
-            } else {
-                messagesData[channelId].push(messageData);
-            }
-        });
-    }
+    // Get events from subcollection
+    let eventsData: Record<string, any> = {};
+    const eventsRef = await getDocs(
+        collection(database, guildId, "data", "events")
+    );
+    eventsRef.forEach((doc) => {
+        eventsData[doc.id] = doc.data();
+    });
 
-    // Merge messagesData into guildData
-    guildData.messages = JSON.parse(JSON.stringify(messagesData));
+    guildData.data.messages = JSON.parse(JSON.stringify(messagesData));
+    guildData.data.voicePresence = JSON.parse(
+        JSON.stringify(voicePresenceData)
+    );
+    guildData.data.events = JSON.parse(JSON.stringify(eventsData));
 
     return guildData as GuildData;
 };

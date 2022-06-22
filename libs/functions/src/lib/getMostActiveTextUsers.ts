@@ -4,26 +4,26 @@ import { MessageData, UserData } from "@bienbot/types";
  * Returns the most active users in all text channels.
  */
 const getMostActiveTextUsers = (
-    messagesData: Record<string, MessageData[]>,
+    messagesData: Record<string, MessageData>,
     users: Record<string, UserData>,
     limit: number
 ) => {
-    // Count every message sent by each user
     const usersMessagesCount = new Map<string, number>();
-    Object.keys(messagesData).forEach((channelId) => {
-        const messagesArray = messagesData[channelId];
-        messagesArray.forEach((message) => {
-            const userId = message.author.id;
-            if (usersMessagesCount.has(userId)) {
+
+    // Count every message sent by each user
+    for (const message of Object.values(messagesData)) {
+        const user = users[message.author.id];
+        if (user) {
+            if (usersMessagesCount.has(message.author.id)) {
                 usersMessagesCount.set(
-                    userId,
-                    usersMessagesCount.get(userId) + 1
+                    message.author.id,
+                    usersMessagesCount.get(message.author.id) + 1
                 );
             } else {
-                usersMessagesCount.set(userId, 1);
+                usersMessagesCount.set(message.author.id, 1);
             }
-        });
-    });
+        }
+    }
 
     const result = [];
 

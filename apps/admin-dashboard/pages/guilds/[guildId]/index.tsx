@@ -10,13 +10,9 @@ type Props = {
 };
 
 const GuildDashboardPage = ({ guildData }: Props) => {
-    const statistics = React.useMemo(() => {
-        return getServerStatistics(guildData);
-    }, []);
-
     return (
         <>
-            <GuildDashboard guildData={guildData} statistics={statistics} />
+            <GuildDashboard guildData={guildData} />
         </>
     );
 };

@@ -1,14 +1,8 @@
 import { GuildData, MessageData } from "@bienbot/types";
 
 const getGuildMessages = (guildData: GuildData): MessageData[] => {
-    let guildMessages = [];
+    const guildMessages = Object.values(guildData.data.messages);
 
-    Object.keys(guildData.messages).forEach((channel) => {
-        const channelMessages = guildData.messages[channel];
-        guildMessages.push(channelMessages);
-    });
-
-    guildMessages = guildMessages.flat();
     guildMessages.sort((a, b) => {
         return (
             b.timestamp.seconds +

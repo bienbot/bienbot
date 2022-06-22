@@ -58,9 +58,10 @@ export type Timestamp = {
     nanoseconds: number;
 };
 
-export type VoiceChannelStats = Record<string, Timestamp[]>;
-
-export type ChannelVoiceData = Record<string, VoiceChannelStats>;
+export type VoicePresenceData = Record<
+    string,
+    { channelId: string; timestamp: Timestamp; userId: string }
+>;
 
 export type EventData = {
     user: {
@@ -81,16 +82,19 @@ export type EventData = {
 };
 
 export interface GuildData {
-    data: {
+    serverInfo: {
         allUsers: string[];
         onlineUsers: string[];
         name: string;
         id: string;
     };
-    messages: Record<string, MessageData[]>;
+    data: {
+        messages: Record<string, MessageData>;
+        voicePresence: VoicePresenceData;
+        events: EventData[];
+    };
     users: Record<string, UserData>;
-    channelStats: ChannelVoiceData;
-    events: {
-        messageDelete: EventData[];
+    config: {
+        reportChannelId: string;
     };
 }

@@ -1,16 +1,10 @@
 import { GuildData } from "@bienbot/types";
 
 const getUserMessages = (guildData: GuildData, userId: string) => {
-    let userMessages = [];
+    const userMessages = Object.values(guildData.data.messages).filter(
+        (message) => message.author.id === userId
+    );
 
-    Object.keys(guildData.messages).forEach((channel) => {
-        const channelMessages = guildData.messages[channel];
-        userMessages.push(
-            channelMessages.filter((message) => message.author.id === userId)
-        );
-    });
-
-    userMessages = userMessages.flat();
     userMessages.sort((a, b) => {
         return (
             b.timestamp.seconds +

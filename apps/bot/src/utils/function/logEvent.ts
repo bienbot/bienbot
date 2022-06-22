@@ -62,7 +62,11 @@ const logEvent = async ({
             [eventType]: eventArray,
         };
 
-        await database.collection(guildId).doc("events").set(newEventsData);
+        await database
+            .collection(guildId)
+            .doc("data")
+            .collection("events")
+            .add(eventData);
     }
 };
 

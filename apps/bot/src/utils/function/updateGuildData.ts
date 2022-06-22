@@ -31,7 +31,10 @@ const updateGuildData = async (client: DiscordClient) => {
                     serverData.onlineUsers.push(member.id);
                 }
             });
-            await database.collection(guild.id).doc("data").update(serverData);
+            await database
+                .collection(guild.id)
+                .doc("serverInfo")
+                .set(serverData);
         }
     });
 };

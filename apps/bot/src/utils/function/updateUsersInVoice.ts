@@ -1,5 +1,10 @@
-import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
+import { Timestamp } from "firebase-admin/firestore";
+
+function getServerTimestamp() {
+    const datesMs = new Date().getTime();
+    return new Timestamp(Math.floor(datesMs / 1000), (datesMs % 1000) * 1000);
+}
 
 const updateUsersInVoiceChannels = async (client: DiscordClient) => {
     const fetchedGuilds = await client.guilds.fetch();
@@ -10,38 +15,22 @@ const updateUsersInVoiceChannels = async (client: DiscordClient) => {
     const database = admin.firestore();
 
     Guilds.forEach(async (guild) => {
-        let userInVC = false;
         const guildId = guild.id;
-        const channelStats = await database
-            .collection(guildId)
-            .doc("channelStats")
-            .get();
-        const channelStatsData = channelStats.data();
-        const guildChannels = guild.client.channels.cache;
-        if (!guildChannels) return;
-        guildChannels.forEach((channel) => {
-            if (channel.type !== "GUILD_VOICE") return;
-            if (!channelStatsData) return;
-            channelStatsData[channel.id] = channelStatsData[channel.id] ?? {};
-            channel.members.forEach((member) => {
-                userInVC = true;
-                const currentData =
-                    channelStatsData[channel.id][member.user.id] ?? [];
-                channelStatsData[channel.id][member.user.id] = [
-                    ...currentData,
-                    new Date(),
-                ];
-            });
-        });
-
-        if (userInVC) {
-            try {
-                await database
-                    .collection(guildId)
-                    .doc("channelStats")
-                    .set({ ...channelStatsData });
-            } catch (err) {
-                console.error(err);
+        const guildChannels2 = guild.client.channels.cache;
+        for (const channel of guildChannels2.values()) {
+            if (channel.type === "GUILD_VOICE") {
+                channel.members.forEach((member) => {
+                    if (member.user.bot) return;
+                    database
+                        .collection(guildId)
+                        .doc("data")
+                        .collection("voicePresence")
+                        .add({
+                            userId: member.id,
+                            channelId: channel.id,
+                            timestamp: getServerTimestamp(),
+                        });
+                });
             }
         }
     });

@@ -14,6 +14,7 @@ import {
     MessageCard,
     Chart,
 } from "@bienbot/ui";
+import produce from "immer";
 import * as React from "react";
 import { LeaderboardPanel } from "../LeaderboardPanel";
 import {
@@ -66,14 +67,17 @@ const GuildDashboard = ({ guildData }: Props) => {
                     {shapeEventData(guildData)
                         .slice(0, 5)
                         .map((eventData) => {
-                            eventData.user.href = `/guilds/${guildData.serverInfo.id}/users/${eventData.user.id}`;
-                            eventData.event.targetHref = `/guilds/${guildData.serverInfo.id}/users/${eventData.event.targetId}`;
+                            const newEventData = produce(eventData, (draft) => {
+                                draft.user.href = `/guilds/${guildData.serverInfo.id}/users/${eventData.user.id}`;
+                                draft.event.targetHref = `/guilds/${guildData.serverInfo.id}/users/${eventData.event.targetId}`;
+                            });
+
                             return (
                                 <EventCard
-                                    {...eventData}
+                                    {...newEventData}
                                     key={
-                                        eventData.event.targetId +
-                                        eventData.user.id
+                                        newEventData.event.targetId +
+                                        newEventData.user.id
                                     }
                                 />
                             );
@@ -83,13 +87,18 @@ const GuildDashboard = ({ guildData }: Props) => {
                     {getGuildMessages(guildData)
                         .slice(0, 5)
                         .map((messageData) => {
-                            messageData.author.href = `/guilds/${guildData.serverInfo.id}/users/${messageData.author.id}`;
-                            messageData.channel.href = `/guilds/${guildData.serverInfo.id}/channels/${messageData.channel.id}`;
+                            const newMessageData = produce(
+                                messageData,
+                                (draft) => {
+                                    draft.author.href = `/guilds/${guildData.serverInfo.id}/users/${messageData.author.id}`;
+                                    draft.channel.href = `/guilds/${guildData.serverInfo.id}/channels/${messageData.channel.id}`;
+                                }
+                            );
 
                             return (
                                 <MessageCard
-                                    {...messageData}
-                                    key={messageData.id}
+                                    {...newMessageData}
+                                    key={newMessageData.id}
                                 />
                             );
                         })}

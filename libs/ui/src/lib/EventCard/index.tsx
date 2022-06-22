@@ -6,7 +6,7 @@ import OptionalLinkWrapper from "../OptionalLinkWrapper";
 import UserInfo from "../UserInfo";
 
 export function EventCard(props: EventData) {
-    const date = format(convertToDate(props.event.timestamp), "hh:mm");
+    const date = format(convertToDate(props.event.timestamp), "HH:mm");
 
     return (
         <StyledEventCard>
@@ -64,11 +64,6 @@ const StyledHighlight = styled.span`
     color: ${({ theme }) => theme.colors.primary[400]};
     font-weight: 700;
     text-decoration: none;
-`;
-
-const StyledEventTarget = styled.a`
-    text-decoration: none;
-    cursor: pointer;
 `;
 
 export default EventCard;

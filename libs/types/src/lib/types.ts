@@ -91,7 +91,7 @@ export interface GuildData {
     data: {
         messages: Record<string, MessageData>;
         voicePresence: VoicePresenceData;
-        events: EventData[];
+        events: Record<string, EventData>;
     };
     users: Record<string, UserData>;
     config: {

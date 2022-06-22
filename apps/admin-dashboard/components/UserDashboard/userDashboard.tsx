@@ -8,7 +8,7 @@ import {
     calculateTotalVoiceTime,
     getUserEvents,
 } from "@bienbot/functions";
-import { GuildData } from "@bienbot/types";
+import { GuildData, UserData } from "@bienbot/types";
 import {
     CardsPanel,
     EventCard,
@@ -36,7 +36,17 @@ type Props = {
 const UserDashboard = ({ guildData }: Props) => {
     const router = useRouter();
     const userId = router.query.userId as string;
-    const userData = guildData.users[userId];
+    const userData =
+        guildData.users[userId] ??
+        ({
+            avatar: "",
+            createdAt: 0,
+            username: "",
+            presence: "offline",
+            roles: [],
+            joinedAt: new Date(),
+            boostingSince: null,
+        } as UserData);
     const messages = getUserMessages(guildData, userId);
     const events = getUserEvents(guildData, userId);
     const boostingSince = format(

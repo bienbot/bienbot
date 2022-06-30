@@ -1,7 +1,9 @@
 import BaseEvent from "../../utils/structures/BaseEvent";
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import DiscordClient from "../../client/client";
-import addMessage from "../../utils/function/addMessage";
+import { addChannelToDatabase } from "../../utils/function/database/addChannelToDatabase";
+import { addMemberToDatabase } from "../../utils/function/database/addMemberToDatabase";
+import { addMessageToDatabase } from "../../utils/function/database/addMessageToDatabase";
 
 class MessageEvent extends BaseEvent {
     constructor() {
@@ -9,14 +11,16 @@ class MessageEvent extends BaseEvent {
     }
 
     async run(client: DiscordClient, message: Message) {
-        console.log(
-            `${message.author.bot ? "BOT " : ""}${message.author.username}#${
-                message.author.discriminator
-            }: ${message.content}`
-        );
         if (message.author.bot) return;
 
-        addMessage(message, client);
+        const guild = client.guilds.cache.get(message?.guild?.id ?? "");
+        const member = await guild?.members.fetch(message.author);
+
+        if (member && message.channel instanceof TextChannel) {
+            await addMemberToDatabase({ client, user: message.author, member });
+            await addChannelToDatabase({ client, channel: message.channel });
+            // await addMessageToDatabase({ client, message });
+        }
     }
 }
 

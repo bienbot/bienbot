@@ -1,7 +1,6 @@
 import BaseEvent from "../../utils/structures/BaseEvent";
 import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
-import addMessage from "../../utils/function/addMessage";
 import { updateMessage } from "../../utils/function/updateMessage";
 
 class MessageEvent extends BaseEvent {
@@ -13,7 +12,7 @@ class MessageEvent extends BaseEvent {
         if (oldMessage.author.bot) {
             return;
         }
-        updateMessage(client, oldMessage, newMessage);
+        updateMessage({ client, oldMessage, newMessage });
     }
 }
 

@@ -15,7 +15,7 @@ const addMemberToDatabase = async ({
     member: GuildMember;
 }) => {
     const userObject = {
-        id: Number(user.id),
+        id: user.id,
         bot: user.bot,
         discriminator: user.discriminator,
         displayColor: member.displayHexColor,
@@ -36,7 +36,7 @@ const addMemberToDatabase = async ({
     const { data, error } = await client.database
         .from("members")
         .select()
-        .match({ id: Number(user.id), guild: Number(member.guild.id) });
+        .match({ id: user.id, guild: member.guild.id });
     if (error) console.log(error);
     const { data: membersData } = await client.database
         .from("members")

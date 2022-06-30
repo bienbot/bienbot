@@ -7,7 +7,6 @@ import {
     TextChannel,
 } from "discord.js";
 import DiscordClient from "../../client/client";
-import getGuildConfig from "../../utils/function/getGuildConfig";
 import BaseCommand from "../../utils/structures/BaseCommand";
 
 const createEmbed = ({ message }: { message: string }) => {
@@ -55,19 +54,22 @@ class displayVoiceHourStats extends BaseCommand {
 
             const content = interaction.options.getString("message") ?? "";
 
-            const guildConfig = await getGuildConfig(
-                client,
-                interaction.guildId ?? ""
-            );
+            // Get the channel to send the report to
+            const { data, error } = await client.database
+                .from("guilds")
+                .select()
+                .eq("id", interaction.guildId);
+            if (error) console.log(error);
 
             const reportChannelId =
-                guildConfig?.reportChannelId ?? interaction.channelId;
+                data?.[0].reportChannelId ?? interaction.channelId;
+
             const reportChannel: TextChannel = client.channels.cache.get(
                 reportChannelId
             ) as TextChannel;
 
+            // Send the report
             const embed = createEmbed({ message: content });
-
             await reportChannel.send({ embeds: [embed] });
         }
     }

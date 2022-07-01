@@ -1,7 +1,7 @@
 import BaseEvent from "../../utils/structures/BaseEvent";
 import { Message } from "discord.js";
 import DiscordClient from "../../client/client";
-import { updateMessage } from "../../utils/function/updateMessage";
+import { fetchMessage } from "../../utils/function/database/fetchMessage";
 
 class MessageEvent extends BaseEvent {
     constructor() {
@@ -12,7 +12,23 @@ class MessageEvent extends BaseEvent {
         if (oldMessage.author.bot) {
             return;
         }
-        updateMessage({ client, oldMessage, newMessage });
+        const guildId = oldMessage?.guild?.id;
+        if (!guildId) return;
+
+        const messageData = await fetchMessage({ client, message: oldMessage });
+        if (!messageData) return;
+        messageData.content = newMessage.content;
+        messageData.history = [
+            ...(messageData.history ?? []),
+            oldMessage.content,
+        ];
+
+        // Update the message in the database
+        const { error: updateError } = await client.database
+            .from("messages")
+            .update(messageData)
+            .eq("id", oldMessage.id);
+        if (updateError) console.log(updateError);
     }
 }
 

@@ -1,39 +1,64 @@
 import DiscordClient from "../../client/client";
-import { Timestamp } from "firebase-admin/firestore";
+import { addMemberToDatabase } from "./database/addMemberToDatabase";
+import { addChannelToDatabase } from "./database/addChannelToDatabase";
+/**
+ * Fetches all users in voice channels and updates the database with voicePresence data.
+ *
+ * @param {DiscordClient} client - The Discord client.
+ * @returns Promise<void>.
+ */
 
-function getServerTimestamp() {
-    const datesMs = new Date().getTime();
-    return new Timestamp(Math.floor(datesMs / 1000), (datesMs % 1000) * 1000);
-}
-
-const updateUsersInVoiceChannels = async (client: DiscordClient) => {
+const updateUsersInVoiceChannels = async ({
+    client,
+}: {
+    client: DiscordClient;
+}) => {
+    /* Fetching all the guilds that the bot is in. */
     const fetchedGuilds = await client.guilds.fetch();
-    const Guilds = fetchedGuilds.map((guild) => guild);
-    if (!Guilds) return;
+    if (!fetchedGuilds) return;
 
-    const admin = require("firebase-admin");
-    const database = admin.firestore();
+    for await (const [_fetchedGuildId, fetchedGuild] of fetchedGuilds) {
+        const guild = await fetchedGuild.fetch();
+        if (!guild) continue;
+        /* Fetch all the channels in the guild. */
+        const channels = await guild.channels.fetch();
+        if (!channels) continue;
 
-    Guilds.forEach(async (guild) => {
-        const guildId = guild.id;
-        const guildChannels2 = guild.client.channels.cache;
-        for (const channel of guildChannels2.values()) {
-            if (channel.type === "GUILD_VOICE") {
-                channel.members.forEach((member) => {
-                    if (member.user.bot) return;
-                    database
-                        .collection(guildId)
-                        .doc("data")
-                        .collection("voicePresence")
-                        .add({
-                            userId: member.id,
-                            channelId: channel.id,
-                            timestamp: getServerTimestamp(),
-                        });
+        /* Looping over destructured channels collection. */
+        for (const [_channelId, channel] of channels) {
+            if (channel.type !== "GUILD_VOICE") continue;
+            const voiceChannel = await channel.fetch();
+            if (!voiceChannel) continue;
+            const members = voiceChannel.members;
+            if (!members) continue;
+            /* Looping over destructured members collection. 
+            And inserting voicePresence data into the database. */
+            for (const [_memberId, member] of members) {
+                const user = member.user;
+                const voicePresenceObject = {
+                    member: `${member.user.id}-${guild.id}`,
+                    guild: guild.id,
+                    channel: channel.id,
+                };
+
+                await addMemberToDatabase({
+                    client,
+                    user,
+                    member,
                 });
+
+                await addChannelToDatabase({
+                    client,
+                    channel,
+                });
+
+                const { error } = await client.database
+                    .from("voicePresences")
+                    .insert(voicePresenceObject);
+                if (error) console.log(error);
             }
         }
-    });
+    }
 };
 
 export default updateUsersInVoiceChannels;

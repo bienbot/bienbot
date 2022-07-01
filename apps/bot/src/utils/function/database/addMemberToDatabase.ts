@@ -1,8 +1,4 @@
-import {
-    CommandInteractionOptionResolver,
-    GuildMember,
-    User,
-} from "discord.js";
+import { GuildMember, User } from "discord.js";
 import DiscordClient from "../../../client/client";
 
 const addMemberToDatabase = async ({
@@ -32,31 +28,26 @@ const addMemberToDatabase = async ({
         uniqueId: `${member.id}-${member.guild.id}`,
     };
 
-    console.log(member.guild.id);
-
     const { data, error } = await client.database
         .from("members")
         .select()
         .match({ id: user.id, guild: member.guild.id });
     if (error) console.log(error);
-    const { data: membersData } = await client.database
-        .from("members")
-        .select();
-    console.log(membersData);
-    console.log(data);
+
+    /* Checking if the user is already in the database, if they are it will update their information,
+    if they are not it will insert them into the database.
+    */
     if (data?.length === 0) {
-        console.log("inserting");
         const { error } = await client.database
             .from("members")
             .insert([userObject]);
         if (error) console.log(error);
     } else {
-        console.log("updating");
-        //     const { error } = await client.database
-        //         .from("members")
-        //         .update(userObject)
-        //         .match({ id: user.id, guild: member.guild.id });
-        //     if (error) console.log(error);
+        const { error } = await client.database
+            .from("members")
+            .update(userObject)
+            .match({ id: user.id, guild: member.guild.id });
+        if (error) console.log(error);
     }
 };
 

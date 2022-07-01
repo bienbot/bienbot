@@ -2,9 +2,9 @@ import DiscordClient from "./client/client";
 import { Intents } from "discord.js";
 import { registerCommands, registerEvents } from "./utils/registry";
 import updateUsersInVoice from "./utils/function/updateUsersInVoice";
-import updateUsersData from "./utils/function/updateUsersData";
-import adminConfig from "../adminConfig";
-import updateGuildData from "./utils/function/updateGuildData";
+import updateUsersData from "./utils/function/database/updateUsersData";
+import updateGuildData from "./utils/function/database/updateGuildData";
+import { addRolesToDatabase } from "./utils/function/database/addRolesToDatabase";
 require("dotenv").config();
 
 const allIntents = [
@@ -31,12 +31,6 @@ const client = new DiscordClient(
     },
     "cookies"
 );
-
-const admin = require("firebase-admin");
-
-admin.initializeApp({
-    credential: admin.credential.cert(adminConfig),
-});
 
 (async () => {
     client.prefix = "!";

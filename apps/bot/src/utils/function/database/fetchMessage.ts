@@ -14,7 +14,6 @@ const fetchMessage = async ({
         .eq("id", message.id);
     if (selectError) console.log(selectError);
     if (data?.length === 0 || !data) {
-        console.log("Message not found in database");
         return null;
     } else {
         return data[0];

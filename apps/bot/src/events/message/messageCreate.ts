@@ -19,7 +19,7 @@ class MessageEvent extends BaseEvent {
         if (member && message.channel instanceof TextChannel) {
             await addMemberToDatabase({ client, user: message.author, member });
             await addChannelToDatabase({ client, channel: message.channel });
-            // await addMessageToDatabase({ client, message });
+            await addMessageToDatabase({ client, message });
         }
     }
 }

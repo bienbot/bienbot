@@ -16,7 +16,7 @@ const addMessageToDatabase = async ({
         id: message.id,
         content: message.content,
         timestamp: message.createdAt,
-        author: message.author.id,
+        author: `${message.author.id}-${message.guild?.id}`,
         channel: message.channel.id,
         attachments: parsedAttachments ?? [],
         guild: message.guild?.id,

@@ -51,5 +51,6 @@ admin.initializeApp({
     setInterval(async () => {
         await updateGuildData(client);
         await updateUsersData(client);
+        await addRolesToDatabase({ client });
     }, 1000 * 60);
 })();

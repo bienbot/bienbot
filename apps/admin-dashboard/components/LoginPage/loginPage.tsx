@@ -1,3 +1,8 @@
+import * as React from "react";
+import { LoginButton } from "@bienbot/ui";
+import Image from "next/image";
+import { supabase } from "apps/admin-dashboard/services/supabase";
+import { useRouter } from "next/router";
 import {
     StyledWrapper,
     StyledExampleWrapper,
@@ -9,10 +14,18 @@ import {
     StyledSpan,
     StyledLoginInfo,
 } from "./loginPage.style";
-import { LoginButton } from "@bienbot/ui";
-import Image from "next/image";
 
 const LoginPage = () => {
+    const router = useRouter();
+    const handleLogin = async () => {
+        const { session } = await supabase.auth.signIn({
+            provider: "discord",
+        });
+        if (session) {
+            router.push("/servers");
+        }
+    };
+
     return (
         <StyledWrapper>
             <StyledLoginWrapper>
@@ -25,6 +38,7 @@ const LoginPage = () => {
                     <LoginButton
                         text="Log in with Discord"
                         authEndpoint="http://localhost:3000/api/auth/discord"
+                        handleLogin={handleLogin}
                     />
                 </StyledLoginInfoWrapper>
             </StyledLoginWrapper>

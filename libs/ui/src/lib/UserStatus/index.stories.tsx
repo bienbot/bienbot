@@ -1,7 +1,7 @@
 import { Story, Meta } from "@storybook/react";
 import { UserLeaderboardCardProps } from "../UserLeaderboardCard";
 import UserStatus, { UserStatusProps } from ".";
-import { UserData } from "@bienbot/types";
+import { MemberData } from "@bienbot/types";
 
 export default {
     component: UserStatus,
@@ -21,7 +21,7 @@ export default {
     },
 } as Meta;
 
-const templateUser: UserData = {
+const templateUser: MemberData = {
     avatar: "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
     bot: false,
     createdAt: 0,
@@ -33,7 +33,7 @@ const templateUser: UserData = {
     discriminator: "1234",
     username: "Username",
     presence: "online",
-    boostingSince: { seconds: 0, nanoseconds: 0 },
+    boostingSince: new Date().toLocaleTimeString(),
 };
 
 export const Template: Story = (args) => {

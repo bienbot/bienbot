@@ -1,18 +1,20 @@
 import { VoicePresenceData } from "@bienbot/types";
-import convertToDate from "./convertToDate";
 import { getDays } from "./getDays";
 
 const getHourCountForEveryDay = (
-    hoursData: VoicePresenceData,
+    voicePresences: VoicePresenceData[],
     numberOfDays: number,
-    userId?: string
+    userIdFilter?: string
 ) => {
     const hoursCount = new Array(numberOfDays).fill(0);
     const daysArray = getDays(numberOfDays).map((date) => date.toDateString());
 
-    for (const value of Object.values(hoursData)) {
-        if (userId && userId !== value.userId) continue;
-        const day = convertToDate(value.timestamp).toDateString();
+    for (const voicePresence of voicePresences) {
+        /* The `member` property of the `VoicePresenceData` object is a string that looks like this:
+        `"<@userId>-<guildId>"`. */
+        const memberId = voicePresence.member.split("-")[0];
+        if (userIdFilter && userIdFilter !== memberId) continue;
+        const day = new Date(voicePresence.timestamp).toDateString();
         const index = daysArray.indexOf(day);
         if (index !== -1) {
             hoursCount[index]++;

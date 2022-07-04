@@ -1,32 +1,32 @@
+import * as React from "react";
+import styled from "styled-components";
+import { GuildData } from "@bienbot/types";
+import { UserLeaderboard } from "@bienbot/ui";
 import {
     getMostActiveTextUsers,
     getMostActiveVoiceUsers,
 } from "@bienbot/functions";
-import { GuildData } from "@bienbot/types";
-import { UserLeaderboard } from "@bienbot/ui";
-import * as React from "react";
-import styled from "styled-components";
 
 const LeaderboardPanel = ({ guildData }: { guildData: GuildData }) => {
     return (
         <StyledWrapper>
             <UserLeaderboard
                 text="hours"
-                guildId={guildData.serverInfo.id}
+                guildId={guildData.id}
                 heading="Voice channels"
                 users={getMostActiveVoiceUsers(
-                    guildData.data.voicePresence,
-                    guildData.users,
+                    guildData.voicePresences,
+                    guildData.members,
                     5
                 )}
             />
             <UserLeaderboard
-                guildId={guildData.serverInfo.id}
+                guildId={guildData.id}
                 text="messages"
                 heading="Text channels"
                 users={getMostActiveTextUsers(
-                    guildData.data.messages,
-                    guildData.users,
+                    guildData.messages,
+                    guildData.members,
                     5
                 )}
             />

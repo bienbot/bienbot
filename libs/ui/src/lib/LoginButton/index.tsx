@@ -3,21 +3,12 @@ import styled from "styled-components";
 export interface LoginButtonProps {
     text: string;
     authEndpoint: string;
+    handleLogin: () => Promise<void>;
 }
 
 export function LoginButton(props: LoginButtonProps) {
-    const handleLogIn = async () => {
-        const response = await fetch("http://localhost:3000/api/auth/status", {
-            credentials: "include",
-        });
-        const data = await response.json();
-        if (data.msg == "Unauthorized") {
-            window.location.href = props.authEndpoint;
-        }
-    };
-
     return (
-        <StyledLoginButton onClick={handleLogIn}>
+        <StyledLoginButton onClick={props.handleLogin}>
             <StyledText>{props.text}</StyledText>
         </StyledLoginButton>
     );

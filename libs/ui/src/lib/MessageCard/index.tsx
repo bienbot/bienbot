@@ -1,18 +1,30 @@
 import styled from "styled-components";
 import { format } from "date-fns";
-import { MessageData } from "@bienbot/types";
-import { convertToDate } from "@bienbot/functions";
+import { ChannelData, MessageData, MemberData } from "@bienbot/types";
 import OptionalLinkWrapper from "../OptionalLinkWrapper";
 import Image from "next/image";
 
-export function MessageCard(props: MessageData) {
-    const time = format(convertToDate(props.timestamp), "HH:mm");
+export type MessageCardProps = {
+    message: MessageData;
+    author: MemberData;
+    channel: ChannelData;
+};
+
+export function MessageCard(props: MessageCardProps) {
+    const { message, author, channel } = props;
+
+    const parsedAttachments = message.attachments
+        ? message.attachments?.map((attachment) => JSON.parse(attachment))
+        : [];
+
     return (
         <StyledMessageCard>
-            <StyledImage src={props.author.avatar}></StyledImage>
+            <StyledImage src={author.avatar}></StyledImage>
             <StyledInfoContainer>
-                <OptionalLinkWrapper href={props.author.href}>
-                    <StyledUserInfo as={props.author.href ? "a" : "div"}>
+                <OptionalLinkWrapper
+                    href={`${message.guild}/users/${author.id}`}
+                >
+                    <StyledUserInfo as={"a"}>
                         <StyledHighlight>
                             {props.author.displayName}
                         </StyledHighlight>
@@ -23,20 +35,22 @@ export function MessageCard(props: MessageData) {
                 </OptionalLinkWrapper>
                 <StyledMessageInfo>
                     <span>in</span>
-                    <OptionalLinkWrapper href={props.channel.href}>
-                        <StyledChannelName
-                            as={props.channel.href ? "a" : "div"}
-                        >
-                            #{props.channel.name}
+                    <OptionalLinkWrapper
+                        href={`${message.guild}/channels/${channel.id}`}
+                    >
+                        <StyledChannelName as={"a"}>
+                            #{channel.name}
                         </StyledChannelName>
                     </OptionalLinkWrapper>
                     <span>at</span>
-                    <StyledHighlight>{time}</StyledHighlight>
+                    <StyledHighlight>
+                        {format(new Date(message.timestamp), "dd/MM HH:mm")}
+                    </StyledHighlight>
                 </StyledMessageInfo>
             </StyledInfoContainer>
-            <StyledMessage>{props.content.text}</StyledMessage>
-            {props.content.attachments.length === 1 &&
-                props.content.attachments.map((attachment) => {
+            <StyledMessage>{message.content}</StyledMessage>
+            {parsedAttachments?.length >= 1 &&
+                parsedAttachments?.map((attachment) => {
                     const aspectRatio =
                         (attachment.width ?? 1) / (attachment.height ?? 1);
                     if (attachment.contentType.startsWith("image")) {
@@ -51,10 +65,7 @@ export function MessageCard(props: MessageData) {
                                     width={aspectRatio * 200}
                                     height={200}
                                     src={attachment.url}
-                                    key={
-                                        attachment.url +
-                                        props.timestamp.nanoseconds
-                                    }
+                                    key={attachment.url}
                                 ></Image>
                             </ImageContainer>
                         );
@@ -79,7 +90,6 @@ export function MessageCard(props: MessageData) {
                         return null;
                     }
                 })}
-            {/* TODO: Add logic for displaying more than one photo */}
         </StyledMessageCard>
     );
 }

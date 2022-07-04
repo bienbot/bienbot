@@ -1,14 +1,13 @@
+import * as React from "react";
+import { useRouter } from "next/router";
+import { GuildData } from "@bienbot/types";
+import { format } from "date-fns";
+import { sortByTimestampAndSlice } from "apps/admin-dashboard/utils/sortByTimestampAndSlice";
 import {
     getHourCountForEveryDay,
     getMessageCountForEveryDay,
     getDays,
-    shapeEventData,
-    getUserMessages,
-    convertToDate,
-    calculateTotalVoiceTime,
-    getUserEvents,
 } from "@bienbot/functions";
-import { GuildData, UserData } from "@bienbot/types";
 import {
     CardsPanel,
     EventCard,
@@ -17,8 +16,6 @@ import {
     StatisticsPanel,
     UserStatus,
 } from "@bienbot/ui";
-import { useRouter } from "next/router";
-import * as React from "react";
 import {
     StyledWrapper,
     StyledUserDataWrapper,
@@ -27,7 +24,6 @@ import {
     StyledEventsWrapper,
     StyledCardsWrapper,
 } from "./userDashboard.style";
-import { format } from "date-fns";
 
 type Props = {
     guildData: GuildData;
@@ -35,31 +31,28 @@ type Props = {
 
 const UserDashboard = ({ guildData }: Props) => {
     const router = useRouter();
-    const userId = router.query.userId as string;
-    const userData =
-        guildData.users[userId] ??
-        ({
-            avatar: "",
-            createdAt: 0,
-            username: "",
-            presence: "offline",
-            roles: [],
-            joinedAt: new Date(),
-            boostingSince: null,
-        } as UserData);
-    const messages = getUserMessages(guildData, userId);
-    const events = getUserEvents(guildData, userId);
-    const boostingSince = format(
-        convertToDate(userData.boostingSince),
-        "dd/MM/yyyy"
+    const memberId = router.query.userId as string;
+    const member = guildData.members.find((user) => user.id === memberId);
+    const messages = guildData.messages.filter(
+        (message) => message.author === `${memberId}-${guildData.id}`
     );
+    const events = guildData.events.filter(
+        (event) => event.member === `${memberId}-${guildData.id}`
+    );
+    const voicePresences = guildData.voicePresences.filter(
+        (presence) => presence.member === `${memberId}-${guildData.id}`
+    );
+    const boostingSince = member.boostingSince
+        ? format(new Date(member.boostingSince), "dd/MM/yyyy")
+        : null;
 
     return (
         <StyledWrapper>
             <StyledUserWrapper>
                 <StyledUserDataWrapper>
                     <StyledHeading>User data</StyledHeading>
-                    <UserStatus user={userData} />
+                    <UserStatus user={member} />
+
                     <StyledCardsWrapper>
                         <StatisticsPanel
                             heading=""
@@ -71,16 +64,11 @@ const UserDashboard = ({ guildData }: Props) => {
                                 },
                                 {
                                     label: "Hours spent in VC",
-                                    text: calculateTotalVoiceTime(
-                                        guildData.data.voicePresence,
-                                        userId
-                                    ).toString(),
+                                    text: voicePresences.length.toString(),
                                 },
                                 {
                                     label: "Boosting since",
-                                    text: userData.boostingSince
-                                        ? boostingSince.toString()
-                                        : "Not boosting",
+                                    text: boostingSince ?? "Not boosting",
                                 },
                             ]}
                         />
@@ -91,14 +79,14 @@ const UserDashboard = ({ guildData }: Props) => {
                     href="/"
                     chartData={{
                         hourValues: getHourCountForEveryDay(
-                            guildData.data.voicePresence,
+                            voicePresences,
                             14,
-                            userId
+                            memberId
                         ),
                         messageValues: getMessageCountForEveryDay(
-                            guildData.data.messages,
+                            messages,
                             14,
-                            userId
+                            memberId
                         ),
                         labels: {
                             messageLabel: "Messages",
@@ -110,17 +98,20 @@ const UserDashboard = ({ guildData }: Props) => {
             </StyledUserWrapper>
             <StyledEventsWrapper>
                 <CardsPanel heading="Recent events" href="asd">
-                    {shapeEventData(events)
-                        .slice(0, 5)
-                        .map((eventData, i) => (
-                            <EventCard {...eventData} key={i} />
-                        ))}
+                    {sortByTimestampAndSlice(events).map((eventData, i) => (
+                        <EventCard event={eventData} member={member} key={i} />
+                    ))}
                 </CardsPanel>
                 <CardsPanel heading="Recent messages" href="asd">
-                    {messages.slice(0, 5).map((messageData) => {
+                    {sortByTimestampAndSlice(messages).map((messageData) => {
+                        const channel = guildData.channels.find(
+                            (channel) => channel.id === messageData.channel
+                        );
                         return (
                             <MessageCard
-                                {...messageData}
+                                message={messageData}
+                                author={member}
+                                channel={channel}
                                 key={messageData.id}
                             />
                         );

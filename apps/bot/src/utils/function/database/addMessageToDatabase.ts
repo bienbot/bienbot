@@ -25,7 +25,7 @@ const addMessageToDatabase = async ({
 
     const { error } = await client.database
         .from("messages")
-        .insert([messageObject]);
+        .insert(messageObject);
     if (error) console.log(error);
 };
 

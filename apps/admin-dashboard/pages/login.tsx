@@ -1,29 +1,28 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import { LoginPage } from "apps/admin-dashboard/components/LoginPage";
+import { supabase } from "../services/supabase";
 
 const LogInPage: NextPage = () => {
-    const router = useRouter();
-
-    React.useEffect(() => {
-        const fetchUserStatus = async () => {
-            const response = await fetch(
-                "http://localhost:3000/api/auth/status",
-                {
-                    credentials: "include",
-                }
-            );
-            const data = await response.json();
-            if (data.id) {
-                router.push("/servers");
-            }
-        };
-
-        fetchUserStatus();
-    }, []);
-
     return <LoginPage />;
+};
+
+export const getServerSideProps = async ({ req }) => {
+    const { user } = await supabase.auth.api.getUserByCookie(req);
+
+    if (!user) {
+        return {
+            props: {},
+        };
+    }
+
+    return {
+        redirect: {
+            permanent: false,
+            destination: "/servers",
+        },
+        props: {},
+    };
 };
 
 export default LogInPage;

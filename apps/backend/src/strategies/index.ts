@@ -1,5 +1,3 @@
-import { getUserData } from "@bienbot/functions";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
 import * as passport from "passport";
 import { Profile, Strategy } from "passport-discord";
 import { VerifyCallback } from "passport-oauth2";

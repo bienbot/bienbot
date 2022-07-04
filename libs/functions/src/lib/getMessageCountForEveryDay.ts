@@ -1,21 +1,23 @@
 import { MessageData } from "@bienbot/types";
-import convertToDate from "./convertToDate";
 import { getDays } from "./getDays";
 
 /**
  * Get the number of messages sent in all channels for every day.
  */
 const getMessageCountForEveryDay = (
-    messagesData: Record<string, MessageData>,
+    messagesData: MessageData[],
     numberOfDays: number,
-    userId?: string
+    userIdFilter?: string
 ) => {
     const messagesCount = new Array(numberOfDays).fill(0);
     const daysArray = getDays(numberOfDays).map((date) => date.toDateString());
 
-    for (const [key, value] of Object.entries(messagesData)) {
-        if (userId && userId !== key) continue;
-        const day = convertToDate(value.timestamp).toDateString();
+    for (const message of messagesData) {
+        /* The `member` property of the `VoicePresenceData` object is a string that looks like this:
+        `"<@userId>-<guildId>"`. */
+        const memberId = message.author.split("-")[0];
+        if (userIdFilter && userIdFilter !== memberId) continue;
+        const day = new Date(message.timestamp).toDateString();
         const index = daysArray.indexOf(day);
         if (index !== -1) {
             messagesCount[index]++;

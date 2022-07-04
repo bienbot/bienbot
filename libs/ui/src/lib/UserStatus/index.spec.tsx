@@ -1,9 +1,9 @@
-import { UserData } from "@bienbot/types";
+import { MemberData } from "@bienbot/types";
 import { renderWithTheme } from "../../utils/renderWithTheme";
 
 import UserStatus from "./index";
 
-const user: UserData = {
+const user: MemberData = {
     avatar: "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
     bot: false,
     createdAt: 0,
@@ -15,7 +15,7 @@ const user: UserData = {
     discriminator: "1234",
     username: "Username",
     presence: "online",
-    boostingSince: { seconds: 0, nanoseconds: 0 },
+    boostingSince: new Date().toLocaleDateString(),
 };
 
 const props = {

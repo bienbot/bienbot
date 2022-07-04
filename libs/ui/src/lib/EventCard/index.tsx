@@ -14,7 +14,9 @@ export function EventCard(props: EventCardProps) {
 
     return (
         <StyledEventCard>
-            <OptionalLinkWrapper href={member.id}>
+            <OptionalLinkWrapper
+                href={`${event.guild}/${event.member.split("-")[0]}`}
+            >
                 <StyledUserContainer as={member.id ? "a" : "div"}>
                     <StyledUserInfo
                         direction="row"
@@ -26,7 +28,7 @@ export function EventCard(props: EventCardProps) {
             </OptionalLinkWrapper>
             <StyledEventInfo>
                 {props.event.description}{" "}
-                <OptionalLinkWrapper href={`${event.id}`}>
+                <OptionalLinkWrapper href={`${event.guild}/${event.targetId}`}>
                     <StyledHighlight as={event.id ? "a" : "span"}>
                         {event.target}{" "}
                     </StyledHighlight>

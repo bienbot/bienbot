@@ -58,7 +58,7 @@ export type EventData = {
     timestamp: string;
     type: "messageDelete";
     member: string;
-    guildId: string;
+    guild: string;
 };
 
 export type RoleData = {

@@ -16,6 +16,8 @@ export const guildSlice = createSlice({
         events: [],
         voicePresences: [],
         members: [],
+        channels: [],
+        roles: [],
         id: "",
         name: "",
     },

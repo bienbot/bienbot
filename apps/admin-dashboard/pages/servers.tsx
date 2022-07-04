@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { supabase } from "../services/supabase";
 import { ServerList } from "@bienbot/ui";
 import { checkRequiredGuildRole } from "../utils/checkRequiredGuildRole";
-import { useDispatch, useSelector } from "react-redux";
-import { selectGuild, setInitialData } from "../features/guild/guildSlice";
+import { useDispatch } from "react-redux";
+import { setInitialData } from "../features/guild/guildSlice";
 
 const ServersPage: NextPage<{ guilds: any[] }> = ({ guilds }) => {
     const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const ServersPage: NextPage<{ guilds: any[] }> = ({ guilds }) => {
                 id: "",
                 name: "",
                 channels: [],
+                roles: [],
             })
         );
     }, []);

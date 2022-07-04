@@ -78,4 +78,5 @@ export interface GuildData {
     channels: ChannelData[];
     voicePresences: VoicePresenceData[];
     events: EventData[];
+    roles: RoleData[];
 }

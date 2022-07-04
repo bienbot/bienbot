@@ -1,8 +1,4 @@
-export function types(): string {
-    return "types";
-}
-
-export interface UserData {
+export interface MemberData {
     avatar: string;
     bot: boolean;
     createdAt: number;
@@ -14,7 +10,7 @@ export interface UserData {
     roles: string[];
     username: string;
     presence: "online" | "idle" | "dnd" | "offline" | "invisible";
-    boostingSince: Timestamp;
+    boostingSince: string;
 }
 
 export type Attachment = {
@@ -30,71 +26,56 @@ export type Attachment = {
 };
 
 export interface MessageData {
-    author: {
-        id: string;
-        discriminator: string;
-        displayName: string;
-        username: string;
-        avatar: string;
-        href?: string;
-    };
-    content: {
-        text: string;
-        attachments: Attachment[];
-        href?: string;
-    };
-    channel: {
-        id: string;
-        name: string;
-        href?: string;
-    };
-    timestamp: Timestamp;
+    content: string;
+    channel: string;
+    timestamp: string;
     id: string;
-    history?: { content: string; attachments: Attachment[] }[];
+    attachments?: any[];
+    deleted: boolean;
+    author: `${string}-${string}`;
+    history: [];
+    guild: string;
 }
 
-export type Timestamp = {
-    seconds: number;
-    nanoseconds: number;
+export interface ChannelData {
+    id: string;
+    name: string;
+    type: "GUILD_TEXT" | "GUILD_VOICE";
+    guild: string;
+}
+
+export type VoicePresenceData = {
+    channelId: string;
+    timestamp: string;
+    member: `${string}-${string}`;
 };
 
-export type VoicePresenceData = Record<
-    string,
-    { channelId: string; timestamp: Timestamp; userId: string }
->;
-
 export type EventData = {
-    user: {
-        imageSrc: string;
-        displayName: string;
-        discordTag: string;
-        id: string;
-        href?: string;
-    };
-    event: {
-        type: string;
-        target: string;
-        targetId: string;
-        description: string;
-        timestamp: Timestamp;
-        targetHref?: string;
-    };
+    id: number;
+    description: string;
+    target: string;
+    targetId: string;
+    timestamp: string;
+    type: "messageDelete";
+    member: string;
+    guildId: string;
+};
+
+export type RoleData = {
+    id: string;
+    icon: string;
+    unicodeEmoji: string;
+    name: string;
+    color: string;
+    permissions: string;
 };
 
 export interface GuildData {
-    serverInfo: {
-        allUsers: string[];
-        onlineUsers: string[];
-        name: string;
-        id: string;
-    };
-    data: {
-        messages: Record<string, MessageData>;
-        voicePresence: VoicePresenceData;
-        events: Record<string, EventData>;
-    };
-    users: Record<string, UserData>;
-    config: {
-        reportChannelId: string;
-    };
+    id: string;
+    name: string;
+    messages: MessageData[];
+    members: MemberData[];
+    channels: ChannelData[];
+    voicePresences: VoicePresenceData[];
+    events: EventData[];
 }

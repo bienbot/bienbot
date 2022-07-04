@@ -1,9 +1,9 @@
 import * as React from "react";
-import { UserData } from "@bienbot/types";
+import { MemberData } from "@bienbot/types";
 import styled from "styled-components";
 
 export type UserStatusProps = {
-    user: UserData;
+    user: MemberData;
 };
 
 export const UserStatus = (props: UserStatusProps) => {

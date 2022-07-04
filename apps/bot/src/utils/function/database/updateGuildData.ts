@@ -2,14 +2,16 @@ import { Guild } from "discord.js";
 import DiscordClient from "../../../client/client";
 
 const updateGuildData = async (client: DiscordClient) => {
-    const guilds = client.guilds.cache;
+    const guilds = await client.guilds.fetch();
     if (!guilds) return;
 
-    guilds.forEach(async (guild) => {
+    guilds.forEach(async (OAuthGuild) => {
+        const guild = await OAuthGuild.fetch();
         if (guild instanceof Guild) {
             const serverData = {
                 name: guild.name,
                 id: guild.id,
+                icon: guild.icon,
             };
 
             const { data, error } = await client.database

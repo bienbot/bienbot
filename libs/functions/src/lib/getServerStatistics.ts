@@ -1,29 +1,27 @@
 import { GuildData } from "@bienbot/types";
-import { calculateTotalMessagesSent } from "./calculateTotalMessagesSent";
-import { calculateTotalVoiceTime } from "./calculateTotalVoiceTime";
 
 /** Returns server statistics ready to use in StatisticsPanel component */
 const getServerStatistics = (guildData: GuildData) => {
+    const onlineMembers = guildData.members.filter(
+        (member) => member.presence === "online"
+    );
+
     const statistics = [
         {
-            label: "Online users",
-            text: guildData.serverInfo.onlineUsers.length.toString(),
+            label: "Online members",
+            text: onlineMembers.length.toString(),
         },
         {
             label: "All members",
-            text: guildData.serverInfo.allUsers.length.toString(),
+            text: guildData.members.length.toString(),
         },
         {
             label: "Messages sent",
-            text: calculateTotalMessagesSent(
-                guildData.data.messages
-            ).toString(),
+            text: guildData.messages.length.toString(),
         },
         {
             label: "Hours spent in VC",
-            text: calculateTotalVoiceTime(
-                guildData.data.voicePresence
-            ).toString(),
+            text: guildData.voicePresences.length.toString(),
         },
     ];
 

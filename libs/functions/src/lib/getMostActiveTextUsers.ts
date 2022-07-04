@@ -1,26 +1,28 @@
-import { MessageData, UserData } from "@bienbot/types";
+import { MessageData, MemberData } from "@bienbot/types";
 
 /**
  * Returns the most active users in all text channels.
  */
 const getMostActiveTextUsers = (
-    messagesData: Record<string, MessageData>,
-    users: Record<string, UserData>,
+    messagesData: MessageData[],
+    users: MemberData[],
     limit: number
 ) => {
     const usersMessagesCount = new Map<string, number>();
 
     // Count every message sent by each user
-    for (const message of Object.values(messagesData)) {
-        const user = users[message.author.id];
-        if (user) {
-            if (usersMessagesCount.has(message.author.id)) {
+    for (const message of messagesData) {
+        /* The `member` property of the `VoicePresenceData` object is a string that looks like this:
+        `"<@userId>-<guildId>"`. */
+        const memberId = message.author.split("-")[0];
+        if (memberId) {
+            if (usersMessagesCount.has(memberId)) {
                 usersMessagesCount.set(
-                    message.author.id,
-                    usersMessagesCount.get(message.author.id) + 1
+                    memberId,
+                    usersMessagesCount.get(memberId) + 1
                 );
             } else {
-                usersMessagesCount.set(message.author.id, 1);
+                usersMessagesCount.set(memberId, 1);
             }
         }
     }
@@ -29,7 +31,7 @@ const getMostActiveTextUsers = (
 
     // Create user objects
     for (const [userId, count] of usersMessagesCount) {
-        const user = users[userId];
+        const user = users.find((user) => user.id === userId);
         if (user) {
             result.push({
                 imageSrc: user.avatar,

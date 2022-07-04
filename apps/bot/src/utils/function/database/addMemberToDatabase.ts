@@ -26,6 +26,7 @@ const addMemberToDatabase = async ({
         roles: member.roles.cache.map((role) => role.id),
         guild: member.guild.id,
         uniqueId: `${member.id}-${member.guild.id}`,
+        boostingSince: member.premiumSince,
     };
 
     const { data, error } = await client.database

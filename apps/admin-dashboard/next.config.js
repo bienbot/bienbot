@@ -17,4 +17,8 @@ module.exports = {
     images: {
         domains: ["www.data.lkarasinski.pl", "cdn.discordapp.com"],
     },
+    env: {
+        SUPABASE_KEY: process.env.SUPABASE_KEY,
+        SUPABASE_SERVICE_ROLE: process.env.SUPABASE_SERVICE_ROLE,
+    },
 };

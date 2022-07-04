@@ -2,10 +2,12 @@ import { dashboardTheme } from "@bienbot/themes";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { guildDataStore } from "../features/guildData/guildDataStore";
+import { guildStore } from "../features/guild/guildStore";
+import { supabase } from "../services/supabase";
 
 const GlobalStyles = createGlobalStyle`
 *{
@@ -24,13 +26,33 @@ type AppPropsWithLayout = AppProps & {
 
 function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
+    const router = useRouter();
+
+    React.useEffect(() => {
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                handleAuthChange(event, session);
+                if (event === "SIGNED_IN") {
+                    if (router.pathname === "/login") {
+                        router.push("/servers/");
+                    }
+                }
+                if (event === "SIGNED_OUT") {
+                    router.push("/");
+                }
+            }
+        );
+        return () => {
+            authListener.unsubscribe();
+        };
+    }, []);
 
     return (
         <>
-            <Provider store={guildDataStore}>
+            <Provider store={guildStore}>
                 <GlobalStyles />
                 <Head>
-                    <title>Welcome to admin-dashboard!</title>
+                    <title>Bienbot</title>
                 </Head>
                 <ThemeProvider theme={dashboardTheme}>
                     <main className="app">
@@ -40,6 +62,15 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
             </Provider>
         </>
     );
+}
+
+async function handleAuthChange(event, session) {
+    await fetch("/api/auth", {
+        method: "POST",
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+        body: JSON.stringify({ event, session }),
+    });
 }
 
 export default CustomApp;

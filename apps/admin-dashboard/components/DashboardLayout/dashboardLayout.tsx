@@ -1,19 +1,16 @@
 import { GuildData } from "@bienbot/types";
 import { Sidebar, TopBar } from "@bienbot/ui";
-import { selectGuild } from "apps/admin-dashboard/features/guildData/guildDataSlice";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 type DashboardLayoutProps = {
     children: React.ReactNode;
+    guildData: GuildData;
 };
 
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
     const router = useRouter();
-    const guildData = useSelector(selectGuild);
-
     return (
         <>
             <div style={{ display: "flex" }}>
@@ -24,13 +21,13 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                         {
                             text: "Dashboard",
                             icon: <StyledIcon>D</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}`,
+                            href: `/guilds/${guildData.id}`,
                             isActive: router.pathname === "/guilds/[guildId]",
                         },
                         {
                             text: "Messages",
                             icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}/messages`,
+                            href: `/guilds/${guildData.id}/messages`,
                             isActive: router.pathname.includes(
                                 "/guilds/[guildId]/messages"
                             ),
@@ -38,33 +35,33 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                         {
                             text: "Events",
                             icon: <StyledIcon>E</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}/events`,
+                            href: `/guilds/${guildData.id}/events`,
                             isActive: false,
                         },
                         {
                             text: "Channels",
                             icon: <StyledIcon>C</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}/channels`,
+                            href: `/guilds/${guildData.id}/channels`,
                             isActive: false,
                         },
                         {
                             text: "Leaderboards",
                             icon: <StyledIcon>L</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}/leaderboards`,
+                            href: `/guilds/${guildData.id}/leaderboards`,
                             isActive: false,
                         },
                         {
                             text: "Members",
                             icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.serverInfo.id}/members`,
+                            href: `/guilds/${guildData.id}/members`,
                             isActive: false,
                         },
                     ]}
                 />
                 <div style={{ marginLeft: 80, width: "100%" }}>
                     <TopBar
-                        serverId={guildData.serverInfo.id}
-                        serverName={guildData.serverInfo.name}
+                        serverId={guildData.id}
+                        serverName={guildData.name}
                     />
                     <div
                         style={{

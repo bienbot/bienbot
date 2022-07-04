@@ -1,34 +1,40 @@
-import { convertToDate } from "@bienbot/functions";
-import { EventData } from "@bienbot/types";
+import { EventData, MemberData } from "@bienbot/types";
 import format from "date-fns/format";
 import styled from "styled-components";
 import OptionalLinkWrapper from "../OptionalLinkWrapper";
 import UserInfo from "../UserInfo";
 
-export function EventCard(props: EventData) {
-    const date = format(convertToDate(props.event.timestamp), "HH:mm");
+export type EventCardProps = {
+    event: EventData;
+    member: MemberData;
+};
+
+export function EventCard(props: EventCardProps) {
+    const { event, member } = props;
 
     return (
         <StyledEventCard>
-            <OptionalLinkWrapper href={props.user.href}>
-                <StyledUserContainer as={props.user.href ? "a" : "div"}>
+            <OptionalLinkWrapper href={member.id}>
+                <StyledUserContainer as={member.id ? "a" : "div"}>
                     <StyledUserInfo
                         direction="row"
-                        imageSrc={props.user.imageSrc}
-                        displayName={props.user.displayName}
-                        discordTag={props.user.discordTag}
+                        imageSrc={member.avatar}
+                        displayName={member.displayName}
+                        discordTag={member.discriminator}
                     />
                 </StyledUserContainer>
             </OptionalLinkWrapper>
             <StyledEventInfo>
                 {props.event.description}{" "}
-                <OptionalLinkWrapper href={props.event.targetHref}>
-                    <StyledHighlight as={props.event.targetHref ? "a" : "span"}>
-                        {props.event.target}{" "}
+                <OptionalLinkWrapper href={`${event.id}`}>
+                    <StyledHighlight as={event.id ? "a" : "span"}>
+                        {event.target}{" "}
                     </StyledHighlight>
                 </OptionalLinkWrapper>
-                at
-                <StyledHighlight> {date}</StyledHighlight>
+                at{" "}
+                <StyledHighlight>
+                    {format(new Date(event.timestamp), "dd/MM HH:mm")}
+                </StyledHighlight>
             </StyledEventInfo>
         </StyledEventCard>
     );

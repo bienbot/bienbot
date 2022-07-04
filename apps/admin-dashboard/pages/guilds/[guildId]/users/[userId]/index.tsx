@@ -1,30 +1,68 @@
 import * as React from "react";
 import { UserDashboard } from "apps/admin-dashboard/components/UserDashboard";
 import DashboardLayout from "apps/admin-dashboard/components/DashboardLayout/dashboardLayout";
-import useFirebaseListener from "apps/admin-dashboard/features/guildData/useFirebaseListener";
+import { supabase } from "apps/admin-dashboard/services/supabase";
+import { checkRequiredGuildRole } from "apps/admin-dashboard/utils/checkRequiredGuildRole";
+import { fetchGuildData } from "apps/admin-dashboard/utils/fetchGuildData";
+import { GuildData } from "@bienbot/types";
+import { useRealtimeListener } from "apps/admin-dashboard/features/guild/useRealtimeListener";
 import { useRouter } from "next/router";
-import { selectGuild } from "apps/admin-dashboard/features/guildData/guildDataSlice";
 import { useSelector } from "react-redux";
+import { selectGuild } from "apps/admin-dashboard/features/guild/guildSlice";
 
-const UserDashboardPage = () => {
-    const guildData = useSelector(selectGuild);
-
+const UserDashboardPage = ({ initialGuildData }) => {
     const router = useRouter();
     const guildId = router.query.guildId as string;
-    useFirebaseListener({ id: guildId });
+    useRealtimeListener({
+        guildId,
+        initialData: initialGuildData as GuildData,
+    });
+    const guildData = useSelector(selectGuild);
+
+    if (!guildData.id) return null;
+
     return (
         <>
-            <UserDashboard guildData={guildData} />
+            <DashboardLayout guildData={guildData}>
+                <UserDashboard guildData={guildData} />
+            </DashboardLayout>
         </>
     );
 };
 
-UserDashboardPage.getLayout = function getLayout(page: React.ReactElement) {
-    return (
-        <>
-            <DashboardLayout>{page}</DashboardLayout>
-        </>
-    );
-};
+export async function getServerSideProps({ req, query }) {
+    const { user } = await supabase.auth.api.getUserByCookie(req);
+    if (user) {
+        const discordId = user.identities.find(
+            (i) => i.provider === "discord"
+        )?.id;
+        if (discordId) {
+            const hasAccess = await checkRequiredGuildRole({
+                guildId: query.guildId,
+                discordId,
+            });
+            if (hasAccess) {
+                /* Fetch server data from the database */
+                const guildData = await fetchGuildData({
+                    guildId: query.guildId,
+                });
+
+                return {
+                    props: {
+                        initialGuildData: guildData,
+                    },
+                };
+            }
+        }
+    }
+
+    return {
+        redirect: {
+            permanent: false,
+            destination: "/login",
+        },
+        props: {},
+    };
+}
 
 export default UserDashboardPage;

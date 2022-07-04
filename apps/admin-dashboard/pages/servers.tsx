@@ -1,38 +1,34 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import useUserAuthData from "../utils/useUserAuthData";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import firebaseApp from "../services/firebase";
-import { ServerList } from "@bienbot/ui";
 import styled from "styled-components";
+import { supabase } from "../services/supabase";
+import { ServerList } from "@bienbot/ui";
+import { checkRequiredGuildRole } from "../utils/checkRequiredGuildRole";
+import { useDispatch, useSelector } from "react-redux";
+import { selectGuild, setInitialData } from "../features/guild/guildSlice";
 
-const database = getFirestore(firebaseApp);
+const ServersPage: NextPage<{ guilds: any[] }> = ({ guilds }) => {
+    const dispatch = useDispatch();
 
-const ServersPage: NextPage<{ botGuilds: string[] }> = ({ botGuilds }) => {
-    const userData = useUserAuthData();
-    const userGuilds = userData.guilds ?? [];
-
-    const servers = React.useMemo(() => {
-        const sharedGuilds = userGuilds.filter((guild) =>
-            botGuilds.includes(guild.id)
+    React.useEffect(() => {
+        dispatch(
+            setInitialData({
+                messages: [],
+                events: [],
+                voicePresences: [],
+                members: [],
+                id: "",
+                name: "",
+                channels: [],
+            })
         );
-        const guildsData = sharedGuilds.map((guild) => ({
-            imageSrc: `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`,
-            serverName: guild.name,
-            href: `/guilds/${guild.id}`,
-        }));
-        return guildsData;
-    }, [userData.id]);
-
-    if (!userData.id) {
-        return null;
-    }
+    }, []);
 
     return (
         <StyledWrapper>
             <h2>Available servers</h2>
             <div>
-                <ServerList servers={servers} />
+                <ServerList servers={guilds} />
             </div>
         </StyledWrapper>
     );
@@ -49,8 +45,57 @@ const StyledWrapper = styled.div`
     }
 `;
 
-export async function getServerSideProps() {
-    const dataSnap = await getDoc(doc(database, "data", "guilds"));
-    const botGuilds = dataSnap.data().currentGuilds;
-    return { props: { botGuilds } };
+export async function getServerSideProps({ req }) {
+    const { user } = await supabase.auth.api.getUserByCookie(req);
+    const guilds = [];
+
+    if (!user) {
+        return {
+            props: {},
+            redirect: {
+                permanent: false,
+                destination: "/login",
+            },
+        };
+    }
+
+    const discordId = user.identities.find((i) => i.provider === "discord")?.id;
+    if (discordId) {
+        const { data: memberData, error } = await supabase
+            .from("members")
+            .select("guild, id");
+        if (error) console.error(error);
+
+        if (memberData) {
+            const memberGuilds = memberData.filter((m) => m.id === discordId);
+            if (memberGuilds) {
+                for (const data of memberGuilds) {
+                    const {
+                        data: [guildData],
+                    } = await supabase
+                        .from("guilds")
+                        .select()
+                        .eq("id", `${data.guild}`);
+
+                    if (
+                        await checkRequiredGuildRole({
+                            guildId: guildData.id,
+                            discordId,
+                        })
+                    ) {
+                        guilds.push({
+                            id: guildData.id,
+                            serverName: guildData.name,
+                            imageSrc: guildData.icon
+                                ? `https://cdn.discordapp.com/icons/${guildData.id}/${guildData.icon}.png`
+                                : `https://via.placeholder.com/100x100`,
+                            href: `/guilds/${guildData.id}`,
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    return { props: { guilds } };
 }

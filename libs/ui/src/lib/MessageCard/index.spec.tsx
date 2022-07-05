@@ -1,59 +1,37 @@
+import { mockGuildData } from "../../utils/mockGuildData";
 import { renderWithTheme } from "../../utils/renderWithTheme";
 
 import MessageCard from "./index";
 
-const messageInfo = {
-    author: {
-        avatar: "https://www.github.com/lkarasinski.png",
-        displayName: "Display Name",
-        discriminator: "1234",
-        id: "12345678",
-        username: "Username",
-    },
-    content: {
-        text: `Test message`,
-        attachments: [],
-    },
-    id: "1",
-    timestamp: { seconds: 0, nanoseconds: 0 },
-    channel: { id: "", name: "general" },
+const props = {
+    message: mockGuildData.messages[0],
+    author: mockGuildData.members[0],
+    channel: mockGuildData.channels[0],
 };
 
 describe("MessageCard", () => {
     it("should render successfully", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
         expect(baseElement).toBeTruthy();
     });
     it("should render time", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
-        expect(baseElement).toContainHTML("01:00");
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
+        expect(baseElement).toContainHTML("00:00");
     });
     it("should render message content", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
-        expect(baseElement).toContainHTML("Test message");
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
+        expect(baseElement).toContainHTML("Message 0");
     });
     it("should render channel name", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
-        expect(baseElement).toContainHTML("general");
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
+        expect(baseElement).toContainHTML("channelName");
     });
     it("should render user display name", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
-        expect(baseElement).toContainHTML("Display Name");
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
+        expect(baseElement).toContainHTML("testUserDisplayName");
     });
     it("should render user discord tag", () => {
-        const { baseElement } = renderWithTheme(
-            <MessageCard {...messageInfo} />
-        );
-        expect(baseElement).toContainHTML("Username#1234");
+        const { baseElement } = renderWithTheme(<MessageCard {...props} />);
+        expect(baseElement).toContainHTML("testUserName#7777");
     });
 });

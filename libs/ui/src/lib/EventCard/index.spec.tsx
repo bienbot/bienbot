@@ -1,46 +1,36 @@
+import { mockGuildData } from "../../utils/mockGuildData";
 import { renderWithTheme } from "../../utils/renderWithTheme";
 
 import EventCard, { EventCardProps } from "./index";
 
-const event: EventCardProps = {
-    displayName: "member",
-    discordTag: "#1234",
-    eventDescription: "joined voice channel",
-    eventTarget: "general",
-    eventTime: "23:36",
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
+const props: EventCardProps = {
+    event: mockGuildData.events[0],
+    member: mockGuildData.members[0],
 };
 
 describe("EventCard", () => {
     it("should render successfully", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
         expect(baseElement).toBeTruthy();
     });
     it("should render displayName", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
-        expect(baseElement).toContainHTML("member");
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
+        expect(baseElement).toContainHTML("testUserDisplayName");
     });
     it("should render discordTag", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
-        expect(baseElement).toContainHTML("#1234");
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
+        expect(baseElement).toContainHTML("#7777");
     });
     it("should render eventDescription", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
-        expect(baseElement).toContainHTML("joined voice channel");
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
+        expect(baseElement).toContainHTML("This is a test event");
     });
     it("should render eventTarget", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
-        expect(baseElement).toContainHTML("general");
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
+        expect(baseElement).toContainHTML("channelId");
     });
-    it("should render eventTime", () => {
-        const { baseElement } = renderWithTheme(<EventCard {...event} />);
-        expect(baseElement).toContainHTML("23:36");
-    });
-    it("should render eventTargetHref when given ", () => {
-        const { baseElement } = renderWithTheme(
-            <EventCard {...event} eventTargetHref={"eventHref"} />
-        );
-        expect(baseElement).toContainHTML("eventHref");
+    it("should render event datetime", () => {
+        const { baseElement } = renderWithTheme(<EventCard {...props} />);
+        expect(baseElement).toContainHTML("01/01 00:00");
     });
 });

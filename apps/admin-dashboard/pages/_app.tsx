@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { guildStore } from "../features/guild/guildStore";
 import { supabase } from "../services/supabase";
+import NextNProgress from "nextjs-progressbar";
 
 const GlobalStyles = createGlobalStyle`
 *{
@@ -55,6 +56,9 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
                     <title>Bienbot</title>
                 </Head>
                 <ThemeProvider theme={dashboardTheme}>
+                    <NextNProgress
+                        color={dashboardTheme.colors.primary["500"]}
+                    />
                     <main className="app">
                         {getLayout(<Component {...pageProps} />)}
                     </main>

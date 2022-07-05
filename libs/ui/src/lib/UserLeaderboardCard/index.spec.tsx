@@ -1,15 +1,19 @@
 import { renderWithTheme } from "../../utils/renderWithTheme";
+import { mockGuildData } from "../../utils/mockGuildData";
 
 import UserLeaderboardCard from "./index";
+import { getMostActiveTextUsers } from "@bienbot/functions";
+
+const mockMember = getMostActiveTextUsers(
+    mockGuildData.messages,
+    mockGuildData.members,
+    5
+)[0];
 
 const props = {
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    displayName: "DisplayName",
-    discordTag: "DiscordTag#1234",
-    position: 1111,
-    hours: 8069,
-    href: "",
+    position: 1,
+    text: "messages",
+    ...mockMember,
 };
 
 describe("UserLeaderboardCard", () => {
@@ -23,24 +27,24 @@ describe("UserLeaderboardCard", () => {
         const { baseElement } = renderWithTheme(
             <UserLeaderboardCard {...props} />
         );
-        expect(baseElement).toContainHTML("DisplayName");
+        expect(baseElement).toContainHTML("testUserDisplayName");
     });
     it("should render discordtag", () => {
         const { baseElement } = renderWithTheme(
             <UserLeaderboardCard {...props} />
         );
-        expect(baseElement).toContainHTML("DiscordTag#1234");
+        expect(baseElement).toContainHTML("testUserName#7777");
     });
     it("should render position", () => {
         const { baseElement } = renderWithTheme(
             <UserLeaderboardCard {...props} />
         );
-        expect(baseElement).toContainHTML("1111");
+        expect(baseElement).toContainHTML("1");
     });
-    it("should render hours", () => {
+    it("should render messages", () => {
         const { baseElement } = renderWithTheme(
             <UserLeaderboardCard {...props} />
         );
-        expect(baseElement).toContainHTML("8069");
+        expect(baseElement).toContainHTML("1");
     });
 });

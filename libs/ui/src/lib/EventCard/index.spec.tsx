@@ -23,11 +23,11 @@ describe("EventCard", () => {
     });
     it("should render eventDescription", () => {
         const { baseElement } = renderWithTheme(<EventCard {...props} />);
-        expect(baseElement).toContainHTML("This is a test event");
+        expect(baseElement).toContainHTML("eventDescription");
     });
     it("should render eventTarget", () => {
         const { baseElement } = renderWithTheme(<EventCard {...props} />);
-        expect(baseElement).toContainHTML("channelId");
+        expect(baseElement).toContainHTML("eventTarget");
     });
     it("should render event datetime", () => {
         const { baseElement } = renderWithTheme(<EventCard {...props} />);

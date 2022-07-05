@@ -38,7 +38,7 @@ const mockGuildData: GuildData = {
     channels: [
         {
             id: "channelId",
-            name: "Test Channel",
+            name: "channelName",
             type: "GUILD_TEXT",
             guild: "guildId",
         },
@@ -53,9 +53,9 @@ const mockGuildData: GuildData = {
     events: [
         {
             id: 1,
-            description: "This is a test event",
-            target: "channelId",
-            targetId: "channelId",
+            description: "eventDescription",
+            target: "eventTarget",
+            targetId: "eventTargetId",
             timestamp: "2020-01-01T00:00:00.000Z",
             type: "messageDelete",
             member: "memberId-guildId",

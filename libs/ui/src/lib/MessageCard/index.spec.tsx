@@ -24,7 +24,7 @@ describe("MessageCard", () => {
     });
     it("should render channel name", () => {
         const { baseElement } = renderWithTheme(<MessageCard {...props} />);
-        expect(baseElement).toContainHTML("Test Channel");
+        expect(baseElement).toContainHTML("channelName");
     });
     it("should render user display name", () => {
         const { baseElement } = renderWithTheme(<MessageCard {...props} />);

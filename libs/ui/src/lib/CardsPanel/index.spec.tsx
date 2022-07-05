@@ -42,7 +42,7 @@ describe("CardsPanel", () => {
         /* Check if userName is displayed properly*/
         expect(baseElement).toContainHTML("testUserName");
         expect(baseElement).toContainHTML("testUserName#7777");
-        expect(baseElement).toContainHTML("Test Channel");
+        expect(baseElement).toContainHTML("channelName");
         expect(baseElement).toContainHTML("00:00");
         expect(baseElement).toContainHTML("Message 0");
     });
@@ -54,8 +54,8 @@ describe("CardsPanel", () => {
         );
         expect(baseElement).toContainHTML("testUserDisplayName");
         expect(baseElement).toContainHTML("#7777");
-        expect(baseElement).toContainHTML("This is a test event");
+        expect(baseElement).toContainHTML("eventDescription");
         expect(baseElement).toContainHTML("01/01 00:00");
-        expect(baseElement).toContainHTML("channelId");
+        expect(baseElement).toContainHTML("eventTarget");
     });
 });

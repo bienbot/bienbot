@@ -1,4 +1,3 @@
-import theme from "libs/themes/src/lib/admin-dashboard/theme";
 import * as React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";

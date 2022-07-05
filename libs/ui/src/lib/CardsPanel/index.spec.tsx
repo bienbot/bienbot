@@ -1,32 +1,19 @@
+import { mockGuildData } from "../../utils/mockGuildData";
 import { renderWithTheme } from "../../utils/renderWithTheme";
-import EventCard from "../EventCard";
+import EventCard, { EventCardProps } from "../EventCard";
 import MessageCard, { MessageCardProps } from "../MessageCard";
 import CardsPanel from "./index";
 
-const exampleMessage = {
-    user: {
-        displayName: "user",
-        discordTag: "userTag#123",
-        id: "",
-    },
-    messageContent: `Lorem, ipsum dolor.`,
-    channel: { id: "", name: "general" },
-    time: "23:36",
-    messageId: "1",
+const messageProps: MessageCardProps = {
+    message: mockGuildData.messages[0],
+    author: mockGuildData.members[0],
+    channel: mockGuildData.channels[0],
 };
 
-const exampleEvent = {
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    displayName: "user",
-    discordTag: "userTag#123",
-    eventDescription: "joined the",
-    eventTarget: "server",
-    eventTime: "23:36",
+const eventProps: EventCardProps = {
+    event: mockGuildData.events[0],
+    member: mockGuildData.members[0],
 };
-
-const messages = new Array(1).fill(exampleMessage);
-const events = new Array(1).fill(exampleEvent);
 
 describe("CardsPanel", () => {
     it("should render successfully", () => {
@@ -48,36 +35,27 @@ describe("CardsPanel", () => {
     it("should render MessageCard", () => {
         const { baseElement } = renderWithTheme(
             <CardsPanel href="/" heading="Test">
-                {messages.map((message: MessageCardProps) => (
-                    <MessageCard key={message.messageId} {...message} />
-                ))}
+                <MessageCard {...messageProps} />
             </CardsPanel>
         );
-        expect(baseElement).toContainHTML("user");
-        expect(baseElement).toContainHTML("userTag#123");
-        expect(baseElement).toContainHTML("general");
-        expect(baseElement).toContainHTML("23:36");
-        expect(baseElement).toContainHTML("Lorem, ipsum dolor.");
+
+        /* Check if userName is displayed properly*/
+        expect(baseElement).toContainHTML("testUserName");
+        expect(baseElement).toContainHTML("testUserName#7777");
+        expect(baseElement).toContainHTML("Test Channel");
+        expect(baseElement).toContainHTML("00:00");
+        expect(baseElement).toContainHTML("Message 0");
     });
     it("should render EventCard", () => {
         const { baseElement } = renderWithTheme(
             <CardsPanel href="/" heading="Test">
-                {events.map((event) => (
-                    <EventCard
-                        key={
-                            event.discordTag +
-                            event.displayName +
-                            event.eventTarget
-                        }
-                        {...event}
-                    />
-                ))}
+                <EventCard {...eventProps} />
             </CardsPanel>
         );
-        expect(baseElement).toContainHTML("user");
-        expect(baseElement).toContainHTML("userTag#123");
-        expect(baseElement).toContainHTML("server");
-        expect(baseElement).toContainHTML("23:36");
-        expect(baseElement).toContainHTML("joined the");
+        expect(baseElement).toContainHTML("testUserDisplayName");
+        expect(baseElement).toContainHTML("#7777");
+        expect(baseElement).toContainHTML("This is a test event");
+        expect(baseElement).toContainHTML("01/01 00:00");
+        expect(baseElement).toContainHTML("channelId");
     });
 });

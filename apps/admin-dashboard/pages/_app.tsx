@@ -1,4 +1,4 @@
-import { dashboardTheme } from "@bienbot/themes";
+import { dashboardTheme, dashboardThemeDark } from "@bienbot/themes";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -28,6 +28,17 @@ type AppPropsWithLayout = AppProps & {
 function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
     const router = useRouter();
+    const [theme, setTheme] = React.useState("light");
+
+    React.useEffect(() => {
+        const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+        ).matches;
+
+        if (prefersDark) {
+            setTheme("dark");
+        }
+    }, [theme]);
 
     React.useEffect(() => {
         const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -55,7 +66,11 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
                 <Head>
                     <title>Bienbot</title>
                 </Head>
-                <ThemeProvider theme={dashboardTheme}>
+                <ThemeProvider
+                    theme={
+                        theme === "light" ? dashboardTheme : dashboardThemeDark
+                    }
+                >
                     <NextNProgress
                         color={dashboardTheme.colors.primary["500"]}
                     />

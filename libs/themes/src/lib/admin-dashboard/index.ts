@@ -1,7 +1,7 @@
 // Do not edit; to change theme edit theme.ts
 
 import { DefaultTheme } from "styled-components";
-import theme from "./theme";
+import { theme, darkTheme } from "./theme";
 
 interface ITheme extends DefaultTheme {
     font: {
@@ -43,3 +43,4 @@ interface ITheme extends DefaultTheme {
 }
 
 export const dashboardTheme: ITheme = theme;
+export const dashboardThemeDark: ITheme = darkTheme;

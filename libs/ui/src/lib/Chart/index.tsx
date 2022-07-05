@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Line } from "react-chartjs-2";
 import ChartJS from "chart.js/auto";
 import { format } from "date-fns";
-import theme from "libs/themes/src/lib/admin-dashboard/theme";
+import { theme, darkTheme } from "libs/themes/src/lib/admin-dashboard/theme";
 import { useWindowSize } from "usehooks-ts";
 import {
     ArcElement,
@@ -141,6 +141,9 @@ const StyledSeeMore = styled.a`
 export const ChartData = (props: IChartData) => {
     const { width } = useWindowSize();
     const isSmall = useWindowSize().width < 768;
+    const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+    ).matches;
 
     return (
         <Line
@@ -150,14 +153,34 @@ export const ChartData = (props: IChartData) => {
                     {
                         label: props.labels.hourLabel,
                         data: props.hourValues,
-                        borderColor: theme.colors.primary[400],
-                        backgroundColor: theme.colors.primary[400],
+                        borderColor: prefersDark
+                            ? darkTheme.colors.primary[800]
+                            : theme.colors.primary[400],
+                        backgroundColor: prefersDark
+                            ? darkTheme.colors.primary[800]
+                            : theme.colors.primary[400],
+                        hoverBackgroundColor: prefersDark
+                            ? darkTheme.colors.primary[800]
+                            : theme.colors.primary[400],
+                        hoverBorderColor: prefersDark
+                            ? darkTheme.colors.primary[800]
+                            : theme.colors.primary[400],
                     },
                     {
                         label: props.labels.messageLabel,
                         data: props.messageValues,
-                        borderColor: theme.colors.primary[700],
-                        backgroundColor: theme.colors.primary[700],
+                        borderColor: prefersDark
+                            ? darkTheme.colors.primary[700]
+                            : theme.colors.primary[700],
+                        backgroundColor: prefersDark
+                            ? darkTheme.colors.primary[700]
+                            : theme.colors.primary[700],
+                        hoverBackgroundColor: prefersDark
+                            ? darkTheme.colors.primary[700]
+                            : theme.colors.primary[700],
+                        hoverBorderColor: prefersDark
+                            ? darkTheme.colors.primary[700]
+                            : theme.colors.primary[700],
                     },
                 ],
             }}
@@ -181,9 +204,15 @@ export const ChartData = (props: IChartData) => {
                         xAlign: "center",
                         enabled: true,
                         displayColors: false,
-                        bodyColor: theme.colors.primary[200],
-                        backgroundColor: theme.colors.primary[800],
-                        titleColor: theme.colors.primary[400],
+                        bodyColor: prefersDark
+                            ? darkTheme.colors.primary[500]
+                            : theme.colors.primary[200],
+                        backgroundColor: prefersDark
+                            ? darkTheme.colors.primary[200]
+                            : theme.colors.primary[800],
+                        titleColor: prefersDark
+                            ? darkTheme.colors.primary[400]
+                            : theme.colors.primary[400],
                         titleAlign: "center",
                         titleFont: {
                             family: theme.font.family,
@@ -225,7 +254,9 @@ export const ChartData = (props: IChartData) => {
                 },
                 aspectRatio: isSmall ? width / 364 : 1.75,
                 responsive: true,
-                color: theme.colors.primary[700],
+                color: prefersDark
+                    ? darkTheme.colors.primary[300]
+                    : theme.colors.primary[700],
                 scales: {
                     x: {
                         grid: {
@@ -233,7 +264,9 @@ export const ChartData = (props: IChartData) => {
                             drawBorder: false,
                         },
                         ticks: {
-                            color: theme.colors.primary[300],
+                            color: prefersDark
+                                ? darkTheme.colors.primary[300]
+                                : theme.colors.primary[300],
                             font: {
                                 family: theme.font.family,
                                 size: parseInt(
@@ -252,7 +285,9 @@ export const ChartData = (props: IChartData) => {
                             drawBorder: false,
                         },
                         ticks: {
-                            color: theme.colors.primary[300],
+                            color: prefersDark
+                                ? darkTheme.colors.primary[300]
+                                : theme.colors.primary[300],
                             font: {
                                 family: theme.font.family,
                                 size: parseInt(

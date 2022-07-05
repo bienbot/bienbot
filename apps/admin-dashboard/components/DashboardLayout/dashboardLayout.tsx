@@ -3,6 +3,7 @@ import { Sidebar, TopBar } from "@bienbot/ui";
 import { useRouter } from "next/router";
 import * as React from "react";
 import styled from "styled-components";
+import { StyledPageWrapper } from "./dashboardLayout.style";
 
 type DashboardLayoutProps = {
     children: React.ReactNode;
@@ -63,17 +64,7 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                         serverId={guildData.id}
                         serverName={guildData.name}
                     />
-                    <div
-                        style={{
-                            paddingLeft: 32,
-                            paddingRight: 32,
-                            paddingTop: 80,
-                            fontFamily: "Outfit",
-                            width: "100%",
-                        }}
-                    >
-                        {children}
-                    </div>
+                    <StyledPageWrapper>{children}</StyledPageWrapper>
                 </div>
             </div>
         </>

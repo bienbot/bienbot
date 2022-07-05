@@ -6,6 +6,7 @@ export const StyledWrapper = styled.main`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 410px), 1fr));
     gap: 32px;
+    background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const StyledUserWrapper = styled.div`

@@ -6,7 +6,7 @@ export interface MemberData {
     displayColor: string;
     displayName: string;
     id: string;
-    joinedAt: Date;
+    joinedAt: string;
     roles: string[];
     username: string;
     presence: "online" | "idle" | "dnd" | "offline" | "invisible";

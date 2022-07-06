@@ -1,7 +1,7 @@
 import { Story, Meta } from "@storybook/react";
-import { UserLeaderboardCardProps } from "../UserLeaderboardCard";
-import UserStatus, { UserStatusProps } from ".";
+import UserStatus from ".";
 import { MemberData } from "@bienbot/types";
+import { mockGuildData } from "../../utils/mockGuildData";
 
 export default {
     component: UserStatus,
@@ -21,20 +21,7 @@ export default {
     },
 } as Meta;
 
-const templateUser: MemberData = {
-    avatar: "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    bot: false,
-    createdAt: 0,
-    displayColor: "#000000",
-    displayName: "",
-    id: "0",
-    joinedAt: new Date(),
-    roles: [],
-    discriminator: "1234",
-    username: "Username",
-    presence: "online",
-    boostingSince: new Date().toLocaleTimeString(),
-};
+const templateUser: MemberData = mockGuildData.members[0];
 
 export const Template: Story = (args) => {
     const user = templateUser;

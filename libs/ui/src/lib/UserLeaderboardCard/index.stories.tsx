@@ -1,4 +1,5 @@
 import { Story, Meta } from "@storybook/react";
+import { mockGuildData } from "../../utils/mockGuildData";
 import { UserLeaderboardCard, UserLeaderboardCardProps } from "./index";
 
 export default {
@@ -6,16 +7,19 @@ export default {
     title: "UserLeaderboardCard",
 } as Meta;
 
+const user = mockGuildData.members[0];
+
 export const Template: Story<UserLeaderboardCardProps> = (args) => (
     <UserLeaderboardCard {...args} />
 );
 
 Template.args = {
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    displayName: "Text",
-    discordTag: "Text#2137",
+    imageSrc: user.avatar,
+    displayName: user.displayName,
+    discordTag: user.discriminator,
+    username: user.username,
     position: 1,
-    hours: 8069,
+    count: 8069,
+    text: "hours",
     href: "",
 };

@@ -1,5 +1,6 @@
-import { MessageData } from "@bienbot/types";
+import { ChannelData, MemberData, MessageData } from "@bienbot/types";
 import { Story, Meta } from "@storybook/react";
+import { mockGuildData } from "../../utils/mockGuildData";
 import { MessageCard } from "./index";
 
 export default {
@@ -7,25 +8,30 @@ export default {
     title: "MessageCard",
 } as Meta;
 
-export const Template: Story<MessageData> = (args) => <MessageCard {...args} />;
+const mockMessage = mockGuildData.messages[0];
+const mockAuthor = mockGuildData.members[0];
+const mockChannel = mockGuildData.channels[0];
+
+export const Template: Story = (args) => {
+    const message = { ...mockMessage, ...args["message"] } as MessageData;
+    const author = { ...mockAuthor, ...args["author"] } as MemberData;
+    const channel = { ...mockChannel, ...args["channel"] } as ChannelData;
+
+    return <MessageCard message={message} author={author} channel={channel} />;
+};
 
 Template.args = {
     author: {
-        avatar: "https://www.github.com/lkarasinski.png",
-        displayName: "Display Name",
-        discriminator: "1234",
-        id: "12345678",
-        username: "Username",
+        avatar: mockAuthor.avatar,
+        displayName: mockAuthor.displayName,
+        discriminator: mockAuthor.discriminator,
+        username: mockAuthor.username,
     },
-    content: {
-        text: ` Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-        Voluptatem aperiam ut maxime recusandae voluptates praesentium
-        reprehenderit earum rem fugit molestias ipsum voluptatibus
-        facere, animi incidunt dolorum dignissimos quasi aliquid!
-        Tempora?`,
-        attachments: [],
+    channel: {
+        name: mockChannel.name,
     },
-    id: "1",
-    timestamp: { seconds: 0, nanoseconds: 0 },
-    channel: { id: "", name: "general" },
+    message: {
+        content: mockMessage.content,
+        timestamp: mockMessage.timestamp,
+    },
 };

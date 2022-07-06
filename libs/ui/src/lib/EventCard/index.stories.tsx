@@ -1,21 +1,33 @@
+import { EventData, MemberData } from "@bienbot/types";
 import { Story, Meta } from "@storybook/react";
-import { EventCard, EventCardProps } from "./index";
+import { mockGuildData } from "../../utils/mockGuildData";
+import { EventCard } from "./index";
 
 export default {
     component: EventCard,
     title: "Event Card",
 } as Meta;
 
-export const Template: Story<EventCardProps> = (args) => (
-    <EventCard {...args} />
-);
+const mockEvent = mockGuildData.events[0];
+const mockMember = mockGuildData.members[0];
+
+export const Template: Story = (args) => {
+    const event = { ...mockEvent, ...args["event"] } as EventData;
+    const member = { ...mockMember, ...args["member"] } as MemberData;
+
+    return <EventCard event={event} member={member} />;
+};
 
 Template.args = {
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    displayName: "mulirus",
-    discordTag: "milosz#6729",
-    eventDescription: "joined the",
-    eventTarget: "server",
-    eventTime: "23:36",
+    event: {
+        description: mockEvent.description,
+        timestamp: mockEvent.timestamp,
+        target: mockEvent.target,
+    },
+    member: {
+        avatar: mockMember.avatar,
+        displayName: mockMember.displayName,
+        discriminator: mockMember.discriminator,
+        username: mockMember.username,
+    },
 };

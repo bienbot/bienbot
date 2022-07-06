@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import { renderWithTheme } from "../../utils/renderWithTheme";
 
 import StatisticsPanel from "./index";

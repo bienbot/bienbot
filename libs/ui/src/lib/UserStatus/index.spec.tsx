@@ -10,7 +10,7 @@ const user: MemberData = {
     displayColor: "#000000",
     displayName: "DisplayName",
     id: "1234",
-    joinedAt: new Date(),
+    joinedAt: new Date().toLocaleDateString(),
     roles: [],
     discriminator: "1234",
     username: "Username",

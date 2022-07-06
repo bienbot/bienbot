@@ -1,4 +1,6 @@
+import { EventData, MessageData } from "@bienbot/types";
 import { Story, Meta } from "@storybook/react";
+import { mockGuildData } from "../../utils/mockGuildData";
 import EventCard, { EventCardProps } from "../EventCard";
 import MessageCard, { MessageCardProps } from "../MessageCard";
 import UserLeaderboard from "../UserLeaderboard";
@@ -46,46 +48,49 @@ const exampleEvent = {
     eventTime: "23:36",
 };
 
-const user = {
-    imageSrc:
-        "https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-    displayName: "Text",
-    discordTag: "Text#2137",
-    position: 1,
-    hours: 8069,
-    href: "",
-};
+const mockUser = mockGuildData.members[0];
+const mockEvent = mockGuildData.events[0];
+const mockMessage = mockGuildData.messages[0];
+const mockChannel = mockGuildData.channels[0];
 
 const leaderboardUsers: UserLeaderboardCardProps[] = new Array(4)
     .fill(0)
     .map((_, i) => {
         return {
-            ...user,
+            imageSrc: mockUser.avatar,
+            displayName: mockUser.displayName,
+            discordTag: mockUser.discriminator,
+            username: mockUser.username,
+            position: i + 1,
             href: `${i + 1}`,
+            count: 8069,
+            text: "",
         };
     });
 
 const leaderboardData = [leaderboardUsers, leaderboardUsers];
 
-const messages = new Array(4).fill(exampleMessage);
-const events = new Array(4).fill(exampleEvent);
+const messages = new Array(4).fill(mockMessage) as MessageData[];
+const events = new Array(4).fill(mockEvent) as EventData[];
 
 Events.args = {
     heading: "Recent events",
     href: "",
-    children: events.map((event: EventCardProps) => (
-        <EventCard
-            key={event.discordTag + event.displayName + event.eventTarget}
-            {...event}
-        />
+    children: events.map((event) => (
+        <EventCard key={event.id} member={mockUser} event={event} />
     )),
 };
 
 Messages.args = {
     heading: "Recent messages",
     href: "",
-    children: messages.map((message: MessageCardProps) => (
-        <MessageCard key={message.messageId} {...message} />
+    children: messages.map((message) => (
+        <MessageCard
+            key={message.id}
+            message={message}
+            author={mockUser}
+            channel={mockChannel}
+        />
     )),
 };
 
@@ -104,11 +109,15 @@ Leaderboards.args = {
                 heading="Voice channels"
                 key={leaderboardData[0][0].discordTag}
                 users={leaderboardData[0]}
+                text="hours"
+                guildId=""
             />
             <UserLeaderboard
                 heading="Text channels"
                 key={leaderboardData[1][0].discordTag}
                 users={leaderboardData[1]}
+                text="messages"
+                guildId=""
             />
         </div>
     ),

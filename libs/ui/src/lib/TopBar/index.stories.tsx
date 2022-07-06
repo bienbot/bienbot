@@ -11,4 +11,5 @@ const Template: Story<TopBarProps> = (args) => <TopBar {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
     serverName: "Server name",
+    serverId: "",
 };

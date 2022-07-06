@@ -14,6 +14,7 @@ const button = {
     text: "Text",
     icon: <GoMail />,
     href: "",
+    isActive: false,
 };
 
 const buttons: SidebarButtonProps[] = new Array(4).fill(0).map((_, i) => {

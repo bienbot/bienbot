@@ -23,6 +23,7 @@ export function EventCard(props: EventCardProps) {
                         imageSrc={member.avatar}
                         displayName={member.displayName}
                         discordTag={member.discriminator}
+                        username={member.username}
                     />
                 </StyledUserContainer>
             </OptionalLinkWrapper>

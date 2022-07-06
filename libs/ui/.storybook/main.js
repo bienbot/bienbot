@@ -1,4 +1,5 @@
 const rootMain = require("../../../.storybook/main");
+const path = require("path");
 
 module.exports = {
     ...rootMain,
@@ -14,6 +15,12 @@ module.exports = {
         ...rootMain.addons,
         "@nrwl/react/plugins/storybook",
         "storybook-addon-styled-component-theme/dist/preset",
+        {
+            name: "storybook-addon-next",
+            options: {
+                nextConfigPath: path.resolve(__dirname, "../next.config.js"),
+            },
+        },
     ],
     webpackFinal: async (config, { configType }) => {
         // apply any global webpack configs that might have been specified in .storybook/main.js

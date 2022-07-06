@@ -19,7 +19,7 @@ const getMostActiveTextUsers = (
             if (usersMessagesCount.has(memberId)) {
                 usersMessagesCount.set(
                     memberId,
-                    usersMessagesCount.get(memberId) ?? 0 + 1
+                    (usersMessagesCount.get(memberId) ?? 0) + 1
                 );
             } else {
                 usersMessagesCount.set(memberId, 1);

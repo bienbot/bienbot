@@ -16,7 +16,7 @@ const getMostActiveVoiceUsers = (
             if (userHoursCount.has(memberId)) {
                 userHoursCount.set(
                     memberId,
-                    userHoursCount.get(memberId) ?? 0 + 1
+                    (userHoursCount.get(memberId) ?? 0) + 1
                 );
             } else {
                 userHoursCount.set(memberId, 1);

@@ -25,37 +25,38 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                             href: `/guilds/${guildData.id}`,
                             isActive: router.pathname === "/guilds/[guildId]",
                         },
-                        {
-                            text: "Messages",
-                            icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.id}/messages`,
-                            isActive: router.pathname.includes(
-                                "/guilds/[guildId]/messages"
-                            ),
-                        },
-                        {
-                            text: "Events",
-                            icon: <StyledIcon>E</StyledIcon>,
-                            href: `/guilds/${guildData.id}/events`,
-                            isActive: false,
-                        },
-                        {
-                            text: "Channels",
-                            icon: <StyledIcon>C</StyledIcon>,
-                            href: `/guilds/${guildData.id}/channels`,
-                            isActive: false,
-                        },
-                        {
-                            text: "Leaderboards",
-                            icon: <StyledIcon>L</StyledIcon>,
-                            href: `/guilds/${guildData.id}/leaderboards`,
-                            isActive: false,
-                        },
+                        // {
+                        //     text: "Messages",
+                        //     icon: <StyledIcon>M</StyledIcon>,
+                        //     href: `/guilds/${guildData.id}/messages`,
+                        //     isActive: router.pathname.includes(
+                        //         "/guilds/[guildId]/messages"
+                        //     ),
+                        // },
+                        // {
+                        //     text: "Events",
+                        //     icon: <StyledIcon>E</StyledIcon>,
+                        //     href: `/guilds/${guildData.id}/events`,
+                        //     isActive: false,
+                        // },
+                        // {
+                        //     text: "Channels",
+                        //     icon: <StyledIcon>C</StyledIcon>,
+                        //     href: `/guilds/${guildData.id}/channels`,
+                        //     isActive: false,
+                        // },
+                        // {
+                        //     text: "Leaderboards",
+                        //     icon: <StyledIcon>L</StyledIcon>,
+                        //     href: `/guilds/${guildData.id}/leaderboards`,
+                        //     isActive: false,
+                        // },
                         {
                             text: "Users",
                             icon: <StyledIcon>U</StyledIcon>,
                             href: `/guilds/${guildData.id}/users`,
-                            isActive: false,
+                            isActive:
+                                router.pathname === "/guilds/[guildId]/users",
                         },
                     ]}
                 />

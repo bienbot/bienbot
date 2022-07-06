@@ -20,7 +20,7 @@ const UsersDashboard = ({ guildData }: Props) => {
 
     const userPresence = {
         online: ["online", "idle", "dnd"],
-        offline: ["offline", "invisible"],
+        offline: ["offline", "invisible", null],
     };
     const onlineUsers = usersData.filter((member) =>
         userPresence.online.includes(member.presence)

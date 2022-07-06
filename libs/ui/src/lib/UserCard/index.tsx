@@ -25,9 +25,16 @@ export function UserCard(props: UserCardProps) {
                         layout="fixed"
                         alt={props.discordTag}
                     />
-                    {["online", "idle", "dnd", "offline", "invisible"].includes(
-                        props.presence
-                    ) && <PresenceStatusDot presence={props.presence} />}
+                    {[
+                        "online",
+                        "idle",
+                        "dnd",
+                        "offline",
+                        "invisible",
+                        null,
+                    ].includes(props.presence) && (
+                        <PresenceStatusDot presence={props.presence} />
+                    )}
                 </StyledImageContainer>
                 <StyledUserCardContainer direction={props.direction}>
                     <StyledDiscordTag>
@@ -95,7 +102,7 @@ const StyledDiscordTag = styled.span`
 `;
 
 const PresenceStatusDot = styled.div<{
-    presence: "online" | "idle" | "dnd" | "offline" | "invisible";
+    presence: "online" | "idle" | "dnd" | "offline" | "invisible" | null;
 }>`
     position: absolute;
     background-color: ${({ presence }) => {

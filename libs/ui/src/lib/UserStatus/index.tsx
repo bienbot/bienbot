@@ -18,9 +18,16 @@ export const UserStatus = (props: UserStatusProps) => {
                     width={48}
                     height={48}
                 />
-                {["online", "idle", "dnd", "offline", "invisible"].includes(
-                    props.user.presence
-                ) && <PresenceStatusDot presence={props.user.presence} />}
+                {[
+                    "online",
+                    "idle",
+                    "dnd",
+                    "offline",
+                    "invisible",
+                    null,
+                ].includes(props.user.presence) && (
+                    <PresenceStatusDot presence={props.user.presence} />
+                )}
             </AvatarContainer>
             <TextContainer>
                 <DisplayName>{props.user.displayName} </DisplayName>
@@ -64,7 +71,7 @@ const StyledImage = styled.img`
 `;
 
 const PresenceStatusDot = styled.div<{
-    presence: "online" | "idle" | "dnd" | "offline" | "invisible";
+    presence: "online" | "idle" | "dnd" | "offline" | "invisible" | null;
 }>`
     position: absolute;
     background-color: ${({ presence }) => {

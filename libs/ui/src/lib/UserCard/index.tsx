@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-
-type Direction = "row" | "column";
+import { MemberData } from "@bienbot/types";
 
 export interface UserCardProps {
     imageSrc: string;
     discordTag: string;
     displayName: string;
-    direction: Direction;
+    direction: "row" | "column";
     username?: string;
     href: string;
+    presence: MemberData["presence"];
 }
 
 export function UserCard(props: UserCardProps) {
@@ -18,15 +18,16 @@ export function UserCard(props: UserCardProps) {
         <Link href={props.href} passHref>
             <StyledUserCard>
                 <StyledImageContainer>
-                    <Image
+                    <StyledImage
                         src={props.imageSrc}
-                        unoptimized
                         width="32px"
                         height="32px"
                         layout="fixed"
                         alt={props.discordTag}
-                        priority
                     />
+                    {["online", "idle", "dnd", "offline", "invisible"].includes(
+                        props.presence
+                    ) && <PresenceStatusDot presence={props.presence} />}
                 </StyledImageContainer>
                 <StyledUserCardContainer direction={props.direction}>
                     <StyledDiscordTag>
@@ -51,15 +52,19 @@ const StyledUserCard = styled.a`
 `;
 
 const StyledImageContainer = styled.div`
+    position: relative;
     width: 32px;
     height: 32px;
     border-radius: 50%;
     flex-shrink: 0;
-    overflow: hidden;
+`;
+
+const StyledImage = styled(Image)`
+    border-radius: 50%;
 `;
 
 const StyledUserCardContainer = styled.div<{
-    direction: Direction;
+    direction: "row" | "column";
 }>`
     display: flex;
     flex-wrap: wrap;
@@ -87,6 +92,31 @@ const StyledDiscordTag = styled.span`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+`;
+
+const PresenceStatusDot = styled.div<{
+    presence: "online" | "idle" | "dnd" | "offline" | "invisible";
+}>`
+    position: absolute;
+    background-color: ${({ presence }) => {
+        switch (presence) {
+            case "online":
+                return "#5aa364";
+            case "idle":
+                return "#eeac42";
+            case "dnd":
+                return "#db504c";
+            default:
+                return "grey";
+        }
+    }};
+    width: 14px;
+    height: 14px;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: color 0.1s ease-in-out;
 `;
 
 export default UserCard;

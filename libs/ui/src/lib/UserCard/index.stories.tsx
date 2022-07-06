@@ -15,4 +15,5 @@ Template.args = {
     discordTag: "Text#2137",
     direction: "row",
     href: "/",
+    presence: "online",
 };

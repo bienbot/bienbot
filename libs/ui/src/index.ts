@@ -17,3 +17,4 @@ export * from "./lib/Chart";
 export * from "./lib/SearchModal";
 export * from "./lib/OptionalLinkWrapper";
 export * from "./lib/UserStatus";
+export * from "./lib/UserCard";

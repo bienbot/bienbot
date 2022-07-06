@@ -52,9 +52,9 @@ const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
                             isActive: false,
                         },
                         {
-                            text: "Members",
-                            icon: <StyledIcon>M</StyledIcon>,
-                            href: `/guilds/${guildData.id}/members`,
+                            text: "Users",
+                            icon: <StyledIcon>U</StyledIcon>,
+                            href: `/guilds/${guildData.id}/users`,
                             isActive: false,
                         },
                     ]}

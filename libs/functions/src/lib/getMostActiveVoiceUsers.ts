@@ -14,7 +14,10 @@ const getMostActiveVoiceUsers = (
         const memberId = voicePresence.member.split("-")[0];
         if (memberId) {
             if (userHoursCount.has(memberId)) {
-                userHoursCount.set(memberId, userHoursCount.get(memberId) + 1);
+                userHoursCount.set(
+                    memberId,
+                    userHoursCount.get(memberId) ?? 0 + 1
+                );
             } else {
                 userHoursCount.set(memberId, 1);
             }

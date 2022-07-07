@@ -33,6 +33,7 @@
         "firebase": "^9.6.6",
         "firebase-admin": "^10.0.2",
         "framer-motion": "^6.3.3",
+        "fuse.js": "^6.6.2",
         "immer": "^9.0.15",
         "libsodium-wrappers": "^0.7.9",
         "next": "^12.2.0",
@@ -51,6 +52,7 @@
         "sodium": "^3.0.2",
         "styled-components": "5.3.3",
         "tslib": "^2.0.0",
+        "use-fuse": "^0.0.3",
         "usehooks-ts": "^2.4.0",
         "yt-search": "^2.10.3",
         "ytdl-core": "^4.10.1"

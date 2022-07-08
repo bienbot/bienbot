@@ -9,6 +9,7 @@ const fetchGuildData = async ({ guildId }: { guildId: string }) => {
         channels: [],
         events: [],
         voicePresences: [],
+        roles: [],
     };
 
     const fetchMessages = supabase
@@ -56,7 +57,15 @@ const fetchGuildData = async ({ guildId }: { guildId: string }) => {
         .select()
         .match({ id: guildId })
         .then(({ data }) => {
-            guildData.name = data[0].name;
+            guildData.name = data[0]?.name ?? "";
+        });
+
+    const fetchRoles = supabase
+        .from(`roles`)
+        .select()
+        .match({ guild: guildId })
+        .then(({ data }) => {
+            guildData.roles = data;
         });
 
     const promises = [
@@ -66,6 +75,7 @@ const fetchGuildData = async ({ guildId }: { guildId: string }) => {
         fetchEvents,
         fetchVoicePresences,
         fetchGuildInfo,
+        fetchRoles,
     ];
 
     await Promise.all(promises);

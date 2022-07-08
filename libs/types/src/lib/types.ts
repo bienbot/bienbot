@@ -79,4 +79,5 @@ export interface GuildData {
     voicePresences: VoicePresenceData[];
     events: EventData[];
     roles: RoleData[];
+    accessRole?: string;
 }

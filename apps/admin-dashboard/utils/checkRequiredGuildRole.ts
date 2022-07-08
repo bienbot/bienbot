@@ -1,4 +1,6 @@
-import { supabase } from "apps/admin-dashboard/services/supabase";
+import { GuildData, MemberData } from "@bienbot/types";
+
+import { supabase } from "../services/supabase";
 
 const checkRequiredGuildRole = async ({
     guildId,
@@ -7,28 +9,36 @@ const checkRequiredGuildRole = async ({
     guildId: string;
     discordId: string;
 }) => {
-    const {
-        data: [guildData],
-        error: guildError,
-    } = await supabase.from("guilds").select().eq("id", `${guildId}`);
-    if (guildError) console.error(guildError);
+    let guild: GuildData | undefined;
+    let member: MemberData | undefined;
 
-    const {
-        data: [memberData],
-        error: memberError,
-    } = await supabase
+    const fetchGuild = supabase
+        .from("guilds")
+        .select()
+        .eq("id", `${guildId}`)
+        .single()
+        .then(({ data }) => {
+            guild = data;
+        });
+    const fetchMember = supabase
         .from("members")
         .select()
         .match({
             guild: `${guildId}`,
             id: `${discordId}`,
+        })
+        .single()
+        .then(({ data }) => {
+            member = data;
         });
-    if (memberError) console.error(memberError);
 
-    const requiredRole = guildData?.accessRole;
+    const promises = [fetchGuild, fetchMember];
+    await Promise.all(promises);
+
+    const requiredRole = guild?.accessRole;
     if (!requiredRole) return true;
 
-    return memberData?.roles.includes(requiredRole);
+    return member?.roles.includes(requiredRole);
 };
 
 export { checkRequiredGuildRole };

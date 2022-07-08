@@ -10,50 +10,50 @@ import { supabase } from "../../../../../services/supabase";
 import { checkRequiredGuildRole } from "../../../../../utils/checkRequiredGuildRole";
 
 const UserDashboardPage = () => {
-    const router = useRouter();
-    const guildId = router.query.guildId as string;
-    useRealtimeListener({
-        guildId,
-    });
-    const guildData = useSelector(selectGuild);
+	const router = useRouter();
+	const guildId = router.query.guildId as string;
+	useRealtimeListener({
+		guildId,
+	});
+	const guildData = useSelector(selectGuild);
 
-    if (!guildData.id) return null;
+	if (!guildData.id) return null;
 
-    return (
-        <>
-            <DashboardLayout guildData={guildData}>
-                <UserDashboard guildData={guildData} />
-            </DashboardLayout>
-        </>
-    );
+	return (
+		<>
+			<DashboardLayout guildData={guildData}>
+				<UserDashboard guildData={guildData} />
+			</DashboardLayout>
+		</>
+	);
 };
 
 export const getServerSideProps = async ({ req, query }) => {
-    const { user } = await supabase.auth.api.getUserByCookie(req);
-    if (user) {
-        const discordId = user.identities.find(
-            (i) => i.provider === "discord"
-        )?.id;
-        if (discordId) {
-            const hasAccess = await checkRequiredGuildRole({
-                guildId: query.guildId as string,
-                discordId,
-            });
-            if (hasAccess) {
-                return {
-                    props: {},
-                };
-            }
-        }
-    }
+	const { user } = await supabase.auth.api.getUserByCookie(req);
+	if (user) {
+		const discordId = user.identities.find(
+			(i) => i.provider === "discord"
+		)?.id;
+		if (discordId) {
+			const hasAccess = await checkRequiredGuildRole({
+				guildId: query.guildId as string,
+				discordId,
+			});
+			if (hasAccess) {
+				return {
+					props: {},
+				};
+			}
+		}
+	}
 
-    return {
-        redirect: {
-            permanent: false,
-            destination: "/login",
-        },
-        props: {},
-    };
+	return {
+		redirect: {
+			permanent: false,
+			destination: "/login",
+		},
+		props: {},
+	};
 };
 
 export default UserDashboardPage;

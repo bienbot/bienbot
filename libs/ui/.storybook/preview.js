@@ -1,7 +1,7 @@
+import { dashboardTheme } from "@bienbot/themes";
 import { addDecorator } from "@storybook/react";
 import { withThemesProvider } from "storybook-addon-styled-component-theme";
 import { ThemeProvider } from "styled-components";
-import { dashboardTheme } from "@bienbot/themes";
 
 const themes = [dashboardTheme];
 

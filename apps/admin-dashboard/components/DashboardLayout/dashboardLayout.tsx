@@ -7,75 +7,75 @@ import styled from "styled-components";
 import { StyledPageWrapper } from "./dashboardLayout.style";
 
 type DashboardLayoutProps = {
-    children: React.ReactNode;
-    guildData: GuildData;
+	children: React.ReactNode;
+	guildData: GuildData;
 };
 
 const DashboardLayout = ({ children, guildData }: DashboardLayoutProps) => {
-    const router = useRouter();
-    return (
-        <>
-            <div style={{ display: "flex" }}>
-                <Sidebar
-                    logoText="Bien"
-                    href={`/`}
-                    buttons={[
-                        {
-                            text: "Dashboard",
-                            icon: <StyledIcon>D</StyledIcon>,
-                            href: `/guilds/${guildData.id}`,
-                            isActive: router.pathname === "/guilds/[guildId]",
-                        },
-                        // {
-                        //     text: "Messages",
-                        //     icon: <StyledIcon>M</StyledIcon>,
-                        //     href: `/guilds/${guildData.id}/messages`,
-                        //     isActive: router.pathname.includes(
-                        //         "/guilds/[guildId]/messages"
-                        //     ),
-                        // },
-                        // {
-                        //     text: "Events",
-                        //     icon: <StyledIcon>E</StyledIcon>,
-                        //     href: `/guilds/${guildData.id}/events`,
-                        //     isActive: false,
-                        // },
-                        // {
-                        //     text: "Channels",
-                        //     icon: <StyledIcon>C</StyledIcon>,
-                        //     href: `/guilds/${guildData.id}/channels`,
-                        //     isActive: false,
-                        // },
-                        // {
-                        //     text: "Leaderboards",
-                        //     icon: <StyledIcon>L</StyledIcon>,
-                        //     href: `/guilds/${guildData.id}/leaderboards`,
-                        //     isActive: false,
-                        // },
-                        {
-                            text: "Users",
-                            icon: <StyledIcon>U</StyledIcon>,
-                            href: `/guilds/${guildData.id}/users`,
-                            isActive:
-                                router.pathname === "/guilds/[guildId]/users",
-                        },
-                    ]}
-                />
-                <div style={{ marginLeft: 80, width: "100%" }}>
-                    <TopBar
-                        serverId={guildData.id}
-                        serverName={guildData.name}
-                    />
-                    <StyledPageWrapper>{children}</StyledPageWrapper>
-                </div>
-            </div>
-        </>
-    );
+	const router = useRouter();
+	return (
+		<>
+			<div style={{ display: "flex" }}>
+				<Sidebar
+					logoText="Bien"
+					href={`/`}
+					buttons={[
+						{
+							text: "Dashboard",
+							icon: <StyledIcon>D</StyledIcon>,
+							href: `/guilds/${guildData.id}`,
+							isActive: router.pathname === "/guilds/[guildId]",
+						},
+						// {
+						//     text: "Messages",
+						//     icon: <StyledIcon>M</StyledIcon>,
+						//     href: `/guilds/${guildData.id}/messages`,
+						//     isActive: router.pathname.includes(
+						//         "/guilds/[guildId]/messages"
+						//     ),
+						// },
+						// {
+						//     text: "Events",
+						//     icon: <StyledIcon>E</StyledIcon>,
+						//     href: `/guilds/${guildData.id}/events`,
+						//     isActive: false,
+						// },
+						// {
+						//     text: "Channels",
+						//     icon: <StyledIcon>C</StyledIcon>,
+						//     href: `/guilds/${guildData.id}/channels`,
+						//     isActive: false,
+						// },
+						// {
+						//     text: "Leaderboards",
+						//     icon: <StyledIcon>L</StyledIcon>,
+						//     href: `/guilds/${guildData.id}/leaderboards`,
+						//     isActive: false,
+						// },
+						{
+							text: "Users",
+							icon: <StyledIcon>U</StyledIcon>,
+							href: `/guilds/${guildData.id}/users`,
+							isActive:
+								router.pathname === "/guilds/[guildId]/users",
+						},
+					]}
+				/>
+				<div style={{ marginLeft: 80, width: "100%" }}>
+					<TopBar
+						serverId={guildData.id}
+						serverName={guildData.name}
+					/>
+					<StyledPageWrapper>{children}</StyledPageWrapper>
+				</div>
+			</div>
+		</>
+	);
 };
 
 // Temporary component, change to react-icons later
 const StyledIcon = styled.div`
-    font-family: Outfit;
+	font-family: Outfit;
 `;
 
 export default DashboardLayout;

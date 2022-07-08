@@ -1,5 +1,5 @@
 {
-    "name": "@bienbot/bot",
-    "version": "0.0.1",
-    "type": "commonjs"
+	"name": "@bienbot/bot",
+	"version": "0.0.1",
+	"type": "commonjs"
 }

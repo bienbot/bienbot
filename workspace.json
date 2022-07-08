@@ -1,15 +1,15 @@
 {
-    "version": 2,
-    "projects": {
-        "admin-dashboard": "apps/admin-dashboard",
-        "admin-dashboard-e2e": "apps/admin-dashboard-e2e",
-        "backend": "apps/backend",
-        "bot": "apps/bot",
-        "functions": "libs/functions",
-        "themes": "libs/themes",
-        "types": "libs/types",
-        "ui": "libs/ui",
-        "user-website": "apps/user-website",
-        "user-website-e2e": "apps/user-website-e2e"
-    }
+	"version": 2,
+	"projects": {
+		"admin-dashboard": "apps/admin-dashboard",
+		"admin-dashboard-e2e": "apps/admin-dashboard-e2e",
+		"backend": "apps/backend",
+		"bot": "apps/bot",
+		"functions": "libs/functions",
+		"themes": "libs/themes",
+		"types": "libs/types",
+		"ui": "libs/ui",
+		"user-website": "apps/user-website",
+		"user-website-e2e": "apps/user-website-e2e"
+	}
 }

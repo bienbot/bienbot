@@ -1,54 +1,54 @@
 {
-    "root": "apps/user-website",
-    "sourceRoot": "apps/user-website",
-    "projectType": "application",
-    "targets": {
-        "build": {
-            "executor": "@nrwl/next:build",
-            "outputs": ["{options.outputPath}"],
-            "defaultConfiguration": "production",
-            "options": {
-                "root": "apps/user-website",
-                "outputPath": "dist/apps/user-website"
-            },
-            "configurations": {
-                "production": {}
-            }
-        },
-        "serve": {
-            "executor": "@nrwl/next:server",
-            "options": {
-                "buildTarget": "user-website:build",
-                "dev": true
-            },
-            "configurations": {
-                "production": {
-                    "buildTarget": "user-website:build:production",
-                    "dev": false
-                }
-            }
-        },
-        "export": {
-            "executor": "@nrwl/next:export",
-            "options": {
-                "buildTarget": "user-website:build:production"
-            }
-        },
-        "test": {
-            "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/apps/user-website"],
-            "options": {
-                "jestConfig": "apps/user-website/jest.config.js",
-                "passWithNoTests": true
-            }
-        },
-        "lint": {
-            "executor": "@nrwl/linter:eslint",
-            "outputs": ["{options.outputFile}"],
-            "options": {
-                "lintFilePatterns": ["apps/user-website/**/*.{ts,tsx,js,jsx}"]
-            }
-        }
-    },
-    "tags": []
+	"root": "apps/user-website",
+	"sourceRoot": "apps/user-website",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/next:build",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"root": "apps/user-website",
+				"outputPath": "dist/apps/user-website"
+			},
+			"configurations": {
+				"production": {}
+			}
+		},
+		"serve": {
+			"executor": "@nrwl/next:server",
+			"options": {
+				"buildTarget": "user-website:build",
+				"dev": true
+			},
+			"configurations": {
+				"production": {
+					"buildTarget": "user-website:build:production",
+					"dev": false
+				}
+			}
+		},
+		"export": {
+			"executor": "@nrwl/next:export",
+			"options": {
+				"buildTarget": "user-website:build:production"
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/apps/user-website"],
+			"options": {
+				"jestConfig": "apps/user-website/jest.config.js",
+				"passWithNoTests": true
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/user-website/**/*.{ts,tsx,js,jsx}"]
+			}
+		}
+	},
+	"tags": []
 }

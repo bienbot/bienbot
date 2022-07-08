@@ -1,16 +1,17 @@
-import { Story, Meta } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
+
 import { LoginButton, LoginButtonProps } from "./index";
 
 export default {
-    component: LoginButton,
-    title: "LoginButton",
+	component: LoginButton,
+	title: "LoginButton",
 } as Meta;
 
 export const Template: Story<LoginButtonProps> = (args) => (
-    <LoginButton {...args} />
+	<LoginButton {...args} />
 );
 
 Template.args = {
-    text: "Log in with Discord",
-    authEndpoint: "",
+	text: "Log in with Discord",
+	authEndpoint: "",
 };

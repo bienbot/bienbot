@@ -2,34 +2,34 @@ const rootMain = require("../../../.storybook/main");
 const path = require("path");
 
 module.exports = {
-    ...rootMain,
+	...rootMain,
 
-    core: { ...rootMain.core, builder: "webpack5" },
+	core: { ...rootMain.core, builder: "webpack5" },
 
-    stories: [
-        ...rootMain.stories,
-        "../src/lib/**/*.stories.mdx",
-        "../src/lib/**/*.stories.@(js|jsx|ts|tsx)",
-    ],
-    addons: [
-        ...rootMain.addons,
-        "@nrwl/react/plugins/storybook",
-        "storybook-addon-styled-component-theme/dist/preset",
-        {
-            name: "storybook-addon-next",
-            options: {
-                nextConfigPath: path.resolve(__dirname, "../next.config.js"),
-            },
-        },
-    ],
-    webpackFinal: async (config, { configType }) => {
-        // apply any global webpack configs that might have been specified in .storybook/main.js
-        if (rootMain.webpackFinal) {
-            config = await rootMain.webpackFinal(config, { configType });
-        }
+	stories: [
+		...rootMain.stories,
+		"../src/lib/**/*.stories.mdx",
+		"../src/lib/**/*.stories.@(js|jsx|ts|tsx)",
+	],
+	addons: [
+		...rootMain.addons,
+		"@nrwl/react/plugins/storybook",
+		"storybook-addon-styled-component-theme/dist/preset",
+		{
+			name: "storybook-addon-next",
+			options: {
+				nextConfigPath: path.resolve(__dirname, "../next.config.js"),
+			},
+		},
+	],
+	webpackFinal: async (config, { configType }) => {
+		// apply any global webpack configs that might have been specified in .storybook/main.js
+		if (rootMain.webpackFinal) {
+			config = await rootMain.webpackFinal(config, { configType });
+		}
 
-        // add your own webpack tweaks if needed
+		// add your own webpack tweaks if needed
 
-        return config;
-    },
+		return config;
+	},
 };

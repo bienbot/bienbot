@@ -19,79 +19,79 @@ const GlobalStyles = createGlobalStyle`
 }`;
 
 type NextPageWithLayout = NextPage & {
-    getLayout?: (page: React.ReactElement) => React.ReactNode;
+	getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
+	Component: NextPageWithLayout;
 };
 
 function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
-    const getLayout = Component.getLayout ?? ((page) => page);
-    const router = useRouter();
-    const [theme, setTheme] = React.useState("light");
+	const getLayout = Component.getLayout ?? ((page) => page);
+	const router = useRouter();
+	const [theme, setTheme] = React.useState("light");
 
-    React.useEffect(() => {
-        const prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-        ).matches;
+	React.useEffect(() => {
+		const prefersDark = window.matchMedia(
+			"(prefers-color-scheme: dark)"
+		).matches;
 
-        if (prefersDark) {
-            setTheme("dark");
-        }
-    }, [theme]);
+		if (prefersDark) {
+			setTheme("dark");
+		}
+	}, [theme]);
 
-    React.useEffect(() => {
-        const { data: authListener } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                handleAuthChange(event, session);
-                if (event === "SIGNED_IN") {
-                    if (router.pathname === "/login") {
-                        router.push("/servers/");
-                    }
-                }
-                if (event === "SIGNED_OUT") {
-                    router.push("/");
-                }
-            }
-        );
-        return () => {
-            authListener.unsubscribe();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+	React.useEffect(() => {
+		const { data: authListener } = supabase.auth.onAuthStateChange(
+			(event, session) => {
+				handleAuthChange(event, session);
+				if (event === "SIGNED_IN") {
+					if (router.pathname === "/login") {
+						router.push("/servers/");
+					}
+				}
+				if (event === "SIGNED_OUT") {
+					router.push("/");
+				}
+			}
+		);
+		return () => {
+			authListener.unsubscribe();
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-    return (
-        <>
-            <Provider store={guildStore}>
-                <GlobalStyles />
-                <Head>
-                    <title>Bienbot</title>
-                </Head>
-                <ThemeProvider
-                    theme={
-                        theme === "light" ? dashboardTheme : dashboardThemeDark
-                    }
-                >
-                    <NextNProgress
-                        color={dashboardTheme.colors.primary["500"]}
-                    />
-                    <main className="app">
-                        {getLayout(<Component {...pageProps} />)}
-                    </main>
-                </ThemeProvider>
-            </Provider>
-        </>
-    );
+	return (
+		<>
+			<Provider store={guildStore}>
+				<GlobalStyles />
+				<Head>
+					<title>Bienbot</title>
+				</Head>
+				<ThemeProvider
+					theme={
+						theme === "light" ? dashboardTheme : dashboardThemeDark
+					}
+				>
+					<NextNProgress
+						color={dashboardTheme.colors.primary["500"]}
+					/>
+					<main className="app">
+						{getLayout(<Component {...pageProps} />)}
+					</main>
+				</ThemeProvider>
+			</Provider>
+		</>
+	);
 }
 
 async function handleAuthChange(event, session) {
-    await fetch("/api/auth", {
-        method: "POST",
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-        body: JSON.stringify({ event, session }),
-    });
+	await fetch("/api/auth", {
+		method: "POST",
+		headers: new Headers({ "Content-Type": "application/json" }),
+		credentials: "same-origin",
+		body: JSON.stringify({ event, session }),
+	});
 }
 
 export default CustomApp;

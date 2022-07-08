@@ -1,66 +1,66 @@
-import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import styled from "styled-components";
 
 export interface ServerProps {
-    imageSrc: string;
-    serverName: string;
-    href: string;
+	imageSrc: string;
+	serverName: string;
+	href: string;
 }
 
 export function Server(props: ServerProps) {
-    return (
-        <Link href={props.href} passHref>
-            <StyledServer>
-                <StyledImageContainer>
-                    <Image
-                        src={props.imageSrc}
-                        alt={props.serverName}
-                        unoptimized
-                        priority
-                        width="44px"
-                        height="44px"
-                        layout="fixed"
-                    />
-                </StyledImageContainer>
-                <StyledServerName>{props.serverName}</StyledServerName>
-            </StyledServer>
-        </Link>
-    );
+	return (
+		<Link href={props.href} passHref>
+			<StyledServer>
+				<StyledImageContainer>
+					<Image
+						src={props.imageSrc}
+						alt={props.serverName}
+						unoptimized
+						priority
+						width="44px"
+						height="44px"
+						layout="fixed"
+					/>
+				</StyledImageContainer>
+				<StyledServerName>{props.serverName}</StyledServerName>
+			</StyledServer>
+		</Link>
+	);
 }
 
 const StyledServer = styled.a`
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    padding: 8px;
-    background-color: ${({ theme }) => theme.colors.primary[100]};
-    border-radius: 8px;
-    text-decoration: none;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	padding: 8px;
+	background-color: ${({ theme }) => theme.colors.primary[100]};
+	border-radius: 8px;
+	text-decoration: none;
 `;
 
 const StyledImageContainer = styled.div`
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: border-radius 0.2s ease-in-out;
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+	border-radius: 50%;
+	overflow: hidden;
+	transition: border-radius 0.2s ease-in-out;
 
-    ${StyledServer}:hover & {
-        border-radius: 8px;
-    }
+	${StyledServer}:hover & {
+		border-radius: 8px;
+	}
 `;
 
 const StyledServerName = styled.span`
-    margin-left: 16px;
-    color: ${({ theme }) => theme.colors.primary[700]};
-    font-size: ${({ theme }) => theme.font.size.large};
-    font-family: ${({ theme }) => theme.font.family};
-    font-weight: ${({ theme }) => theme.font.weight.medium};
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+	margin-left: 16px;
+	color: ${({ theme }) => theme.colors.primary[700]};
+	font-size: ${({ theme }) => theme.font.size.large};
+	font-family: ${({ theme }) => theme.font.family};
+	font-weight: ${({ theme }) => theme.font.weight.medium};
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 `;
 
 export default Server;

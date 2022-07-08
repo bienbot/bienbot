@@ -1,9 +1,9 @@
 {
-    "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-        "*.ts": "$(capture).js, $(capture).*.ts",
-        "*.js": "$(capture).js.map, $(capture).min.js, $(capture).d.ts",
-        "package.json": "package-lock.json, Procfile, .editorconfig, .eslintrc.json, .gitignore, .prettierignore, .prettierrc, babel.config.json, jest.config.js, jest.preset.js, nx.json, workspace.json, tsconfig.base.json",
-        "project.json": "tsconfig.*.json, .eslintrc.json, index.d.ts, jest.config.js, next-env.d.ts, next.config.js, tsconfig.json, cypress.json, .babelrc"
-    }
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"*.ts": "$(capture).js, $(capture).*.ts",
+		"*.js": "$(capture).js.map, $(capture).min.js, $(capture).d.ts",
+		"package.json": "package-lock.json, Procfile, .editorconfig, .eslintrc.json, .gitignore, .prettierignore, .prettierrc, babel.config.json, jest.config.js, jest.preset.js, nx.json, workspace.json, tsconfig.base.json",
+		"project.json": "tsconfig.*.json, .eslintrc.json, index.d.ts, jest.config.js, next-env.d.ts, next.config.js, tsconfig.json, cypress.json, .babelrc"
+	}
 }

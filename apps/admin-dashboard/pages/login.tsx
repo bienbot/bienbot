@@ -5,25 +5,25 @@ import { LoginPage } from "../components/LoginPage";
 import { supabase } from "../services/supabase";
 
 const LogInPage: NextPage = () => {
-    return <LoginPage />;
+	return <LoginPage />;
 };
 
 export const getServerSideProps = async ({ req }) => {
-    const { user } = await supabase.auth.api.getUserByCookie(req);
+	const { user } = await supabase.auth.api.getUserByCookie(req);
 
-    if (!user) {
-        return {
-            props: {},
-        };
-    }
+	if (!user) {
+		return {
+			props: {},
+		};
+	}
 
-    return {
-        redirect: {
-            permanent: false,
-            destination: "/servers",
-        },
-        props: {},
-    };
+	return {
+		redirect: {
+			permanent: false,
+			destination: "/servers",
+		},
+		props: {},
+	};
 };
 
 export default LogInPage;

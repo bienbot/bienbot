@@ -1,85 +1,85 @@
 {
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "@nrwl/nx",
-        "unused-imports",
-        "simple-import-sort"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "rules": {
-        "react/prop-types": "off",
-        "react/react-in-jsx-scope": "off",
-        "react-hooks/exhaustive-deps": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-unused-vars": "off",
-        "unused-imports/no-unused-imports": "error",
-        "unused-imports/no-unused-vars": [
-            "warn",
-            {
-                "vars": "all",
-                "varsIgnorePattern": "^_",
-                "args": "after-used",
-                "argsIgnorePattern": "^_"
-            }
-        ],
-        "simple-import-sort/imports": [
-            "error",
-            {
-                "groups": [
-                    // Packages `react` related packages come first.
-                    ["^react", "^@?\\w"],
-                    // Internal packages.
-                    ["^(@|bienbot)(/.*|$)"],
-                    // Side effect imports.
-                    ["^\\u0000"],
-                    // Parent imports. Put `..` last.
-                    ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-                    // Other relative imports. Put same-folder imports and `.` last.
-                    ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-                    // Style imports.
-                    ["^.+\\.?(css)$"]
-                ]
-            }
-        ]
-    },
-    "root": true,
-    "ignorePatterns": ["**/*"],
-    "overrides": [
-        {
-            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-            "rules": {
-                "@nrwl/nx/enforce-module-boundaries": [
-                    "error",
-                    {
-                        "enforceBuildableLibDependency": true,
-                        "allow": [],
-                        "depConstraints": [
-                            {
-                                "sourceTag": "*",
-                                "onlyDependOnLibsWithTags": ["*"]
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        {
-            "files": ["*.ts", "*.tsx"],
-            "extends": ["plugin:@nrwl/nx/typescript"],
-            "rules": {}
-        },
-        {
-            "files": ["*.js", "*.jsx"],
-            "extends": ["plugin:@nrwl/nx/javascript"],
-            "rules": {}
-        }
-    ]
+	"plugins": [
+		"react",
+		"@typescript-eslint",
+		"@nrwl/nx",
+		"unused-imports",
+		"simple-import-sort"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"sourceType": "module"
+	},
+	"rules": {
+		"react/prop-types": "off",
+		"react/react-in-jsx-scope": "off",
+		"react-hooks/exhaustive-deps": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/no-unused-vars": "off",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
+			"warn",
+			{
+				"vars": "all",
+				"varsIgnorePattern": "^_",
+				"args": "after-used",
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"simple-import-sort/imports": [
+			"error",
+			{
+				"groups": [
+					// Packages `react` related packages come first.
+					["^react", "^@?\\w"],
+					// Internal packages.
+					["^(@|bienbot)(/.*|$)"],
+					// Side effect imports.
+					["^\\u0000"],
+					// Parent imports. Put `..` last.
+					["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+					// Other relative imports. Put same-folder imports and `.` last.
+					["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+					// Style imports.
+					["^.+\\.?(css)$"]
+				]
+			}
+		]
+	},
+	"root": true,
+	"ignorePatterns": ["**/*"],
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"rules": {
+				"@nrwl/nx/enforce-module-boundaries": [
+					"error",
+					{
+						"enforceBuildableLibDependency": true,
+						"allow": [],
+						"depConstraints": [
+							{
+								"sourceTag": "*",
+								"onlyDependOnLibsWithTags": ["*"]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx"],
+			"extends": ["plugin:@nrwl/nx/typescript"],
+			"rules": {}
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"extends": ["plugin:@nrwl/nx/javascript"],
+			"rules": {}
+		}
+	]
 }

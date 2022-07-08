@@ -1,28 +1,30 @@
 import * as React from "react";
-import { useRouter } from "next/router";
-import { GuildData } from "@bienbot/types";
-import { format } from "date-fns";
-import { sortByTimestampAndSlice } from "apps/admin-dashboard/utils/sortByTimestampAndSlice";
 import {
+    getDays,
     getHourCountForEveryDay,
     getMessageCountForEveryDay,
-    getDays,
 } from "@bienbot/functions";
+import { GuildData } from "@bienbot/types";
 import {
     CardsPanel,
+    Chart,
     EventCard,
     MessageCard,
-    Chart,
     StatisticsPanel,
     UserStatus,
 } from "@bienbot/ui";
+import { format } from "date-fns";
+import { useRouter } from "next/router";
+
+import { sortByTimestampAndSlice } from "../../utils/sortByTimestampAndSlice";
+
 import {
-    StyledWrapper,
-    StyledUserDataWrapper,
-    StyledHeading,
-    StyledUserWrapper,
-    StyledEventsWrapper,
     StyledCardsWrapper,
+    StyledEventsWrapper,
+    StyledHeading,
+    StyledUserDataWrapper,
+    StyledUserWrapper,
+    StyledWrapper,
 } from "./userDashboard.style";
 
 type Props = {

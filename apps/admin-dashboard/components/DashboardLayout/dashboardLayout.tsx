@@ -1,8 +1,9 @@
+import * as React from "react";
 import { GuildData } from "@bienbot/types";
 import { Sidebar, TopBar } from "@bienbot/ui";
 import { useRouter } from "next/router";
-import * as React from "react";
 import styled from "styled-components";
+
 import { StyledPageWrapper } from "./dashboardLayout.style";
 
 type DashboardLayoutProps = {

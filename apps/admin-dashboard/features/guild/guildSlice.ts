@@ -1,13 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
     ChannelData,
     EventData,
-    MessageData,
     GuildData,
-    VoicePresenceData,
-    RoleData,
     MemberData,
+    MessageData,
+    RoleData,
+    VoicePresenceData,
 } from "@bienbot/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const guildSlice = createSlice({
     name: "guild",

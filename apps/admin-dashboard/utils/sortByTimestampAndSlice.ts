@@ -4,7 +4,7 @@ interface ObjectWithTimestamp {
 
 export function sortByTimestampAndSlice<Type extends ObjectWithTimestamp[]>(
     array: Type,
-    limit: number = 5
+    limit = 5
 ): Type {
     const result = [...array]
         .sort((a, b) => {

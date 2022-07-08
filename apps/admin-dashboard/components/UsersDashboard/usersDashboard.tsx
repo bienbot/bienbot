@@ -1,16 +1,17 @@
 import * as React from "react";
 import { GuildData } from "@bienbot/types";
 import { UserCard } from "@bienbot/ui";
+import useFuse from "use-fuse";
+
 import {
-    StyledWrapper,
-    StyledUsersWrapper,
-    StyledUsersInfo,
     StyledHeading,
-    StyledSpan,
     StyledHeadingWrapper,
     StyledInput,
+    StyledSpan,
+    StyledUsersInfo,
+    StyledUsersWrapper,
+    StyledWrapper,
 } from "./usersDashboard.style";
-import useFuse from "use-fuse";
 
 type Props = {
     guildData: GuildData;

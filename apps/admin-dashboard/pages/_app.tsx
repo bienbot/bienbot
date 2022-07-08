@@ -1,14 +1,15 @@
+import * as React from "react";
+import { Provider } from "react-redux";
 import { dashboardTheme, dashboardThemeDark } from "@bienbot/themes";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import * as React from "react";
-import { Provider } from "react-redux";
+import NextNProgress from "nextjs-progressbar";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+
 import { guildStore } from "../features/guild/guildStore";
 import { supabase } from "../services/supabase";
-import NextNProgress from "nextjs-progressbar";
 
 const GlobalStyles = createGlobalStyle`
 *{
@@ -57,6 +58,7 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
         return () => {
             authListener.unsubscribe();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

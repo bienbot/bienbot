@@ -16,10 +16,8 @@ const UsersDashboardPage = () => {
         guildId,
     });
     const guildData = useSelector(selectGuild);
-    const now = React.useMemo(() => performance.now(), []);
 
     if (!guildData.id) return null;
-    console.log(performance.now() - now);
 
     return (
         <DashboardLayout guildData={guildData}>

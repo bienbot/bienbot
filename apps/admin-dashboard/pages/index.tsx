@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { supabase } from "../services/supabase";
 
 export function Index() {

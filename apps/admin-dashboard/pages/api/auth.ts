@@ -1,4 +1,4 @@
-import { supabase } from "apps/admin-dashboard/services/supabase";
+import { supabase } from "../../services/supabase";
 
 export default function handler(req, res) {
     if (req.method === "POST") {

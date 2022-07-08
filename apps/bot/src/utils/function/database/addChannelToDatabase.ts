@@ -1,4 +1,5 @@
 import { TextChannel, VoiceChannel } from "discord.js";
+
 import DiscordClient from "../../../client/client";
 
 const addChannelToDatabase = async ({
@@ -12,7 +13,7 @@ const addChannelToDatabase = async ({
         id: channel.id,
         name: channel.name,
         type: channel.type,
-        guild: channel.guild.id
+        guild: channel.guild.id,
     };
 
     const { data: channelData, error } = await client.database

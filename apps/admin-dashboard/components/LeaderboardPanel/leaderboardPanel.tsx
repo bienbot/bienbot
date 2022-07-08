@@ -1,11 +1,11 @@
 import * as React from "react";
-import styled from "styled-components";
-import { GuildData } from "@bienbot/types";
-import { UserLeaderboard } from "@bienbot/ui";
 import {
     getMostActiveTextUsers,
     getMostActiveVoiceUsers,
 } from "@bienbot/functions";
+import { GuildData } from "@bienbot/types";
+import { UserLeaderboard } from "@bienbot/ui";
+import styled from "styled-components";
 
 const LeaderboardPanel = ({ guildData }: { guildData: GuildData }) => {
     return (

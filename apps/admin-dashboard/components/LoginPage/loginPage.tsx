@@ -1,18 +1,20 @@
 import * as React from "react";
 import { LoginButton } from "@bienbot/ui";
 import Image from "next/image";
-import { supabase } from "apps/admin-dashboard/services/supabase";
 import { useRouter } from "next/router";
+
+import { supabase } from "../../services/supabase";
+
 import {
-    StyledWrapper,
     StyledExampleWrapper,
-    StyledLoginWrapper,
-    StyledNameWrapper,
-    StyledLoginInfoWrapper,
     StyledImageWrapper,
-    StyledName,
-    StyledSpan,
     StyledLoginInfo,
+    StyledLoginInfoWrapper,
+    StyledLoginWrapper,
+    StyledName,
+    StyledNameWrapper,
+    StyledSpan,
+    StyledWrapper,
 } from "./loginPage.style";
 
 const LoginPage = () => {

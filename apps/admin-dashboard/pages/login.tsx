@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { LoginPage } from "apps/admin-dashboard/components/LoginPage";
+
+import { LoginPage } from "../components/LoginPage";
 import { supabase } from "../services/supabase";
 
 const LogInPage: NextPage = () => {

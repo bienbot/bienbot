@@ -1,26 +1,28 @@
 import * as React from "react";
-import { useRouter } from "next/router";
-import { LeaderboardPanel } from "../LeaderboardPanel";
-import { GuildData } from "@bienbot/types";
-import { sortByTimestampAndSlice } from "apps/admin-dashboard/utils/sortByTimestampAndSlice";
 import {
+    getDays,
     getHourCountForEveryDay,
     getMessageCountForEveryDay,
-    getDays,
     getServerStatistics,
 } from "@bienbot/functions";
+import { GuildData } from "@bienbot/types";
 import {
-    StatisticsPanel,
     CardsPanel,
+    Chart,
     EventCard,
     MessageCard,
-    Chart,
+    StatisticsPanel,
 } from "@bienbot/ui";
+import { useRouter } from "next/router";
+
+import { sortByTimestampAndSlice } from "../../utils/sortByTimestampAndSlice";
+import { LeaderboardPanel } from "../LeaderboardPanel";
+
 import {
+    StyledEventsWrapper,
     StyledUsersDataWrapper,
     StyledUsersWrapper,
     StyledWrapper,
-    StyledEventsWrapper,
 } from "./guildDashboard.style";
 
 const GuildDashboard = ({ guildData }: { guildData: GuildData }) => {

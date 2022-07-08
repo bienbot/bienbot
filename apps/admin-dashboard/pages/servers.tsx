@@ -1,13 +1,14 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
+import { ServerList, ServerProps } from "@bienbot/ui";
 import type { NextPage } from "next";
 import styled from "styled-components";
-import { supabase } from "../services/supabase";
-import { ServerList } from "@bienbot/ui";
-import { checkRequiredGuildRole } from "../utils/checkRequiredGuildRole";
-import { useDispatch } from "react-redux";
-import { setInitialData } from "../features/guild/guildSlice";
 
-const ServersPage: NextPage<{ guilds: any[] }> = ({ guilds }) => {
+import { setInitialData } from "../features/guild/guildSlice";
+import { supabase } from "../services/supabase";
+import { checkRequiredGuildRole } from "../utils/checkRequiredGuildRole";
+
+const ServersPage: NextPage<{ guilds: ServerProps[] }> = ({ guilds }) => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -23,6 +24,7 @@ const ServersPage: NextPage<{ guilds: any[] }> = ({ guilds }) => {
                 roles: [],
             })
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

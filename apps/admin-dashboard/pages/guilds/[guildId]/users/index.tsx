@@ -1,25 +1,25 @@
 import * as React from "react";
-import { useRouter } from "next/router";
-import { supabase } from "apps/admin-dashboard/services/supabase";
-import { checkRequiredGuildRole } from "apps/admin-dashboard/utils/checkRequiredGuildRole";
-import { useRealtimeListener } from "apps/admin-dashboard/features/guild/useRealtimeListener";
-import { fetchGuildData } from "apps/admin-dashboard/utils/fetchGuildData";
-import DashboardLayout from "apps/admin-dashboard/components/DashboardLayout/dashboardLayout";
-import { GuildData } from "@bienbot/types";
-import { selectGuild } from "apps/admin-dashboard/features/guild/guildSlice";
 import { useSelector } from "react-redux";
-import { UsersDashboard } from "apps/admin-dashboard/components/UsersDashboard";
+import { useRouter } from "next/router";
 
-const UsersDashboardPage = ({ initialGuildData }) => {
+import DashboardLayout from "../../../../components/DashboardLayout/dashboardLayout";
+import { UsersDashboard } from "../../../../components/UsersDashboard";
+import { selectGuild } from "../../../../features/guild/guildSlice";
+import { useRealtimeListener } from "../../../../features/guild/useRealtimeListener";
+import { supabase } from "../../../../services/supabase";
+import { checkRequiredGuildRole } from "../../../../utils/checkRequiredGuildRole";
+
+const UsersDashboardPage = () => {
     const router = useRouter();
     const guildId = router.query.guildId as string;
     useRealtimeListener({
         guildId,
-        initialData: initialGuildData as GuildData,
     });
     const guildData = useSelector(selectGuild);
+    const now = React.useMemo(() => performance.now(), []);
 
     if (!guildData.id) return null;
+    console.log(performance.now() - now);
 
     return (
         <DashboardLayout guildData={guildData}>
@@ -28,7 +28,7 @@ const UsersDashboardPage = ({ initialGuildData }) => {
     );
 };
 
-export async function getServerSideProps({ req, query }) {
+export const getServerSideProps = async ({ req, query }) => {
     const { user } = await supabase.auth.api.getUserByCookie(req);
     if (user) {
         const discordId = user.identities.find(
@@ -36,19 +36,12 @@ export async function getServerSideProps({ req, query }) {
         )?.id;
         if (discordId) {
             const hasAccess = await checkRequiredGuildRole({
-                guildId: query.guildId,
+                guildId: query.guildId as string,
                 discordId,
             });
             if (hasAccess) {
-                /* Fetch server data from the database */
-                const guildData = await fetchGuildData({
-                    guildId: query.guildId,
-                });
-
                 return {
-                    props: {
-                        initialGuildData: guildData,
-                    },
+                    props: {},
                 };
             }
         }
@@ -61,6 +54,6 @@ export async function getServerSideProps({ req, query }) {
         },
         props: {},
     };
-}
+};
 
 export default UsersDashboardPage;

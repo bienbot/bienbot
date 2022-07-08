@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useDispatch } from "react-redux";
-import { supabase } from "apps/admin-dashboard/services/supabase";
+import { useDispatch, useSelector } from "react-redux";
 import {
     ChannelData,
     EventData,
@@ -10,28 +9,38 @@ import {
     RoleData,
     VoicePresenceData,
 } from "@bienbot/types";
+
+import { supabase } from "../../services/supabase";
+import { fetchGuildData } from "../../utils/fetchGuildData";
+
 import {
     addEvent,
     addOrUpdateMember,
     addOrUpdateMessage,
     addOrUpdateRole,
     addVoicePresence,
+    selectGuild,
     setInitialData,
     updateChannel,
     updateGuildData,
 } from "./guildSlice";
 
-const useRealtimeListener = ({
-    guildId,
-    initialData,
-}: {
-    guildId: string;
-    initialData: GuildData;
-}) => {
+const useRealtimeListener = ({ guildId }: { guildId: string }) => {
     const dispatch = useDispatch();
+    const guildData = useSelector(selectGuild);
 
     React.useEffect(() => {
-        dispatch(setInitialData(initialData));
+        const fetchData = async () => {
+            const guildData = await fetchGuildData({
+                guildId,
+            });
+
+            dispatch(setInitialData(guildData));
+        };
+        if (!guildData.id) {
+            fetchData();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [guildId]);
 
     React.useEffect(() => {
@@ -102,6 +111,7 @@ const useRealtimeListener = ({
         };
 
         return unsubscribe;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [guildId]);
 };
 

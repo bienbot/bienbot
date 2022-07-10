@@ -8,7 +8,10 @@ import dotenv = require("dotenv");
 dotenv.config();
 
 const supabaseUrl = "https://hwljvreyautrqwyyassp.supabase.co";
-const supabaseKey = process.env["SUPABASE_SERVICE_ROLE"];
+const supabaseKey = process.env["SUPABASE_SERVICE_ROLE"]?.replace(
+	/(\r\n|\n|\r)/gm,
+	""
+);
 if (!supabaseKey) {
 	throw new Error(
 		"No supabase key found. Please set the SUPABASE_SERVICE_ROLE environment variable."

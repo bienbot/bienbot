@@ -7,11 +7,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { useDarkMode } from "usehooks-ts";
 
 import { guildStore } from "../features/guild/guildStore";
 import { supabase } from "../services/supabase";
 
-const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle<{ backgroundColor: string }>`
+html{
+	background-color: ${(props) => props.backgroundColor};
+}
+
 *{
     box-sizing: border-box;
     padding: 0;
@@ -29,17 +34,8 @@ type AppPropsWithLayout = AppProps & {
 function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout ?? ((page) => page);
 	const router = useRouter();
-	const [theme, setTheme] = React.useState("light");
 
-	React.useEffect(() => {
-		const prefersDark = window.matchMedia(
-			"(prefers-color-scheme: dark)"
-		).matches;
-
-		if (prefersDark) {
-			setTheme("dark");
-		}
-	}, [theme]);
+	const { isDarkMode } = useDarkMode();
 
 	React.useEffect(() => {
 		const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -64,14 +60,18 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
 	return (
 		<>
 			<Provider store={guildStore}>
-				<GlobalStyles />
+				<GlobalStyles
+					backgroundColor={
+						isDarkMode
+							? dashboardThemeDark.colors.background
+							: dashboardTheme.colors.background
+					}
+				/>
 				<Head>
 					<title>Bienbot</title>
 				</Head>
 				<ThemeProvider
-					theme={
-						theme === "light" ? dashboardTheme : dashboardThemeDark
-					}
+					theme={isDarkMode ? dashboardThemeDark : dashboardTheme}
 				>
 					<NextNProgress
 						color={dashboardTheme.colors.primary["500"]}

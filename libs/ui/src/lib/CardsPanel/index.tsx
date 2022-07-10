@@ -1,8 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-
-/* eslint-disable-next-line */
-
 export interface CardsPanelProps {
 	children: React.ReactNode;
 	heading: string;

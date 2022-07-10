@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -30,8 +31,14 @@ export function UserLeaderboardCard(props: UserLeaderboardCardProps) {
 				</StyledUserLink>
 			</Link>
 			<StyledRightContainer>
-				<StyledHours>{props.count} </StyledHours>
-				{props.text}
+				{props.count && props.text ? (
+					<>
+						<StyledHours>{props.count} </StyledHours>
+						{props.text}
+					</>
+				) : (
+					<Skeleton width={100} height={20} />
+				)}
 			</StyledRightContainer>
 		</StyledUserLeaderboardCard>
 	);

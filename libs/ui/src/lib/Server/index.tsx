@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
@@ -13,17 +14,21 @@ export function Server(props: ServerProps) {
 		<Link href={props.href} passHref>
 			<StyledServer>
 				<StyledImageContainer>
-					<Image
-						src={props.imageSrc}
-						alt={props.serverName}
-						unoptimized
-						priority
-						width="44px"
-						height="44px"
-						layout="fixed"
-					/>
+					{props.imageSrc ? (
+						<Image
+							src={props.imageSrc}
+							alt={props.serverName}
+							width="44px"
+							height="44px"
+							layout="fixed"
+						/>
+					) : (
+						<Skeleton width="44px" height="44px" circle />
+					)}
 				</StyledImageContainer>
-				<StyledServerName>{props.serverName}</StyledServerName>
+				<StyledServerName>
+					{props.serverName || <Skeleton />}
+				</StyledServerName>
 			</StyledServer>
 		</Link>
 	);
@@ -53,7 +58,8 @@ const StyledImageContainer = styled.div`
 `;
 
 const StyledServerName = styled.span`
-	margin-left: 16px;
+	width: 100%;
+	margin: 0 16px;
 	color: ${({ theme }) => theme.colors.primary[700]};
 	font-size: ${({ theme }) => theme.font.size.large};
 	font-family: ${({ theme }) => theme.font.family};

@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -15,21 +16,35 @@ export function UserInfo(props: UserInfoProps) {
 	return (
 		<StyledUserInfo>
 			<StyledImageContainer>
-				<Image
-					src={props.imageSrc}
-					unoptimized
-					width="32px"
-					height="32px"
-					layout="fixed"
-					alt={props.discordTag}
-					priority
-				/>
+				{props.imageSrc ? (
+					<Image
+						src={props.imageSrc}
+						width="32px"
+						height="32px"
+						layout="fixed"
+						alt={props.discordTag}
+					/>
+				) : (
+					<Skeleton width="32px" height="32px" circle />
+				)}
 			</StyledImageContainer>
 			<StyledUserInfoContainer direction={props.direction}>
 				<StyledDiscordTag>
-					{props.username}#{props.discordTag}
+					{props.username && props.discordTag ? (
+						`${props.username}#${props.discordTag}`
+					) : (
+						<Skeleton />
+					)}
 				</StyledDiscordTag>
-				<StyledUserName>{props.displayName}</StyledUserName>
+				<StyledUserName>
+					{props.displayName || <Skeleton />}
+				</StyledUserName>
+				{props.direction === "row" &&
+				!props.username &&
+				!props.discordTag &&
+				!props.displayName ? (
+					<Skeleton width={300} height={20} />
+				) : null}
 			</StyledUserInfoContainer>
 		</StyledUserInfo>
 	);
@@ -57,7 +72,10 @@ const StyledUserInfoContainer = styled.div<{
 	flex-wrap: wrap;
 	flex-direction: ${(props) =>
 		props.direction === "row" ? "row-reverse" : "column"};
-	width: fit-content;
+	justify-content: start;
+	gap: ${(props) => (props.direction === "row" ? "4px" : "0")};
+	max-width: 100%;
+	width: 100%;
 	margin-left: 8px;
 	font-size: ${({ theme }) => theme.font.small};
 	font-family: ${({ theme }) => theme.font.family};
@@ -67,7 +85,6 @@ const StyledUserInfoContainer = styled.div<{
 const StyledUserName = styled.span`
 	font-weight: 700;
 	color: ${({ theme }) => theme.colors.primary[400]};
-	margin-right: 4px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

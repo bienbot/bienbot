@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
 
 export interface InfoCardProps {
@@ -8,8 +9,8 @@ export interface InfoCardProps {
 export function InfoCard(props: InfoCardProps) {
 	return (
 		<StyledInfoCard>
-			<StyledLabel>{props.label}</StyledLabel>
-			<StyledText>{props.text}</StyledText>
+			<StyledLabel>{props.label || <Skeleton />}</StyledLabel>
+			<StyledText>{props.text || <Skeleton />}</StyledText>
 		</StyledInfoCard>
 	);
 }

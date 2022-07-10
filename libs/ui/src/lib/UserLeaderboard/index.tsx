@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
 
 import UserLeaderboardCard, {
@@ -15,15 +16,18 @@ export function UserLeaderboard(props: UserLeaderboardProps) {
 	return (
 		<StyledUserLeaderboard>
 			<StyledHeading>{props.heading}</StyledHeading>
-			{props.users.map((user, index) => (
-				<UserLeaderboardCard
-					key={user.href}
-					{...user}
-					href={`/guilds/${props.guildId}${user.href}`}
-					position={index + 1}
-					text={props.text}
-				/>
-			))}
+			{props.users.map(
+				(user, index) =>
+					(
+						<UserLeaderboardCard
+							key={user.href}
+							{...user}
+							href={`/guilds/${props.guildId}${user.href}`}
+							position={index + 1}
+							text={props.text}
+						/>
+					) || <Skeleton />
+			)}
 		</StyledUserLeaderboard>
 	);
 }

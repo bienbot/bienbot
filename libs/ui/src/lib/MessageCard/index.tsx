@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import { ChannelData, MemberData, MessageData } from "@bienbot/types";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -20,36 +21,66 @@ export function MessageCard(props: MessageCardProps) {
 
 	return (
 		<StyledMessageCard>
-			<StyledImage src={author.avatar}></StyledImage>
+			{author.avatar ? (
+				<StyledImage src={author.avatar}></StyledImage>
+			) : (
+				<Skeleton
+					width={32}
+					height={32}
+					circle
+					inline
+					style={{
+						gridRow: 1 / -1,
+						gridColumn: 1 / 2,
+					}}
+				/>
+			)}
 			<StyledInfoContainer>
 				<OptionalLinkWrapper
 					href={`${message.guild}/users/${author.id}`}
 				>
 					<StyledUserInfo as={"a"}>
-						<StyledHighlight>
-							{props.author.displayName}
-						</StyledHighlight>
-						<StyledDiscordTag>
-							{props.author.username}#{props.author.discriminator}
-						</StyledDiscordTag>
+						{author.displayName &&
+						author.username &&
+						author.discriminator ? (
+							<>
+								<StyledHighlight>
+									{author.displayName}
+								</StyledHighlight>
+								<StyledDiscordTag>
+									{author.username}#{author.discriminator}
+								</StyledDiscordTag>
+							</>
+						) : (
+							<Skeleton width={300} />
+						)}
 					</StyledUserInfo>
 				</OptionalLinkWrapper>
 				<StyledMessageInfo>
-					<span>in</span>
-					<OptionalLinkWrapper
-						href={`${message.guild}/channels/${channel.id}`}
-					>
-						<StyledChannelName as={"a"}>
-							#{channel.name}
-						</StyledChannelName>
-					</OptionalLinkWrapper>
-					<span>at</span>
-					<StyledHighlight>
-						{format(new Date(message.timestamp), "dd/MM HH:mm")}
-					</StyledHighlight>
+					{channel.name && message.timestamp ? (
+						<>
+							<span>in</span>
+							<OptionalLinkWrapper
+								href={`${message.guild}/channels/${channel.id}`}
+							>
+								<StyledChannelName as={"a"}>
+									#{channel.name}
+								</StyledChannelName>
+							</OptionalLinkWrapper>
+							<span>at</span>
+							<StyledHighlight>
+								{format(
+									new Date(message.timestamp),
+									"dd/MM HH:mm"
+								)}
+							</StyledHighlight>
+						</>
+					) : (
+						<Skeleton width={200} />
+					)}
 				</StyledMessageInfo>
 			</StyledInfoContainer>
-			<StyledMessage>{message.content}</StyledMessage>
+			<StyledMessage>{message.content || <Skeleton />}</StyledMessage>
 			{parsedAttachments?.length >= 1 &&
 				parsedAttachments?.map((attachment) => {
 					const aspectRatio =

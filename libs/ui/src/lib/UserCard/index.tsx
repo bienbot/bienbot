@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import { MemberData } from "@bienbot/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,29 +19,38 @@ export function UserCard(props: UserCardProps) {
 		<Link href={props.href} passHref>
 			<StyledUserCard>
 				<StyledImageContainer>
-					<StyledImage
-						src={props.imageSrc}
-						width="32px"
-						height="32px"
-						layout="fixed"
-						alt={props.discordTag}
-					/>
-					{[
-						"online",
-						"idle",
-						"dnd",
-						"offline",
-						"invisible",
-						null,
-					].includes(props.presence) && (
-						<PresenceStatusDot presence={props.presence} />
+					{props.imageSrc ? (
+						<>
+							<StyledImage
+								src={props.imageSrc}
+								width="32px"
+								height="32px"
+								layout="fixed"
+								alt={props.discordTag}
+							/>
+							<PresenceStatusDot presence={props.presence} />
+						</>
+					) : (
+						<Skeleton width="32px" height="32px" circle />
 					)}
 				</StyledImageContainer>
 				<StyledUserCardContainer direction={props.direction}>
 					<StyledDiscordTag>
-						{props.username}#{props.discordTag}
+						{props.username && props.discordTag ? (
+							`${props.username}#${props.discordTag}`
+						) : (
+							<Skeleton />
+						)}
 					</StyledDiscordTag>
-					<StyledUserName>{props.displayName}</StyledUserName>
+					<StyledUserName>
+						{props.displayName || <Skeleton />}
+					</StyledUserName>
+					{props.direction === "row" &&
+					!props.username &&
+					!props.discordTag &&
+					!props.displayName ? (
+						<Skeleton width={300} height={20} />
+					) : null}
 				</StyledUserCardContainer>
 			</StyledUserCard>
 		</Link>
@@ -52,6 +62,7 @@ const StyledUserCard = styled.a`
 	align-items: center;
 	min-height: 48px;
 	max-height: 48px;
+	max-width: 100%;
 	padding: 8px;
 	border-radius: 8px;
 	background-color: ${({ theme }) => theme.colors.primary[100]};
@@ -77,17 +88,19 @@ const StyledUserCardContainer = styled.div<{
 	flex-wrap: wrap;
 	flex-direction: ${(props) =>
 		props.direction === "row" ? "row-reverse" : "column"};
-	width: fit-content;
+	justify-content: start;
+	gap: ${(props) => (props.direction === "row" ? "4px" : "0")};
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
 	margin-left: 8px;
 	font-size: ${({ theme }) => theme.font.small};
 	font-family: ${({ theme }) => theme.font.family};
-	min-width: 0;
 `;
 
 const StyledUserName = styled.span`
 	font-weight: 700;
 	color: ${({ theme }) => theme.colors.primary[400]};
-	margin-right: 4px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

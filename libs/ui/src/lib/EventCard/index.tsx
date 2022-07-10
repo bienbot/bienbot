@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import { EventData, MemberData } from "@bienbot/types";
 import format from "date-fns/format";
 import styled from "styled-components";
@@ -29,18 +30,24 @@ export function EventCard(props: EventCardProps) {
 				</StyledUserContainer>
 			</OptionalLinkWrapper>
 			<StyledEventInfo>
-				{props.event.description}{" "}
-				<OptionalLinkWrapper
-					href={`${event.guild}/channels/${event.targetId}`}
-				>
-					<StyledHighlight as={event.id ? "a" : "span"}>
-						{event.target}{" "}
-					</StyledHighlight>
-				</OptionalLinkWrapper>
-				at{" "}
-				<StyledHighlight>
-					{format(new Date(event.timestamp), "dd/MM HH:mm")}
-				</StyledHighlight>
+				{event.description && event.target ? (
+					<>
+						{event.description}{" "}
+						<OptionalLinkWrapper
+							href={`${event.guild}/channels/${event.targetId}`}
+						>
+							<StyledHighlight as={event.id ? "a" : "span"}>
+								{event.target}{" "}
+							</StyledHighlight>
+						</OptionalLinkWrapper>
+						at{" "}
+						<StyledHighlight>
+							{format(new Date(event.timestamp), "dd/MM HH:mm")}
+						</StyledHighlight>
+					</>
+				) : (
+					<Skeleton width={200} />
+				)}
 			</StyledEventInfo>
 		</StyledEventCard>
 	);

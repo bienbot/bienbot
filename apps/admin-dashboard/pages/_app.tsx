@@ -11,6 +11,8 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { guildStore } from "../features/guild/guildStore";
 import { supabase } from "../services/supabase";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 const GlobalStyles = createGlobalStyle`
 *{
     box-sizing: border-box;

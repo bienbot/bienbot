@@ -25,6 +25,6 @@ describe("UserCard", () => {
 	});
 	it("should render discord discriminator", () => {
 		const { baseElement } = renderWithTheme(<UserCard {...props} />);
-		expect(baseElement).toContainHTML("#7777");
+		expect(baseElement).toContainHTML("7777");
 	});
 });

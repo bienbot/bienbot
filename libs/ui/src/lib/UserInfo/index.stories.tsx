@@ -1,4 +1,7 @@
+import { MemberData } from "@bienbot/types";
 import { Meta, Story } from "@storybook/react";
+
+import { mockGuildData } from "../../utils/mockGuildData";
 
 import { UserInfo, UserInfoProps } from "./index";
 
@@ -7,12 +10,14 @@ export default {
 	title: "UserInfo",
 } as Meta;
 
+const mockUser: MemberData = mockGuildData.members[0];
+
 export const Template: Story<UserInfoProps> = (args) => <UserInfo {...args} />;
 
 Template.args = {
-	imageSrc:
-		"https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-	displayName: "Text",
-	discordTag: "Text#2137",
+	imageSrc: mockUser.avatar,
+	displayName: mockUser.displayName,
+	discordTag: mockUser.discriminator,
 	direction: "row",
+	username: mockUser.username,
 };

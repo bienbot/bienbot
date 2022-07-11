@@ -1,3 +1,4 @@
+import Skeleton from "react-loading-skeleton";
 import { ChannelData, MemberData, MessageData } from "@bienbot/types";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -20,36 +21,87 @@ export function MessageCard(props: MessageCardProps) {
 
 	return (
 		<StyledMessageCard>
-			<StyledImage src={author.avatar}></StyledImage>
+			{author.avatar ? (
+				<StyledImage src={author.avatar}></StyledImage>
+			) : (
+				<Skeleton
+					width={32}
+					height={32}
+					circle
+					inline
+					style={{
+						display: "block",
+						gridRow: 1 / -1,
+						gridColumn: 1 / 2,
+					}}
+				/>
+			)}
 			<StyledInfoContainer>
 				<OptionalLinkWrapper
 					href={`${message.guild}/users/${author.id}`}
 				>
 					<StyledUserInfo as={"a"}>
-						<StyledHighlight>
-							{props.author.displayName}
-						</StyledHighlight>
-						<StyledDiscordTag>
-							{props.author.username}#{props.author.discriminator}
-						</StyledDiscordTag>
+						{author.displayName &&
+						author.username &&
+						author.discriminator ? (
+							<>
+								<StyledHighlight>
+									{author.displayName}
+								</StyledHighlight>
+								<StyledDiscordTag>
+									{author.username}#{author.discriminator}
+								</StyledDiscordTag>
+							</>
+						) : (
+							<Skeleton
+								width={300}
+								style={{
+									display: "block",
+								}}
+							/>
+						)}
 					</StyledUserInfo>
 				</OptionalLinkWrapper>
 				<StyledMessageInfo>
-					<span>in</span>
-					<OptionalLinkWrapper
-						href={`${message.guild}/channels/${channel.id}`}
-					>
-						<StyledChannelName as={"a"}>
-							#{channel.name}
-						</StyledChannelName>
-					</OptionalLinkWrapper>
-					<span>at</span>
-					<StyledHighlight>
-						{format(new Date(message.timestamp), "dd/MM HH:mm")}
-					</StyledHighlight>
+					{channel.name && message.timestamp ? (
+						<>
+							<span>in</span>
+							<OptionalLinkWrapper
+								href={`${message.guild}/channels/${channel.id}`}
+							>
+								<StyledChannelName as={"a"}>
+									#{channel.name}
+								</StyledChannelName>
+							</OptionalLinkWrapper>
+							<span>at</span>
+							<StyledHighlight>
+								{format(
+									new Date(message.timestamp),
+									"dd/MM HH:mm"
+								)}
+							</StyledHighlight>
+						</>
+					) : (
+						<Skeleton
+							width={200}
+							style={{
+								display: "block",
+							}}
+						/>
+					)}
 				</StyledMessageInfo>
 			</StyledInfoContainer>
-			<StyledMessage>{message.content}</StyledMessage>
+			<StyledMessage>
+				{message.content || (
+					<Skeleton
+						width={200}
+						inline
+						style={{
+							display: "block",
+						}}
+					/>
+				)}
+			</StyledMessage>
 			{parsedAttachments?.length >= 1 &&
 				parsedAttachments?.map((attachment) => {
 					const aspectRatio =
@@ -174,6 +226,8 @@ const StyledMessage = styled.div`
 	margin-left: 8px;
 	margin-top: 4px;
 	overflow-wrap: anywhere;
+	grid-row: 2/3;
+	grid-column: 2/3;
 `;
 
 const StyledImage = styled.img`
@@ -193,6 +247,7 @@ const StyledMessageCard = styled.div`
 	display: grid;
 	grid-template-columns: 32px 1fr;
 	grid-template-rows: auto auto;
+	line-height: 1;
 `;
 
 export default MessageCard;

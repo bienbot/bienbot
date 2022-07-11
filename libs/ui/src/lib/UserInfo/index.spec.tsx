@@ -1,56 +1,30 @@
 import "@testing-library/jest-dom";
 
+import { mockGuildData } from "../../utils/mockGuildData";
 import { renderWithTheme } from "../../utils/renderWithTheme";
 
 import UserInfo from "./index";
 
 describe("UserInfo", () => {
-	const link =
-		"https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp";
+	const guildUser = mockGuildData.members[0];
+	const props = {
+		imageSrc: guildUser.avatar,
+		displayName: guildUser.displayName,
+		discordTag: guildUser.discriminator,
+		direction: "row" as const,
+		href: "",
+		presence: guildUser.presence,
+	};
 	it("should render successfully", () => {
-		const { baseElement } = renderWithTheme(
-			<UserInfo
-				direction="row"
-				imageSrc={link}
-				displayName=""
-				discordTag=""
-			/>
-		);
+		const { baseElement } = renderWithTheme(<UserInfo {...props} />);
 		expect(baseElement).toBeTruthy();
 	});
 	it("should render user name", () => {
-		const { baseElement } = renderWithTheme(
-			<UserInfo
-				direction="row"
-				imageSrc={link}
-				displayName="Test"
-				discordTag=""
-			/>
-		);
-		expect(baseElement).toContainHTML("Test");
+		const { baseElement } = renderWithTheme(<UserInfo {...props} />);
+		expect(baseElement).toContainHTML("testUserDisplayName");
 	});
-	it("should render discord id", () => {
-		const { baseElement } = renderWithTheme(
-			<UserInfo
-				direction="row"
-				imageSrc={link}
-				displayName=""
-				discordTag="Test#2137"
-			/>
-		);
-		expect(baseElement).toContainHTML("Test#2137");
-	});
-	it("uses correct src", () => {
-		const { getByAltText } = renderWithTheme(
-			<UserInfo
-				direction="row"
-				imageSrc={link}
-				displayName=""
-				discordTag="123"
-			/>
-		);
-
-		const image = getByAltText("123") as HTMLImageElement;
-		expect(image.src).toContain(link);
+	it("should render discord discriminator", () => {
+		const { baseElement } = renderWithTheme(<UserInfo {...props} />);
+		expect(baseElement).toContainHTML("7777");
 	});
 });

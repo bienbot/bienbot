@@ -1,5 +1,7 @@
 import { Meta, Story } from "@storybook/react";
 
+import { mockServerData } from "../../utils/mockServerData";
+
 import { Server, ServerProps } from "./index";
 
 export default {
@@ -7,11 +9,12 @@ export default {
 	title: "Server",
 } as Meta;
 
+const mockServer = mockServerData.server[0];
+
 export const Template: Story<ServerProps> = (args) => <Server {...args} />;
 
 Template.args = {
-	imageSrc:
-		"https://cdn.discordapp.com/avatars/380454126364131332/1476ffee61d845bbe5a1027da9cb8db3.webp",
-	serverName: "Test Server",
+	imageSrc: mockServer.avatar,
+	serverName: mockServer.serverName,
 	href: "",
 };

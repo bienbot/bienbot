@@ -12,6 +12,8 @@ import { useDarkMode } from "usehooks-ts";
 import { guildStore } from "../features/guild/guildStore";
 import { supabase } from "../services/supabase";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 const GlobalStyles = createGlobalStyle<{ backgroundColor: string }>`
 html{
 	background-color: ${(props) => props.backgroundColor};

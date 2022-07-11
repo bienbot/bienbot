@@ -27,6 +27,7 @@ const templateUser: MemberData = mockGuildData.members[0];
 
 export const Template: Story = (args) => {
 	const user = templateUser;
+	user.avatar = args["avatar"];
 	user.username = args["username"];
 	user.displayName = args["displayName"];
 	user.discriminator = args["discriminator"];
@@ -41,8 +42,9 @@ export const Template: Story = (args) => {
 };
 
 Template.args = {
-	presence: "online",
-	username: "Username",
-	displayName: "Display name",
-	discriminator: "1234",
+	avatar: templateUser.avatar,
+	presence: templateUser.presence,
+	username: templateUser.username,
+	displayName: templateUser.displayName,
+	discriminator: templateUser.discriminator,
 };

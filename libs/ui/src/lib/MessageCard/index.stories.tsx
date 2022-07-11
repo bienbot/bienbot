@@ -22,6 +22,29 @@ export const Template: Story = (args) => {
 	return <MessageCard message={message} author={author} channel={channel} />;
 };
 
+export const Skeleton: Story = (args) => {
+	const message = { ...mockMessage, ...args["message"] } as MessageData;
+	const author = { ...mockAuthor, ...args["author"] } as MemberData;
+	const channel = { ...mockChannel, ...args["channel"] } as ChannelData;
+	return <MessageCard message={message} author={author} channel={channel} />;
+};
+
+Skeleton.args = {
+	message: {
+		content: null,
+		timestamp: null,
+	},
+	author: {
+		avatar: null,
+		displayName: null,
+		username: null,
+		discriminator: null,
+	},
+	channel: {
+		name: null,
+	},
+};
+
 Template.args = {
 	author: {
 		avatar: mockAuthor.avatar,

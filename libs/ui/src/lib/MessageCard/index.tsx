@@ -30,6 +30,7 @@ export function MessageCard(props: MessageCardProps) {
 					circle
 					inline
 					style={{
+						display: "block",
 						gridRow: 1 / -1,
 						gridColumn: 1 / 2,
 					}}
@@ -52,7 +53,12 @@ export function MessageCard(props: MessageCardProps) {
 								</StyledDiscordTag>
 							</>
 						) : (
-							<Skeleton width={300} />
+							<Skeleton
+								width={300}
+								style={{
+									display: "block",
+								}}
+							/>
 						)}
 					</StyledUserInfo>
 				</OptionalLinkWrapper>
@@ -76,11 +82,26 @@ export function MessageCard(props: MessageCardProps) {
 							</StyledHighlight>
 						</>
 					) : (
-						<Skeleton width={200} />
+						<Skeleton
+							width={200}
+							style={{
+								display: "block",
+							}}
+						/>
 					)}
 				</StyledMessageInfo>
 			</StyledInfoContainer>
-			<StyledMessage>{message.content || <Skeleton />}</StyledMessage>
+			<StyledMessage>
+				{message.content || (
+					<Skeleton
+						width={200}
+						inline
+						style={{
+							display: "block",
+						}}
+					/>
+				)}
+			</StyledMessage>
 			{parsedAttachments?.length >= 1 &&
 				parsedAttachments?.map((attachment) => {
 					const aspectRatio =
@@ -205,6 +226,8 @@ const StyledMessage = styled.div`
 	margin-left: 8px;
 	margin-top: 4px;
 	overflow-wrap: anywhere;
+	grid-row: 2/3;
+	grid-column: 2/3;
 `;
 
 const StyledImage = styled.img`
@@ -224,6 +247,7 @@ const StyledMessageCard = styled.div`
 	display: grid;
 	grid-template-columns: 32px 1fr;
 	grid-template-rows: auto auto;
+	line-height: 1;
 `;
 
 export default MessageCard;

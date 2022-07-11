@@ -1,4 +1,5 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 import Link from "next/link";
 import styled from "styled-components";
 import { useWindowSize } from "usehooks-ts";
@@ -23,7 +24,9 @@ export function TopBar(props: TopBarProps) {
 		<StyledTopBar>
 			<Link href={`/guilds/${props.serverId}`} passHref>
 				<StyledTopBarHeader>
-					{width >= 768 ? name : props.serverName}
+					{(width >= 768 ? name : props.serverName) || (
+						<Skeleton inline height={30} />
+					)}
 				</StyledTopBarHeader>
 			</Link>
 			<SearchBar
@@ -48,11 +51,13 @@ const StyledTopBar = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	line-height: 1;
 `;
 
 const StyledTopBarHeader = styled.a`
+	max-width: 250px;
+	width: 100%;
 	font-size: ${({ theme }) => theme.font.size.xlarge};
-	line-height: 40px;
 	margin: auto 0;
 	color: ${({ theme }) => theme.colors.primary[700]};
 	font-weight: bold;

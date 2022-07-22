@@ -20,7 +20,6 @@ export const StyledUserWrapper = styled.div`
 export const StyledUserDataWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 16.5px;
 	max-width: 100%;
 `;
 
